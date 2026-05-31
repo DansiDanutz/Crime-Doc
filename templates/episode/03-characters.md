@@ -1,8 +1,11 @@
 # STATE 4 — Character creation prompts
 
-> One prompt per recurring figure. Pure white-void background only. No environments, no
-> extra characters, no facial features. Optimized for Nano Banana / GPT-image.
-> Use template A in `docs/PROMPT_TEMPLATES.md`. Assign each a color per the DNA code.
+> Start from the channel's standard ensemble in `channels/<name>/cast/CAST.md` —
+> **THE SUBJECT** (red) · **SECONDARY SUBJECTS** (white + one signifier garment) ·
+> **POLICE** (black) · **SPECIAL POLICE** (black + tactical gear). Copy those prompts here
+> and re-skin only the wardrobe to fit this story; keep the color treatment identical.
+> One prompt per figure. Pure white-void background only. No environments, no facial
+> features. Use template A in `docs/PROMPT_TEMPLATES.md`.
 
 ## [CHARACTER NAME] — [red protagonist / black institution / white civilian / uniformed]
 **Role in story:** _(one line)_
