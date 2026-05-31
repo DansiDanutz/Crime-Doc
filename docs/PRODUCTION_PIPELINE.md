@@ -72,3 +72,12 @@ jobs complete:
 }
 ```
 A future helper can loop this file and issue the calls in §1–4 automatically.
+
+## Keeping shotlist.json in sync
+`04-scenes.md` is the human-authored storyboard; `shotlist.json` is generated from it so the
+two never drift. After editing scenes, regenerate:
+```bash
+tools/build-shotlist.py <channel> <episode-slug>
+```
+It re-parses the chapters/scenes and **preserves** the header (episode/channel/style_anchor/
+models/characters) and any `image_job_id` / `video_job_id` already filled in.
