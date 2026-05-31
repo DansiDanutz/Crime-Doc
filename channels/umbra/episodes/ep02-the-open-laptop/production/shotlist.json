@@ -1,0 +1,225 @@
+{
+  "episode": "ep02-the-open-laptop",
+  "channel": "umbra",
+  "aspect_ratio": "16:9",
+  "style_anchor": "Mannequin world — glossy white civilians / matte red main subject Ulbricht / matte black FBI, eggshell featureless heads, Mode B library + dark-web inserts + Mode A white-void diagrams, cinematic key from above, shallow DoF, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa.",
+  "models": {
+    "image": "nano_banana_pro",
+    "video": "seedance_2_0"
+  },
+  "characters": [
+    {
+      "id": "ulbricht",
+      "label": "red",
+      "ref_prompt": "matte red mannequin, casual red hoodie + jeans, eggshell head, holding an open laptop, white void (re-skin of Vesper)",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "moderator",
+      "label": "white",
+      "ref_prompt": "glossy white mannequin + photoreal black headset + dark hoodie, hunched typing, white void (re-skin of The Insider)",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "civilian",
+      "label": "white",
+      "ref_prompt": "glossy white mannequin, plain clothing, holding a book, white void (library patron)",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "fbi_investigator",
+      "label": "black",
+      "ref_prompt": "matte black mannequin, plain suit + FBI windbreaker silhouette + badge lanyard, white void (re-skin of The Detective)",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "arrest_team",
+      "label": "black",
+      "ref_prompt": "two matte black mannequins in photoreal plainclothes with concealed FBI badges, undercover, white void (re-skin of The Breacher + The Marksman)",
+      "image_job_id": null,
+      "element_id": null
+    }
+  ],
+  "chapters": [
+    {
+      "id": "ch01",
+      "title": "Cold open: the login",
+      "duration_s": 15,
+      "sfx": "keyboard taps, a page turning, distant library hush",
+      "ambient": "quiet library room tone, fluorescent hum",
+      "music": "low patient drone, one soft electronic pulse",
+      "scenes": [
+        {
+          "id": "ch01_s1",
+          "duration_s": 3,
+          "characters": [
+            "ulbricht",
+            "civilian"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, the sunlit science-fiction corner of a public library, a\nsingle matte red mannequin (eggshell head, casual red hoodie) seated alone at a wooden table\nby a tall window, a glossy white mannequin patron browsing a shelf in the background, sparse\nMode B environment, soft daylight from the window, shallow depth of field, volumetric light,\ndust particles in air, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static wide lock-off, very slow push-in toward the red mannequin at the table. Dust drifts in\nthe window light; the white patron shifts a book. 0–1s settle, 1–3s push begins. Hold color\ncode and wardrobe. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s2",
+          "duration_s": 3,
+          "characters": [
+            "ulbricht"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of a matte red mannequin's hands opening\na laptop lid on a library table, the screen waking to a faint blue glow, daylight, Mode B,\nshallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine\n5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Locked macro. The red hands raise the laptop lid 0–2s, the screen glow rises on the red\nfingers 2–3s. Shallow focus on the hinge. No camera move. Deadpan, slow.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s3",
+          "duration_s": 3,
+          "characters": [
+            "ulbricht"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, over-the-shoulder of a matte red mannequin facing a laptop\nshowing a plain login prompt with a blinking cursor, blue screen light on the red eggshell\nhead, library table, Mode B, shallow depth of field, volumetric light, dust particles,\ncinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI\nAlexa, 16:9",
+          "video_prompt": "Static over-the-shoulder, the cursor blinks and a password fills the field dot by dot 0–3s,\nscreen light flickering on the red head. No camera move. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s4",
+          "duration_s": 3,
+          "characters": [
+            "ulbricht"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, medium shot of a matte red mannequin (red hoodie, eggshell\nhead) leaning toward a laptop and typing, calm and absorbed, library window light behind, Mode\nB, shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal\nEngine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Medium static. The red mannequin's fingers move over the keys 0–3s, head tilted to the screen,\nutterly unremarkable. No camera move. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s5",
+          "duration_s": 3,
+          "characters": [
+            "ulbricht",
+            "civilian"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a calm wide of the quiet library, the lone matte red\nmannequin at his table among empty chairs and one distant glossy white patron, ordinary\nafternoon, Mode B, soft daylight, shallow depth of field, volumetric light, dust particles,\ncinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI\nAlexa, 16:9",
+          "video_prompt": "Slow pull-back from the red figure revealing the calm ordinary room 0–3s. Nothing seems to be\nhappening. Hold palette. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        }
+      ]
+    },
+    {
+      "id": "ch02",
+      "title": "The most wanted man",
+      "duration_s": 15,
+      "sfx": "a deep impact hit on the anchor line, a single clock tick",
+      "ambient": "library hush thinning",
+      "music": "drone steps up, a ticking enters",
+      "scenes": [
+        {
+          "id": "ch02_s1",
+          "duration_s": 4,
+          "characters": [
+            "ulbricht"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a single matte red mannequin seated very small and centered\nat a table in a vast dim library, immense negative space around it, one shaft of daylight from\na high window, Mode B, shallow depth of field, volumetric light, dust particles, cinematic\ncolor grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static symmetrical wide, almost still. Imperceptible push-in 0–4s; dust drifts in the light\nshaft. The lone red figure motionless. Title-card emptiness. Hold palette. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch02_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of an old analog stopwatch on a dark\nsurface, the second hand frozen near three seconds, cold light, Mode B, shallow depth of field,\nvolumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K,\nanamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Locked macro, the stopwatch second hand ticks toward three and stops 0–4s. The hinge the whole\nstory turns on. No camera move. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch02_s3",
+          "duration_s": 4,
+          "characters": [
+            "fbi_investigator"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin (plain suit, FBI windbreaker\nsilhouette, badge lanyard) standing in an infinite white void, arms folded, watching, soft\ncontact shadow, cinematic key from above, shallow depth of field, volumetric light, cinematic\ncolor grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Slow push-in on the black FBI mannequin standing still 0–4s, impassive. The hunter introduced.\nHold the color code. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch02_s4",
+          "duration_s": 3,
+          "characters": [
+            "ulbricht"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, medium shot of the matte red mannequin typing at the\nlibrary table, oblivious, soft daylight, Mode B, shallow depth of field, volumetric light, dust\nparticles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on\nARRI Alexa, 16:9",
+          "video_prompt": "Static medium on the red figure typing 0–3s, calm and unaware. The gap between him and the\nwatcher. No camera move. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        }
+      ]
+    },
+    {
+      "id": "ch03",
+      "title": "Silk Road",
+      "duration_s": 15,
+      "sfx": "server-room hum, soft data chimes, coins clicking",
+      "ambient": "electronic undertone",
+      "music": "cold pulsing synth motif",
+      "scenes": [
+        {
+          "id": "ch03_s1",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, a dark laptop screen filled with a clean anonymous\nmarketplace grid of unlabeled product tiles, cold blue glow, no text legible, Mode B, shallow\ndepth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5,\noctane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Locked on the screen, the marketplace grid scrolls slowly upward 0–3s, tiles loading. Vast and\nanonymous. No camera move. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch03_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a clean diagram of a single\nconnection line bouncing between many simplified globe nodes around the world, the endpoints\nhidden, cold and geometric, soft contact shadows, cinematic key from above, shallow depth of\nfield, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static diagram, the connection line hops node to node around the globe ring 0–3s, never\nsettling. Anonymity made visible. No figures. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch03_s3",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, close-up of stylized matte coins moving along a faint chain\nof glowing blocks on a dark surface, no logos legible, cold blue light, Mode B, shallow depth\nof field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane\nrender, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Locked macro, the coins slide along the block chain and dissolve into it 0–3s. Money that\nleaves no trail. No camera move. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch03_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, an enormous towering stack of\nplain matte currency blocks receding upward out of frame, cold clinical scale, soft contact\nshadows, cinematic key from above, shallow depth of field, volumetric light, cinematic color\ngrade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Slow crane-up the towering stack of currency blocks 0–3s, never reaching the top. The scale of\nit. No figures. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch03_s5",
+          "duration_s": 3,
+          "characters": [
+            "ulbricht"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, the matte red mannequin small at the library table, the\ncold blue marketplace glow now reflected across its red eggshell head, Mode B, shallow depth of\nfield, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render,\n8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Slow push-in on the red figure as the blue marketplace glow plays across its head 0–3s. The man\nbehind the billion. Hold palette. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        }
+      ]
+    }
+  ]
+}

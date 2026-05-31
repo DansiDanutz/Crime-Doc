@@ -20,15 +20,25 @@ ROOT = Path(__file__).resolve().parent.parent
 # keyword -> character id, used to resolve the "CHARACTERS IN SCENE" line to shotlist ids.
 # Extend per channel as new named cast are added.
 CHARACTER_KEYWORDS = [
+    # EP01 — Petrov
     ("petrov", "petrov"),
+    ("general", "the_general"),
+    ("duty officer", "duty_officer"), ("system", "duty_officer"),
+    # EP02 — Silk Road
+    ("ross ulbricht", "ulbricht"), ("ulbricht", "ulbricht"),
+    ("the moderator", "moderator"), ("moderator", "moderator"),
+    ("fbi investigator", "fbi_investigator"), ("investigator", "fbi_investigator"),
+    ("fbi", "fbi_investigator"),
+    ("arrest team", "arrest_team"),
+    ("library patron", "civilian"), ("patron", "civilian"),
+    # channel signature cast (default skins)
     ("vesper", "vesper"),
     ("the insider", "the_insider"), ("insider", "the_insider"),
     ("the courier", "the_courier"), ("courier", "the_courier"),
     ("the detective", "the_detective"), ("detective", "the_detective"),
     ("the breacher", "the_breacher"), ("breacher", "the_breacher"),
     ("the marksman", "the_marksman"), ("marksman", "the_marksman"),
-    ("general", "the_general"),
-    ("duty officer", "duty_officer"), ("system", "duty_officer"),
+    # generic civilians
     ("civilian", "civilian"), ("crowd", "civilian"),
 ]
 
