@@ -19,16 +19,15 @@ register over the mannequin world.
 Red. (The DNA permits one accent; umbra. uses red — same hue as the protagonist mannequin,
 tying brand to subject.)
 
-## Channel-level cast — standard recurring ensemble (reused across episodes)
-Every episode is cast from the **same four roles**, re-skinned per story. Full generation
-prompts in `cast/CAST.md`.
-- **THE SUBJECT** (main) — matte **red**. The one the episode is about.
-- **SECONDARY SUBJECTS** — glossy **white** + one photoreal signifier garment (associate, witness, victim).
-- **POLICE** — matte **black**. The investigating institution.
-- **SPECIAL POLICE** (the solvers) — black + photoreal tactical gear. The unit that ends it.
-
-This main-subject / secondary-subjects / police-who-solve-it structure is the channel's
-narrative spine — the red figure collides with the world, and the black figures close in.
+## Channel-level cast — MANDATORY recurring ensemble (every episode)
+**Rule: every episode must cast all four role categories** — a main subject, one or more
+secondary subjects, and police and/or special police who solve it. This is the channel's
+narrative spine: the red figure collides with the world, the black figures close in and end
+it. Named signature characters + full generation prompts in `cast/CAST.md`.
+- **MAIN SUBJECT** — matte **red** (*Vesper*). Exactly one per episode. The one it's about.
+- **SECONDARY SUBJECTS** — glossy **white** + one photoreal signifier (*The Insider*, *The Courier*). The people around the subject.
+- **POLICE** — matte **black** (*The Detective*). The investigating institution.
+- **SPECIAL POLICE — the solvers** — black + photoreal tactical gear (*The Breacher*, *The Marksman*). The unit that makes the capture / ends it.
 
 ## Episode cadence
 ~5–10 min. One subject per episode. Cold open on a timestamp. Always end unresolved.

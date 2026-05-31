@@ -1,11 +1,18 @@
 # STATE 4 — Character creation prompts
 
-> Start from the channel's standard ensemble in `channels/<name>/cast/CAST.md` —
-> **THE SUBJECT** (red) · **SECONDARY SUBJECTS** (white + one signifier garment) ·
-> **POLICE** (black) · **SPECIAL POLICE** (black + tactical gear). Copy those prompts here
-> and re-skin only the wardrobe to fit this story; keep the color treatment identical.
-> One prompt per figure. Pure white-void background only. No environments, no facial
-> features. Use template A in `docs/PROMPT_TEMPLATES.md`.
+> **MANDATORY:** every episode casts all four role categories from
+> `channels/<name>/cast/CAST.md` — **MAIN SUBJECT** (red, exactly one) ·
+> **SECONDARY SUBJECTS** (white + one signifier) · **POLICE** (black) ·
+> **SPECIAL POLICE / the solvers** (black + tactical gear). Copy the figures you need and
+> re-skin only the wardrobe to fit this story; keep the color treatment + signature prop
+> identical. One prompt per figure. Pure white-void background only. No environments, no
+> facial features. Use template A in `docs/PROMPT_TEMPLATES.md`.
+
+## Cast checklist (fill all four)
+- [ ] MAIN SUBJECT (red) — _name / re-skin_
+- [ ] SECONDARY SUBJECT(S) (white + signifier) — _name / re-skin_
+- [ ] POLICE (black) — _name / re-skin_
+- [ ] SPECIAL POLICE — the solvers (black + tactical) — _name / re-skin_
 
 ## [CHARACTER NAME] — [red protagonist / black institution / white civilian / uniformed]
 **Role in story:** _(one line)_

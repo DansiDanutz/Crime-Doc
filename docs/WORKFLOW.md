@@ -38,10 +38,12 @@ production notes, no sponsor copy. Mandatory cliffhanger ending (DNA §4).
 End with: *Type "next" for character creation.*
 
 ### STATE 4 — Characters
-One reference prompt per recurring figure. **Pure white-void background only.** No
-environments, no extra characters, no facial features. Optimized for Nano Banana /
-GPT-image. Save to `03-characters.md`.
-End with the locked STATE-4 closing line (see template).
+**MANDATORY ensemble — every episode casts all four role categories** (see
+`channels/<name>/cast/CAST.md`): a MAIN SUBJECT (matte red, exactly one), one or more
+SECONDARY SUBJECTS (white + one photoreal signifier), POLICE (matte black), and SPECIAL
+POLICE / the solvers (black + photoreal tactical gear). One reference prompt per figure.
+**Pure white-void background only.** No environments, no facial features. Save to
+`03-characters.md`. End with the locked STATE-4 closing line (see template).
 
 ### STATE 5 — Visual flow + scenes
 On "next", **immediately** (do not ask permission):
