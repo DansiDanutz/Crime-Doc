@@ -65,4 +65,10 @@ full image prompt. Save to `05-thumbnails.md`.
 End with the locked STATE-6 closing line (see template).
 
 ### STATE 7 — Export
-Optional: bundle all states into a clean Word/PDF document.
+Optional: bundle all states into a clean document. Run:
+```bash
+tools/export-episode.py <channel> <episode-slug>
+```
+It writes `export/<slug>.md` and a standalone printable `export/<slug>.html` (cover sheet from
+`episode.yaml` + production summary from `shotlist.json`, then states 01–05). Open the HTML in a
+browser and Print → Save as PDF for a Word/PDF-style bundle.
