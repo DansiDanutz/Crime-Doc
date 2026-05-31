@@ -1,0 +1,95 @@
+{
+  "episode": "ep01-the-man-who-said-no",
+  "channel": "umbra",
+  "aspect_ratio": "16:9",
+  "style_anchor": "Mannequin world — glossy white civilians / matte red protagonist Petrov / matte black institution, eggshell featureless heads, Mode B sparse bunker + Mode A white void + space inserts, cinematic key from above, red panel glow accent, shallow DoF, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa.",
+  "models": { "image": "nano_banana_pro", "video": "seedance_2_0" },
+  "characters": [
+    {
+      "id": "petrov",
+      "label": "red",
+      "ref_prompt": "Cinematic photorealistic 3D render, a single matte RED featureless mannequin with a smooth eggshell head (no facial features), Soviet air-defence officer shirt silhouette with plain epaulettes kept entirely red, standing upright, pure white seamless void, soft contact shadow, cinematic key from above, subtle red rim glow, shallow DoF, volumetric light, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 2:3",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "duty_officer",
+      "label": "black",
+      "ref_prompt": "Cinematic photorealistic 3D render, a single matte BLACK featureless mannequin with a smooth eggshell head (no facial features), plain Soviet military duty uniform silhouette kept entirely black, at attention, pure white seamless void, soft contact shadow, cinematic key from above, shallow DoF, volumetric light, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 2:3",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "the_general",
+      "label": "uniform",
+      "ref_prompt": "Cinematic photorealistic 3D render, a single matte BLACK featureless mannequin with a smooth eggshell head (no facial features), detailed photoreal Soviet general's dress uniform (olive tunic, gold shoulder boards, red collar tabs, medals) over the black body, hands clasped, pure white seamless void, soft contact shadow, cinematic key from above, shallow DoF, volumetric light, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 2:3",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "civilian",
+      "label": "white",
+      "ref_prompt": "Cinematic photorealistic 3D render, a single glossy WHITE featureless mannequin with a smooth eggshell head (no facial features), plain everyday clothing silhouette kept white, neutral stance, pure white seamless void, soft contact shadow, cinematic key from above, shallow DoF, volumetric light, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 2:3",
+      "image_job_id": null,
+      "element_id": null
+    }
+  ],
+  "chapters": [
+    {
+      "id": "ch01",
+      "title": "Cold open: the thermos",
+      "duration_s": 15,
+      "sfx": "thermos pour, chair creak, distant relay click",
+      "ambient": "low bunker hum, fluorescent buzz",
+      "music": "sub-bass drone, one slow piano note",
+      "scenes": [
+        {
+          "id": "ch01_s1",
+          "duration_s": 3,
+          "characters": ["petrov"],
+          "image_prompt": "Cinematic photorealistic 3D render, a single matte red featureless mannequin (Soviet officer, eggshell head, no facial features) seated alone at a long Soviet-era command console in a dim underground bunker, walls of dark monitoring screens faintly glowing, vast empty room, sparse Mode B, cinematic key from above, faint red panel glow accent, shallow DoF, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 16:9",
+          "video_prompt": "Static wide lock-off, very slow push-in on the seated red mannequin. Dust drifts through the volumetric beam; screens flicker faintly. 0-1s settle, 1-3s hum builds. Hold color code and wardrobe. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s2",
+          "duration_s": 3,
+          "characters": ["petrov"],
+          "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of a matte red mannequin's hands pouring tea from a battered steel thermos into a small metal cup, steam rising, dark bunker console with faint red glow, Mode B, shallow DoF, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 16:9",
+          "video_prompt": "Locked macro shot. Tea streams 0-2s, steam curls 2-3s, tiny red-hand tremor, shallow focus on the cup. No camera move. Deadpan, slow.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s3",
+          "duration_s": 3,
+          "characters": ["petrov"],
+          "image_prompt": "Cinematic photorealistic 3D render, a matte red featureless mannequin (Soviet officer, eggshell head) lowering itself into a worn chair before a wall of monitoring screens in a dim bunker, mid-motion, Mode B, cinematic key from above, faint red panel glow, shallow DoF, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 16:9",
+          "video_prompt": "Medium static shot. The red mannequin settles into the chair 0-2s then goes still facing the screens 2-3s. Faint screen flicker on the matte red surface. No camera move.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s4",
+          "duration_s": 3,
+          "characters": ["petrov"],
+          "image_prompt": "Cinematic photorealistic 3D render, over-the-shoulder from behind a lone matte red mannequin seated at a console, rows of empty unmanned duty stations stretching into the dark bunker, one chair conspicuously vacant, Mode B, cinematic key from above, faint red glow, shallow DoF, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 16:9",
+          "video_prompt": "Slow lateral dolly left behind the red mannequin, revealing empty stations and the one vacant chair. 0-3s continuous drift. Emphasize isolation. Hold color code. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s5",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, a towering wall of dark Soviet-era monitoring screens and a large hemisphere map board, faintly backlit, silent, dim bunker, Mode B, cinematic key from above, faint red standby glow, shallow DoF, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 16:9",
+          "video_prompt": "Slow crane-up across the screen wall in quiet standby. 0-3s upward drift, a single indicator blinks once at 2s. Calm, clinical. No figures. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        }
+      ]
+    }
+  ],
+  "_note": "Chapters 02-20 follow the same schema; see 04-scenes.md for chapters 02-03 fully written and the full 20-chapter map. Fill image_job_id/video_job_id/element_id as jobs complete (see docs/PRODUCTION_PIPELINE.md)."
+}

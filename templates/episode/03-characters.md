@@ -1,0 +1,22 @@
+# STATE 4 — Character creation prompts
+
+> One prompt per recurring figure. Pure white-void background only. No environments, no
+> extra characters, no facial features. Optimized for Nano Banana / GPT-image.
+> Use template A in `docs/PROMPT_TEMPLATES.md`. Assign each a color per the DNA code.
+
+## [CHARACTER NAME] — [red protagonist / black institution / white civilian / uniformed]
+**Role in story:** _(one line)_
+**Prompt:**
+```
+_(white-void character reference prompt)_
+```
+
+---
+
+_(repeat per character)_
+
+---
+
+Generate these in Nano Banana or GPT-image. The output PNGs become your character
+reference images for the per-scene image and video prompts. Want to tweak any? Otherwise
+reply "next" to lock the cast and move to the visual flow.

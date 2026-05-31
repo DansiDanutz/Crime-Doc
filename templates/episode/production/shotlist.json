@@ -1,0 +1,37 @@
+{
+  "episode": "EPISODE_SLUG",
+  "channel": "CHANNEL_NAME",
+  "aspect_ratio": "16:9",
+  "style_anchor": "Mannequin world — glossy white civilians / matte red protagonist / matte black institution, eggshell featureless heads, cinematic key from above, shallow DoF, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa.",
+  "models": { "image": "nano_banana_pro", "video": "seedance_2_0" },
+  "characters": [
+    {
+      "id": "CHARACTER_ID",
+      "label": "red|black|white|uniform",
+      "ref_prompt": "white-void character reference prompt",
+      "image_job_id": null,
+      "element_id": null
+    }
+  ],
+  "chapters": [
+    {
+      "id": "ch01",
+      "title": "",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch01_s1",
+          "duration_s": 3,
+          "characters": ["CHARACTER_ID"],
+          "image_prompt": "",
+          "video_prompt": "",
+          "image_job_id": null,
+          "video_job_id": null
+        }
+      ]
+    }
+  ]
+}
