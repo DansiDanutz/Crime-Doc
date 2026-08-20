@@ -27,7 +27,17 @@ def read_yaml_lite(path: Path) -> dict:
     for line in path.read_text().splitlines():
         m = re.match(r"^([A-Za-z_]+):\s*(.*)$", line)
         if m:
-            out[m.group(1)] = m.group(2).strip().strip('"')
+            value = m.group(2).strip()
+            quote = None
+            for index, character in enumerate(value):
+                if character in ('"', "'"):
+                    quote = None if quote == character else character if quote is None else quote
+                elif character == "#" and quote is None and (index == 0 or value[index - 1].isspace()):
+                    value = value[:index].rstrip()
+                    break
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
+                value = value[1:-1]
+            out[m.group(1)] = value
     return out
 
 

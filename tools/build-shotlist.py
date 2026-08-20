@@ -43,19 +43,32 @@ CHARACTER_KEYWORDS = [
 ]
 
 
-def resolve_characters(text: str) -> list[str]:
+def resolve_characters(text: str, character_ids: list[str]) -> list[str]:
     low = text.lower()
     if "no recurring" in low:
         return []
+    allowed = set(character_ids)
+    keywords = [
+        (keyword, character_id)
+        for keyword, character_id in CHARACTER_KEYWORDS
+        if character_id in allowed
+    ]
+    mapped_ids = {character_id for _, character_id in keywords}
+    keywords.extend(
+        (character_id.replace("_", " "), character_id)
+        for character_id in character_ids
+        if character_id not in mapped_ids
+    )
     found: list[str] = []
-    for kw, cid in CHARACTER_KEYWORDS:
+    for kw, cid in keywords:
         if kw in low and cid not in found:
             found.append(cid)
-    # "civilians / crowd only" with no named cast still resolves to [civilian]
+    if not found:
+        raise ValueError(f"unresolved character reference: {text}")
     return found
 
 
-def parse_scenes_md(md: str) -> list[dict]:
+def parse_scenes_md(md: str, character_ids: list[str]) -> list[dict]:
     """Return a list of chapter dicts with nested scenes."""
     chapters: list[dict] = []
     chapter = None
@@ -117,7 +130,7 @@ def parse_scenes_md(md: str) -> list[dict]:
         if scene is not None:
             mc = chars_re.search(line)
             if mc and not in_fence:
-                scene["characters"] = resolve_characters(mc.group(1))
+                scene["characters"] = resolve_characters(mc.group(1), character_ids)
                 continue
             if not in_fence and "**IMAGE PROMPT:**" in line:
                 close_field(); field = "image"; continue
@@ -169,7 +182,8 @@ def main() -> int:
                     "video_job_id": sc.get("video_job_id"),
                 }
 
-    chapters = parse_scenes_md(scenes_md.read_text())
+    character_ids = [character["id"] for character in header.get("characters", [])]
+    chapters = parse_scenes_md(scenes_md.read_text(), character_ids)
     for ch in chapters:
         for sc in ch["scenes"]:
             if sc["id"] in prior_jobs:

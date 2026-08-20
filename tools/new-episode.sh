@@ -13,6 +13,11 @@ if [[ -z "$channel" || -z "$slug" ]]; then
   exit 1
 fi
 
+if [[ ! "$channel" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+  echo "error: channel must use lowercase kebab-case" >&2
+  exit 1
+fi
+
 chan_dir="$ROOT/channels/$channel"
 if [[ ! -d "$chan_dir" ]]; then
   echo "error: channel '$channel' not found at $chan_dir" >&2
@@ -25,6 +30,11 @@ if [[ "$slug" != ep[0-9]* ]]; then
   count=$(find "$chan_dir/episodes" -mindepth 1 -maxdepth 1 -type d -name 'ep[0-9]*' 2>/dev/null | wc -l | tr -d ' ')
   printf -v num 'ep%02d' "$((count + 1))"
   slug="${num}-${slug}"
+fi
+
+if [[ ! "$slug" =~ ^ep[0-9]{2}-[a-z0-9][a-z0-9-]*$ ]]; then
+  echo "error: slug must match epNN-kebab-case after auto-numbering" >&2
+  exit 1
 fi
 
 dest="$chan_dir/episodes/$slug"
@@ -44,9 +54,24 @@ for f in "$dest/episode.yaml" "$dest/production/shotlist.json"; do
   sed -e "s/EPISODE_SLUG/$slug/g" -e "s/CHANNEL_NAME/$channel/g" "$f" > "$tmp" && mv "$tmp" "$f"
 done
 if [[ -n "$title" && -f "$dest/episode.yaml" ]]; then
-  tmp="$(mktemp)"
-  sed -e "s/^title: .*/title: \"$title\"/" -e "s/^created: .*/created: \"$today\"/" \
-      "$dest/episode.yaml" > "$tmp" && mv "$tmp" "$dest/episode.yaml"
+  if (( ${#title} > 200 )); then
+    echo "error: title must be 200 characters or fewer" >&2
+    exit 1
+  fi
+  python3 - "$dest/episode.yaml" "$title" "$today" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+title = json.dumps(sys.argv[2], ensure_ascii=False)
+created = json.dumps(sys.argv[3])
+content = path.read_text()
+content = re.sub(r"^title:.*$", f"title: {title}", content, flags=re.MULTILINE)
+content = re.sub(r"^created:.*$", f"created: {created}", content, flags=re.MULTILINE)
+path.write_text(content)
+PY
 fi
 
 echo "created $dest"
