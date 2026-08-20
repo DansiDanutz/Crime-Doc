@@ -13,6 +13,11 @@ if [[ -z "$channel" || -z "$slug" ]]; then
   exit 1
 fi
 
+if [[ ! "$channel" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+  echo "error: channel must use lowercase kebab-case" >&2
+  exit 1
+fi
+
 chan_dir="$ROOT/channels/$channel"
 if [[ ! -d "$chan_dir" ]]; then
   echo "error: channel '$channel' not found at $chan_dir" >&2
@@ -34,6 +39,16 @@ if [[ ! "$slug" =~ ^ep[0-9]{2,}-[a-z0-9][a-z0-9-]*$ ]]; then
   exit 1
 fi
 
+python3 - "$title" <<'PY'
+import sys
+
+title = sys.argv[1]
+if len(title) > 200:
+    raise SystemExit("error: title must be 200 characters or fewer")
+if title and title.splitlines() != [title]:
+    raise SystemExit("error: title must be a single line")
+PY
+
 dest="$chan_dir/episodes/$slug"
 if [[ -e "$dest" ]]; then
   echo "error: $dest already exists" >&2
@@ -43,19 +58,27 @@ fi
 cp -r "$TEMPLATE" "$dest"
 today="$(date +%Y-%m-%d)"
 
-# fill obvious placeholders in the copied files. slug/channel are already validated
-# above; the title is arbitrary user text, so escape it for the sed replacement side
-# (backslash, the '/' delimiter, and '&') before use.
+# Fill validated path placeholders first.
 for f in "$dest/episode.yaml" "$dest/production/shotlist.json"; do
   [[ -f "$f" ]] || continue
   tmp="$(mktemp)"
   sed -e "s/EPISODE_SLUG/$slug/g" -e "s/CHANNEL_NAME/$channel/g" "$f" > "$tmp" && mv "$tmp" "$f"
 done
 if [[ -n "$title" && -f "$dest/episode.yaml" ]]; then
-  esc_title="$(printf '%s' "$title" | sed -e 's/[\\/&]/\\&/g')"
-  tmp="$(mktemp)"
-  sed -e "s/^title: .*/title: \"$esc_title\"/" -e "s/^created: .*/created: \"$today\"/" \
-      "$dest/episode.yaml" > "$tmp" && mv "$tmp" "$dest/episode.yaml"
+  python3 - "$dest/episode.yaml" "$title" "$today" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+content = path.read_text()
+encoded_title = json.dumps(sys.argv[2], ensure_ascii=False)
+encoded_created = json.dumps(sys.argv[3])
+content = re.sub(r"^title:.*$", lambda _: f"title: {encoded_title}", content, flags=re.MULTILINE)
+content = re.sub(r"^created:.*$", lambda _: f"created: {encoded_created}", content, flags=re.MULTILINE)
+path.write_text(content)
+PY
 fi
 
 echo "created $dest"

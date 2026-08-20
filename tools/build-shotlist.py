@@ -25,8 +25,12 @@ ROOT = Path(__file__).resolve().parent.parent
 STOPWORDS = {"the", "a", "an", "of", "and", "in", "on", "scene", "characters", "only",
              "recurring", "no", "none", "id", "character"}
 # phrases that legitimately mean "no named cast in this scene" — never warn on these
-_GENERIC_EMPTY = ("no recurring", "crowd only", "civilians / crowd", "no named", "none",
-                  "anonymous")
+_GENERIC_EMPTY = {
+    "no recurring characters",
+    "no named characters",
+    "none",
+    "civilians / crowd only",
+}
 
 
 def char_aliases(ch: dict) -> list[str]:
@@ -36,18 +40,34 @@ def char_aliases(ch: dict) -> list[str]:
     return toks or [str(ch.get("id", "")).lower()]
 
 
-def resolve_characters(text: str, manifest: list[dict]) -> tuple[list[str], bool]:
-    """Return (ids, unresolved) — unresolved is True when a real name matched nothing."""
+def resolve_characters(text: str, manifest: list[dict]) -> list[str]:
+    """Resolve every declared cast reference or fail closed."""
     low = text.lower()
+    if low.strip() in _GENERIC_EMPTY:
+        return []
+    references = re.sub(r"\([^)]*\)", "", low)
+    references = [
+        reference.strip()
+        for reference in re.split(r"\s*(?:/|\+|,|&|\band\b)\s*", references)
+        if reference.strip()
+    ]
+    aliases = {
+        character.get("id"): char_aliases(character)
+        for character in manifest
+        if character.get("id")
+    }
+    unresolved = [
+        reference
+        for reference in references
+        if not any(alias and alias in reference for values in aliases.values() for alias in values)
+    ]
+    if unresolved:
+        raise ValueError(f"unresolved character reference: {', '.join(unresolved)}")
     found: list[str] = []
-    for ch in manifest:
-        cid = ch.get("id")
-        if cid and cid not in found and any(a and a in low for a in char_aliases(ch)):
+    for cid, values in aliases.items():
+        if cid not in found and any(alias and alias in low for alias in values):
             found.append(cid)
-    unresolved = (not found
-                  and not any(g in low for g in _GENERIC_EMPTY)
-                  and bool(re.search(r"[a-z]", low)))
-    return found, unresolved
+    return found
 
 
 def parse_scenes_md(md: str) -> list[dict]:
@@ -167,13 +187,9 @@ def main() -> int:
 
     manifest = header.get("characters", [])
     chapters = parse_scenes_md(scenes_md.read_text())
-    unresolved: list[str] = []
     for ch in chapters:
         for sc in ch["scenes"]:
-            ids, missing = resolve_characters(sc.pop("characters_raw", ""), manifest)
-            sc["characters"] = ids
-            if missing:
-                unresolved.append(sc["id"])
+            sc["characters"] = resolve_characters(sc.pop("characters_raw", ""), manifest)
             if sc["id"] in prior_jobs:
                 sc["image_job_id"] = prior_jobs[sc["id"]]["image_job_id"]
                 sc["video_job_id"] = prior_jobs[sc["id"]]["video_job_id"]
@@ -184,10 +200,6 @@ def main() -> int:
 
     n_scenes = sum(len(c["scenes"]) for c in chapters)
     print(f"wrote {shotlist_path.relative_to(ROOT)}: {len(chapters)} chapters, {n_scenes} scenes")
-    if unresolved:
-        print(f"warning: {len(unresolved)} scene(s) named a character absent from the manifest "
-              f"characters[]; add it (or an alias) so the reference isn't dropped: "
-              f"{', '.join(unresolved)}", file=sys.stderr)
     return 0
 
 
