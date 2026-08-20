@@ -1,0 +1,11 @@
+# Episode metadata — edit per episode
+slug: EPISODE_SLUG          # kebab-case, matches folder name
+channel: CHANNEL_NAME
+title: ""                   # working title (not clickbait)
+subject: ""                 # the real person/event, one line
+status: draft               # draft | scripted | storyboarded | in-production | done
+duration_minutes: 5         # 1–10
+target_words: 750           # duration_minutes × 150
+created: ""                 # YYYY-MM-DD
+ending_type: ""             # one of DNA cliffhanger types 1–5
+states_done: []             # e.g. [idea, script, characters, scenes, thumbnails]

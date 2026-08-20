@@ -1,0 +1,54 @@
+{
+  "channel": "umbra",
+  "note": "Reusable signature cast. image_job_id = white-void reference render from generate_image (nano_banana_pro). To lock a character: create a Reference Element from its image_job_id (show_reference_elements action=create) and record the returned element_id here; scenes then reference element_id for CHARACTER LOCK.",
+  "characters": [
+    {
+      "id": "vesper",
+      "name": "Vesper",
+      "role": "main_subject",
+      "color": "red",
+      "image_job_id": "c6fd61e3-ab4b-45ca-830f-5ddf4635c387",
+      "element_id": null
+    },
+    {
+      "id": "the_insider",
+      "name": "The Insider",
+      "role": "secondary_subject",
+      "color": "white + photoreal signifier (lanyard ID, rolled sleeves)",
+      "image_job_id": "0b623742-0c95-4805-8774-e26b42448c8e",
+      "element_id": null
+    },
+    {
+      "id": "the_courier",
+      "name": "The Courier",
+      "role": "secondary_subject",
+      "color": "white + photoreal signifier (olive messenger bag)",
+      "image_job_id": "8bc2b3ba-9fe2-4629-9237-a91de95b968f",
+      "element_id": null
+    },
+    {
+      "id": "the_detective",
+      "name": "The Detective",
+      "role": "police",
+      "color": "black",
+      "image_job_id": "a1f32ec7-8703-469f-98b2-4bde4fbea70b",
+      "element_id": null
+    },
+    {
+      "id": "the_breacher",
+      "name": "The Breacher",
+      "role": "special_police",
+      "color": "black + photoreal tactical (POLICE plate carrier, ballistic shield)",
+      "image_job_id": "ef1c992a-5687-4ce6-95b6-9ba95e92858b",
+      "element_id": null
+    },
+    {
+      "id": "the_marksman",
+      "name": "The Marksman",
+      "role": "special_police",
+      "color": "black + photoreal tactical (low-profile kit, slung long-arm)",
+      "image_job_id": "5fa6f826-c1b6-41d0-baa8-b623b04c5e0f",
+      "element_id": null
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+# Rendered media — regenerate from prompts/shotlists, don't commit binaries
+*.mp4
+*.mov
+*.png
+*.jpg
+*.jpeg
+*.wav
+*.mp3
+/renders/
+**/renders/
+**/output/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Local secrets / env
+.env
+.env.*
