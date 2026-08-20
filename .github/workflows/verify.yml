@@ -37,8 +37,13 @@ jobs:
           PY
       - name: Prove generated production artifacts are deterministic
         run: |
-          python tools/build-shotlist.py umbra ep01-the-man-who-said-no
-          python tools/export-episode.py umbra ep01-the-man-who-said-no
-          python tools/build-shotlist.py umbra ep02-the-open-laptop
-          python tools/export-episode.py umbra ep02-the-open-laptop
-          git diff --exit-code
+          while IFS= read -r -d '' episode_dir; do
+            relative_dir="${episode_dir#./}"
+            python tools/build-shotlist.py "$relative_dir"
+            python tools/export-episode.py "$relative_dir"
+          done < <(find ./channels -mindepth 3 -maxdepth 3 -type d -path '*/episodes/*' -print0)
+
+          # Staging is deliberate: unlike a working-tree diff, this also detects
+          # generated files that were deleted in the proposed commit and recreated.
+          git add -A -- channels
+          git diff --cached --exit-code HEAD -- channels
