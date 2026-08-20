@@ -1,0 +1,44 @@
+name: Verify
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - claude/beautiful-heisenberg-FV9ho
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        with:
+          python-version: "3.11"
+      - name: Validate executable syntax and structured data
+        run: |
+          python -m compileall -q tools
+          bash -n tools/new-episode.sh
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          for path in Path(".").rglob("*.json"):
+              json.loads(path.read_text())
+          PY
+      - name: Prove generated production artifacts are deterministic
+        run: |
+          python tools/build-shotlist.py umbra ep01-the-man-who-said-no
+          python tools/export-episode.py umbra ep01-the-man-who-said-no
+          python tools/build-shotlist.py umbra ep02-the-open-laptop
+          python tools/export-episode.py umbra ep02-the-open-laptop
+          git diff --exit-code
