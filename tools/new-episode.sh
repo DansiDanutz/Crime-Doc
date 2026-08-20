@@ -39,6 +39,11 @@ if [[ ! "$slug" =~ ^ep[0-9]{2,}-[a-z0-9][a-z0-9-]*$ ]]; then
   exit 1
 fi
 
+if [[ "$title" == *$'\n'* || "$title" == *$'\r'* ]]; then
+  echo "error: title must be a single line" >&2
+  exit 1
+fi
+
 if (( ${#title} > 200 )); then
   echo "error: title must be 200 characters or fewer" >&2
   exit 1

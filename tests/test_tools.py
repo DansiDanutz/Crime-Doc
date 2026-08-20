@@ -76,6 +76,18 @@ class ToolRegressionTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertFalse((root / "channels" / "umbra" / "episodes" / "ep01-retry-check").exists())
 
+    def test_multiline_title_leaves_no_partial_scaffold(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = self._minimal_workspace(directory)
+            result = subprocess.run(
+                ["bash", "tools/new-episode.sh", "umbra", "line-check", "First line\nSecond line"],
+                cwd=root,
+                capture_output=True,
+                text=True,
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertFalse((root / "channels" / "umbra" / "episodes" / "ep01-line-check").exists())
+
     @staticmethod
     def _minimal_workspace(directory: str) -> Path:
         root = Path(directory)
