@@ -39,15 +39,15 @@ if [[ ! "$slug" =~ ^ep[0-9]{2,}-[a-z0-9][a-z0-9-]*$ ]]; then
   exit 1
 fi
 
-if [[ "$title" == *$'\n'* || "$title" == *$'\r'* ]]; then
-  echo "error: title must be a single line" >&2
-  exit 1
-fi
+python3 - "$title" <<'PY'
+import sys
 
-if (( ${#title} > 200 )); then
-  echo "error: title must be 200 characters or fewer" >&2
-  exit 1
-fi
+title = sys.argv[1]
+if len(title) > 200:
+    raise SystemExit("error: title must be 200 characters or fewer")
+if title and title.splitlines() != [title]:
+    raise SystemExit("error: title must be a single line")
+PY
 
 dest="$chan_dir/episodes/$slug"
 if [[ -e "$dest" ]]; then
