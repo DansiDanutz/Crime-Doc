@@ -17,42 +17,37 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# keyword -> character id, used to resolve the "CHARACTERS IN SCENE" line to shotlist ids.
-# Extend per channel as new named cast are added.
-CHARACTER_KEYWORDS = [
-    # EP01 — Petrov
-    ("petrov", "petrov"),
-    ("general", "the_general"),
-    ("duty officer", "duty_officer"), ("system", "duty_officer"),
-    # EP02 — Silk Road
-    ("ross ulbricht", "ulbricht"), ("ulbricht", "ulbricht"),
-    ("the moderator", "moderator"), ("moderator", "moderator"),
-    ("fbi investigator", "fbi_investigator"), ("investigator", "fbi_investigator"),
-    ("fbi", "fbi_investigator"),
-    ("arrest team", "arrest_team"),
-    ("library patron", "civilian"), ("patron", "civilian"),
-    # channel signature cast (default skins)
-    ("vesper", "vesper"),
-    ("the insider", "the_insider"), ("insider", "the_insider"),
-    ("the courier", "the_courier"), ("courier", "the_courier"),
-    ("the detective", "the_detective"), ("detective", "the_detective"),
-    ("the breacher", "the_breacher"), ("breacher", "the_breacher"),
-    ("the marksman", "the_marksman"), ("marksman", "the_marksman"),
-    # generic civilians
-    ("civilian", "civilian"), ("crowd", "civilian"),
-]
+# Scene "CHARACTERS IN SCENE" lines are resolved to ids using the EPISODE'S OWN manifest
+# (shotlist.json `characters[]`) — no per-episode source edits. Each character matches on its
+# `aliases` if present, else on the non-stopword tokens of its id (so `fbi_investigator`
+# matches "FBI Investigator", `civilian` matches "Civilians"). Add an `aliases` list to a
+# manifest character to cover names its id doesn't spell out (e.g. "System" for duty_officer).
+STOPWORDS = {"the", "a", "an", "of", "and", "in", "on", "scene", "characters", "only",
+             "recurring", "no", "none", "id", "character"}
+# phrases that legitimately mean "no named cast in this scene" — never warn on these
+_GENERIC_EMPTY = ("no recurring", "crowd only", "civilians / crowd", "no named", "none",
+                  "anonymous")
 
 
-def resolve_characters(text: str) -> list[str]:
+def char_aliases(ch: dict) -> list[str]:
+    if ch.get("aliases"):
+        return [str(a).lower() for a in ch["aliases"]]
+    toks = [t for t in re.split(r"[_\s]+", str(ch.get("id", "")).lower()) if t and t not in STOPWORDS]
+    return toks or [str(ch.get("id", "")).lower()]
+
+
+def resolve_characters(text: str, manifest: list[dict]) -> tuple[list[str], bool]:
+    """Return (ids, unresolved) — unresolved is True when a real name matched nothing."""
     low = text.lower()
-    if "no recurring" in low:
-        return []
     found: list[str] = []
-    for kw, cid in CHARACTER_KEYWORDS:
-        if kw in low and cid not in found:
+    for ch in manifest:
+        cid = ch.get("id")
+        if cid and cid not in found and any(a and a in low for a in char_aliases(ch)):
             found.append(cid)
-    # "civilians / crowd only" with no named cast still resolves to [civilian]
-    return found
+    unresolved = (not found
+                  and not any(g in low for g in _GENERIC_EMPTY)
+                  and bool(re.search(r"[a-z]", low)))
+    return found, unresolved
 
 
 def parse_scenes_md(md: str) -> list[dict]:
@@ -107,6 +102,7 @@ def parse_scenes_md(md: str) -> list[dict]:
                 "id": ms.group(1),
                 "duration_s": int(ms.group(2)),
                 "characters": [],
+                "characters_raw": "",
                 "image_prompt": "", "video_prompt": "",
                 "image_job_id": None, "video_job_id": None,
             }
@@ -117,7 +113,7 @@ def parse_scenes_md(md: str) -> list[dict]:
         if scene is not None:
             mc = chars_re.search(line)
             if mc and not in_fence:
-                scene["characters"] = resolve_characters(mc.group(1))
+                scene["characters_raw"] = mc.group(1).strip()
                 continue
             if not in_fence and "**IMAGE PROMPT:**" in line:
                 close_field(); field = "image"; continue
@@ -169,9 +165,15 @@ def main() -> int:
                     "video_job_id": sc.get("video_job_id"),
                 }
 
+    manifest = header.get("characters", [])
     chapters = parse_scenes_md(scenes_md.read_text())
+    unresolved: list[str] = []
     for ch in chapters:
         for sc in ch["scenes"]:
+            ids, missing = resolve_characters(sc.pop("characters_raw", ""), manifest)
+            sc["characters"] = ids
+            if missing:
+                unresolved.append(sc["id"])
             if sc["id"] in prior_jobs:
                 sc["image_job_id"] = prior_jobs[sc["id"]]["image_job_id"]
                 sc["video_job_id"] = prior_jobs[sc["id"]]["video_job_id"]
@@ -182,6 +184,10 @@ def main() -> int:
 
     n_scenes = sum(len(c["scenes"]) for c in chapters)
     print(f"wrote {shotlist_path.relative_to(ROOT)}: {len(chapters)} chapters, {n_scenes} scenes")
+    if unresolved:
+        print(f"warning: {len(unresolved)} scene(s) named a character absent from the manifest "
+              f"characters[]; add it (or an alias) so the reference isn't dropped: "
+              f"{', '.join(unresolved)}", file=sys.stderr)
     return 0
 
 

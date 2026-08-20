@@ -20,14 +20,26 @@ SECTIONS = ["01-idea.md", "02-script.md", "03-characters.md", "04-scenes.md", "0
 
 
 def read_yaml_lite(path: Path) -> dict:
-    """Tiny top-level `key: value` reader — avoids a yaml dependency."""
+    """Tiny top-level `key: value` reader — avoids a yaml dependency.
+
+    Handles quoted scalars and strips trailing `# ...` inline comments so template
+    defaults like `duration_minutes: 5   # 1-10` export as `5`, not `5   # 1-10`.
+    """
     out: dict[str, str] = {}
     if not path.exists():
         return out
     for line in path.read_text().splitlines():
         m = re.match(r"^([A-Za-z_]+):\s*(.*)$", line)
-        if m:
-            out[m.group(1)] = m.group(2).strip().strip('"')
+        if not m:
+            continue
+        key, val = m.group(1), m.group(2).strip()
+        if val[:1] in ("'", '"'):  # quoted scalar: take through the closing quote
+            q = val[0]
+            end = val.find(q, 1)
+            val = val[1:end] if end != -1 else val[1:]
+        else:  # bare scalar: drop an inline comment, then surrounding quotes
+            val = re.sub(r"\s+#.*$", "", val).strip().strip("\"'")
+        out[key] = val
     return out
 
 

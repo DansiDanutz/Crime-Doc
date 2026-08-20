@@ -27,6 +27,13 @@ if [[ "$slug" != ep[0-9]* ]]; then
   slug="${num}-${slug}"
 fi
 
+# reject anything that isn't a bounded epNN-kebab-case slug — prevents a stray
+# '/', '..', or copy-pasted path from writing the template outside episodes/
+if [[ ! "$slug" =~ ^ep[0-9]{2,}-[a-z0-9][a-z0-9-]*$ ]]; then
+  echo "error: slug must be epNN-kebab-case (lowercase letters, digits, hyphens); got '$slug'" >&2
+  exit 1
+fi
+
 dest="$chan_dir/episodes/$slug"
 if [[ -e "$dest" ]]; then
   echo "error: $dest already exists" >&2
@@ -36,16 +43,18 @@ fi
 cp -r "$TEMPLATE" "$dest"
 today="$(date +%Y-%m-%d)"
 
-# fill obvious placeholders in the copied files (portable sed -i)
-sed_i() { sed -i.bak "$@" && rm -f "${@: -1}.bak" 2>/dev/null || true; }
+# fill obvious placeholders in the copied files. slug/channel are already validated
+# above; the title is arbitrary user text, so escape it for the sed replacement side
+# (backslash, the '/' delimiter, and '&') before use.
 for f in "$dest/episode.yaml" "$dest/production/shotlist.json"; do
   [[ -f "$f" ]] || continue
   tmp="$(mktemp)"
   sed -e "s/EPISODE_SLUG/$slug/g" -e "s/CHANNEL_NAME/$channel/g" "$f" > "$tmp" && mv "$tmp" "$f"
 done
 if [[ -n "$title" && -f "$dest/episode.yaml" ]]; then
+  esc_title="$(printf '%s' "$title" | sed -e 's/[\\/&]/\\&/g')"
   tmp="$(mktemp)"
-  sed -e "s/^title: .*/title: \"$title\"/" -e "s/^created: .*/created: \"$today\"/" \
+  sed -e "s/^title: .*/title: \"$esc_title\"/" -e "s/^created: .*/created: \"$today\"/" \
       "$dest/episode.yaml" > "$tmp" && mv "$tmp" "$dest/episode.yaml"
 fi
 

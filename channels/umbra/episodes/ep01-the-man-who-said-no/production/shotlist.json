@@ -18,6 +18,13 @@
     {
       "id": "duty_officer",
       "label": "black",
+      "aliases": [
+        "duty officer",
+        "duty officers",
+        "officer",
+        "duty",
+        "system"
+      ],
       "ref_prompt": "Cinematic photorealistic 3D render, a single matte BLACK featureless mannequin with a smooth eggshell head (no facial features), plain Soviet military duty uniform silhouette kept entirely black, at attention, pure white seamless void, soft contact shadow, cinematic key from above, shallow DoF, volumetric light, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 2:3",
       "image_job_id": null,
       "element_id": null
@@ -25,6 +32,9 @@
     {
       "id": "the_general",
       "label": "uniform",
+      "aliases": [
+        "general"
+      ],
       "ref_prompt": "Cinematic photorealistic 3D render, a single matte BLACK featureless mannequin with a smooth eggshell head (no facial features), detailed photoreal Soviet general's dress uniform (olive tunic, gold shoulder boards, red collar tabs, medals) over the black body, hands clasped, pure white seamless void, soft contact shadow, cinematic key from above, shallow DoF, volumetric light, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 2:3",
       "image_job_id": null,
       "element_id": null
@@ -32,6 +42,12 @@
     {
       "id": "civilian",
       "label": "white",
+      "aliases": [
+        "civilian",
+        "civilians",
+        "crowd",
+        "bystander"
+      ],
       "ref_prompt": "Cinematic photorealistic 3D render, a single glossy WHITE featureless mannequin with a smooth eggshell head (no facial features), plain everyday clothing silhouette kept white, neutral stance, pure white seamless void, soft contact shadow, cinematic key from above, shallow DoF, volumetric light, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 2:3",
       "image_job_id": null,
       "element_id": null
@@ -419,8 +435,8 @@
           "duration_s": 3,
           "characters": [
             "petrov",
-            "the_general",
-            "duty_officer"
+            "duty_officer",
+            "the_general"
           ],
           "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void (Mode A), a single matte red\nmannequin at the bottom of an ascending line of matte black mannequins that grows in rank\ntoward a black mannequin in a photoreal Soviet general's dress uniform at the top, a clear\nupward chain, soft contact shadows, cinematic key from above, shallow DoF, volumetric light,\ncinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa, 16:9",
           "video_prompt": "Slow crane-up along the chain from the red figure at the base to the uniformed general at the\ntop 0–3s. The system rising above the man. Hold the color code. No new figures.",
@@ -974,8 +990,8 @@
           "duration_s": 4,
           "characters": [
             "petrov",
-            "the_general",
-            "duty_officer"
+            "duty_officer",
+            "the_general"
           ],
           "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a single matte red mannequin\nfacing a row of matte black mannequins and a uniformed general mannequin who stand turned\nslightly away from it, refusing acknowledgment, soft contact shadows, cinematic key from\nabove, shallow DoF, volumetric light, cinematic color grade, Unreal Engine 5, octane render,\n8K, anamorphic lens, ARRI Alexa, 16:9",
           "video_prompt": "Slow pull-back as the black figures hold their turned-away posture toward the lone red figure\n0–4s. Recognition withheld. Hold the color code. No new figures.",
