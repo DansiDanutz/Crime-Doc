@@ -23,6 +23,7 @@ class ToolRegressionTests(unittest.TestCase):
         self.assertEqual(tool.resolve_characters("Ada Lovelace (centered)", manifest), ["ada_lovelace"])
         with self.assertRaisesRegex(ValueError, "unknown person"):
             tool.resolve_characters("Ada Lovelace, Unknown Person", manifest)
+        self.assertEqual(tool.resolve_characters("Civilians / crowd only", []), [])
 
     def test_yaml_reader_decodes_quotes_and_comments(self):
         tool = load_tool("export-episode")
@@ -52,7 +53,7 @@ class ToolRegressionTests(unittest.TestCase):
     def test_scaffolder_preserves_literal_title(self):
         with tempfile.TemporaryDirectory() as directory:
             root = self._minimal_workspace(directory)
-            title = 'Crime "Quote" # Mystery & Punishment / Redux'
+            title = 'Crime "Quote" # Mystery & Punishment / Redux \\n literal'
             result = subprocess.run(
                 ["bash", "tools/new-episode.sh", "umbra", "special", title],
                 cwd=root,

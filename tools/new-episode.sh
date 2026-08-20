@@ -68,8 +68,10 @@ from pathlib import Path
 
 path = Path(sys.argv[1])
 content = path.read_text()
-content = re.sub(r"^title:.*$", f"title: {json.dumps(sys.argv[2], ensure_ascii=False)}", content, flags=re.MULTILINE)
-content = re.sub(r"^created:.*$", f"created: {json.dumps(sys.argv[3])}", content, flags=re.MULTILINE)
+encoded_title = json.dumps(sys.argv[2], ensure_ascii=False)
+encoded_created = json.dumps(sys.argv[3])
+content = re.sub(r"^title:.*$", lambda _: f"title: {encoded_title}", content, flags=re.MULTILINE)
+content = re.sub(r"^created:.*$", lambda _: f"created: {encoded_created}", content, flags=re.MULTILINE)
 path.write_text(content)
 PY
 fi

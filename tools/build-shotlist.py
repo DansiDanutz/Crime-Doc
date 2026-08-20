@@ -25,7 +25,12 @@ ROOT = Path(__file__).resolve().parent.parent
 STOPWORDS = {"the", "a", "an", "of", "and", "in", "on", "scene", "characters", "only",
              "recurring", "no", "none", "id", "character"}
 # phrases that legitimately mean "no named cast in this scene" — never warn on these
-_GENERIC_EMPTY = {"no recurring characters", "no named characters", "none"}
+_GENERIC_EMPTY = {
+    "no recurring characters",
+    "no named characters",
+    "none",
+    "civilians / crowd only",
+}
 
 
 def char_aliases(ch: dict) -> list[str]:
