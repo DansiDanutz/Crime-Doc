@@ -28,6 +28,7 @@ jobs:
         run: |
           python -m compileall -q tools
           bash -n tools/new-episode.sh
+          python -m unittest discover -s tests
           python - <<'PY'
           import json
           from pathlib import Path

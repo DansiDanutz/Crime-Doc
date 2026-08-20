@@ -32,14 +32,20 @@ def read_yaml_lite(path: Path) -> dict:
         m = re.match(r"^([A-Za-z_]+):\s*(.*)$", line)
         if not m:
             continue
-        key, val = m.group(1), m.group(2).strip()
-        if val[:1] in ("'", '"'):  # quoted scalar: take through the closing quote
-            q = val[0]
-            end = val.find(q, 1)
-            val = val[1:end] if end != -1 else val[1:]
-        else:  # bare scalar: drop an inline comment, then surrounding quotes
-            val = re.sub(r"\s+#.*$", "", val).strip().strip("\"'")
-        out[key] = val
+        key, raw_value = m.group(1), m.group(2).strip()
+        if raw_value.startswith('"'):
+            value, end = json.JSONDecoder().raw_decode(raw_value)
+            remainder = raw_value[end:].strip()
+            if remainder and not remainder.startswith("#"):
+                raise ValueError(f"unsupported YAML suffix: {remainder}")
+        elif raw_value.startswith("'"):
+            quoted = re.match(r"^'((?:[^']|'')*)'(?:\s+#.*)?$", raw_value)
+            if not quoted:
+                raise ValueError(f"invalid single-quoted YAML scalar: {raw_value}")
+            value = quoted.group(1).replace("''", "'")
+        else:
+            value = re.split(r"\s+#", raw_value, maxsplit=1)[0].rstrip()
+        out[key] = value
     return out
 
 

@@ -1312,7 +1312,7 @@ palette. No new figures.
 ```
 
 ### Scene ch17_s2 — 4s — the institution towers
-1. **CHARACTERS IN SCENE:** FBI Investigator / court as black institution
+1. **CHARACTERS IN SCENE:** FBI Investigator
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, tall matte black mannequin figures on a raised courtroom
@@ -1559,7 +1559,7 @@ figures.
 ```
 
 ### Scene ch20_s3 — 4s — somewhere, another laptop
-1. **CHARACTERS IN SCENE:** New anonymous figure (white/red silhouette)
+1. **CHARACTERS IN SCENE:** No recurring characters
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, in a dark room, an anonymous mannequin silhouette (edge-lit,
@@ -1574,7 +1574,7 @@ Hold palette. No new figures.
 ```
 
 ### Scene ch20_s4 — 4s — the glow, and the last line
-1. **CHARACTERS IN SCENE:** New anonymous figure (silhouette)
+1. **CHARACTERS IN SCENE:** No recurring characters
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, extreme close-up of a cold laptop screen glow reflected on a

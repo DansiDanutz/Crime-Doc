@@ -103,7 +103,7 @@ the screens 2–3s. Faint screen flicker reflects on the matte red surface. No c
 ```
 
 ### Scene ch01_s4 — 3s — the empty room behind him
-1. **CHARACTERS IN SCENE:** Petrov (back of figure), empty stations
+1. **CHARACTERS IN SCENE:** Petrov (back of figure)
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, over-the-shoulder from behind a lone matte red mannequin
@@ -264,7 +264,7 @@ figure perfectly still, watching. No camera move. Hold palette.
 ```
 
 ### Scene ch03_s4 — 3s — "trust the system" (the protocol card)
-1. **CHARACTERS IN SCENE:** Petrov (hand), console
+1. **CHARACTERS IN SCENE:** Petrov (hand)
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, a matte red mannequin hand resting beside a red telephone
