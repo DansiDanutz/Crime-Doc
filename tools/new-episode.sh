@@ -37,6 +37,11 @@ if [[ ! "$slug" =~ ^ep[0-9]{2}-[a-z0-9][a-z0-9-]*$ ]]; then
   exit 1
 fi
 
+if (( ${#title} > 200 )); then
+  echo "error: title must be 200 characters or fewer" >&2
+  exit 1
+fi
+
 dest="$chan_dir/episodes/$slug"
 if [[ -e "$dest" ]]; then
   echo "error: $dest already exists" >&2
@@ -54,10 +59,6 @@ for f in "$dest/episode.yaml" "$dest/production/shotlist.json"; do
   sed -e "s/EPISODE_SLUG/$slug/g" -e "s/CHANNEL_NAME/$channel/g" "$f" > "$tmp" && mv "$tmp" "$f"
 done
 if [[ -n "$title" && -f "$dest/episode.yaml" ]]; then
-  if (( ${#title} > 200 )); then
-    echo "error: title must be 200 characters or fewer" >&2
-    exit 1
-  fi
   python3 - "$dest/episode.yaml" "$title" "$today" <<'PY'
 import json
 import re

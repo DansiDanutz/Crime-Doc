@@ -59,12 +59,23 @@ def resolve_characters(text: str, character_ids: list[str]) -> list[str]:
         for character_id in character_ids
         if character_id not in mapped_ids
     )
+    references = re.sub(r"\([^)]*\)", "", low)
+    references = [
+        reference.strip()
+        for reference in re.split(r"\s*(?:/|\+|,|&|\band\b)\s*", references)
+        if reference.strip()
+    ]
+    unresolved = [
+        reference
+        for reference in references
+        if not any(keyword in reference for keyword, _ in keywords)
+    ]
+    if unresolved:
+        raise ValueError(f"unresolved character reference: {', '.join(unresolved)}")
     found: list[str] = []
     for kw, cid in keywords:
         if kw in low and cid not in found:
             found.append(cid)
-    if not found:
-        raise ValueError(f"unresolved character reference: {text}")
     return found
 
 
