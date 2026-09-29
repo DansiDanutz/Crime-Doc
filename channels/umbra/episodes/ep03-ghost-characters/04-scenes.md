@@ -40,7 +40,7 @@ ARRI Alexa, 16:9.
 | 17 | 4:00–4:15 | Bundespost: "minor." CCC: "the whole argument." | A/B | 5 |
 | 18 | 4:15–4:30 | Btx never recovers; switched off in 2001 | B | 4 |
 | 19 | 4:30–4:45 | The argument didn't switch off: "secure," every year since | A | 5 |
-| 20 | 4:45–5:05 | Implicating close — overfill the page, watch what spills | B | 4 |
+| 20 | 4:45–5:00 | Implicating close — overfill the page, watch what spills | B | 4 |
 
 > Chapters 01–03 are fully built below as the worked pattern. Expand 04–20 identically
 > (CHARACTERS → IMAGE PROMPT → VIDEO PROMPT per 2–4 s scene), then run
