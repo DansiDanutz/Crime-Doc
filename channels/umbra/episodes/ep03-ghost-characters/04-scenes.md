@@ -20,7 +20,7 @@ ARRI Alexa, 16:9.
 ## Chapter map (5:00 = 20 chapters × 15 s, derived from the narration)
 
 Windows come from the script's actual word timeline, **not** one paragraph per chapter: narration
-runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (731 words ≈ 4:52 in total; the
+runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (732 words ≈ 4:53 in total; the
 ~8 s of slack is absorbed as breathing room). Dense paragraphs therefore span two chapters.
 
 | Ch | Time | Script beat (VO in this window) | Mode | Scenes |
@@ -44,7 +44,7 @@ runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (731 words ≈
 | 17 | 4:00–4:15 | CCC: "the whole argument" — a 19,000-user network, two men | A/B | 5 |
 | 18 | 4:15–4:30 | An inquiry never proves how they got the password; Btx dies in 2001 | B | 4 |
 | 19 | 4:30–4:45 | "Safe," every year since | A | 5 |
-| 20 | 4:45–5:00 | Implicating close — overfill the page, watch what spills | B | 4 |
+| 20 | 4:45–5:00 | Implicating close — still overfilling the page; no one ever proved the password came from it | B | 4 |
 
 > Chapters 01–04 are fully built below as the worked pattern. Expand 05–20 identically
 > (CHARACTERS → IMAGE PROMPT → VIDEO PROMPT per 2–4 s scene), then regenerate both artifacts

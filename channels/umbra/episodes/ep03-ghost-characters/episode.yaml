@@ -6,7 +6,7 @@ status: scripted
 duration_minutes: 5
 target_words: 750
 created: "2026-09-29"
-ending_type: "2 — implicating turn (the password was there the whole time; every system since is sold as 'secure')"
+ending_type: "2 — implicating turn (every system since is sold as 'secure'; no one ever proved the password came from the page)"
 states_done: [idea, script, characters, thumbnails]
 cast:
   main_subject: "The Hacker — Wau Holland / CCC (re-skin of Vesper, red)"

@@ -32,9 +32,9 @@ Btx never recovered. It ran on for another sixteen years, always about to become
 
 But the argument it started did not switch off with it. Every year since, a new system has been built and sold with the same single word. Your money is safe. Your data is safe. Your account cannot be reached. And every year, somewhere, someone quietly overfills the page, and waits to see what spills onto the screen.
 
-The password was there the whole time. All anyone had to do was overload the page.
+Maybe the password was there the whole time. No one ever proved it came from the page.
 
 ---
 
-**Word count:** 731
-**Ending type used:** 2 — implicating turn (last line 10 words, lands on "page")
+**Word count:** 732
+**Ending type used:** 2 — implicating turn (last line 9 words, lands on "page")
