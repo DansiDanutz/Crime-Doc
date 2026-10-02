@@ -20,8 +20,8 @@ ARRI Alexa, 16:9.
 ## Chapter map (5:00 = 20 chapters × 15 s, derived from the narration)
 
 Windows come from the script's actual word timeline, **not** one paragraph per chapter: narration
-runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (720 words ≈ 4:48 in total; the
-~12 s of slack is absorbed as breathing room). Dense paragraphs therefore span two chapters.
+runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (731 words ≈ 4:52 in total; the
+~8 s of slack is absorbed as breathing room). Dense paragraphs therefore span two chapters.
 
 | Ch | Time | Script beat (VO in this window) | Mode | Scenes |
 |----|------|---------------------------------|------|--------|
@@ -29,20 +29,20 @@ runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (720 words ≈
 | 02 | 0:15–0:30 | "Wau" + anchor — 135,000 marks out, every mark back | B/A | 4 |
 | 03 | 0:30–0:45 | Bildschirmtext: the Bundespost's TV-as-terminal | B/A | 5 |
 | 04 | 0:45–1:00 | News, weather, banking; "a fortune"; "Btx is secure." | B/A | 5 |
-| 05 | 1:00–1:15 | Wau doesn't believe them; the Chaos Computer Club | B/A | 4 |
-| 06 | 1:15–1:30 | The argument: "secure" means unbreakable — and they found a way | A | 4 |
-| 07 | 1:30–1:45 | The flaw: overfill a page and the system stumbles | A | 4 |
-| 08 | 1:45–2:00 | Ghost characters spill; a bank's login in the clear | B | 5 |
+| 05 | 1:00–1:15 | Wau doesn't believe them; the Chaos Computer Club's argument | B/A | 4 |
+| 06 | 1:15–1:30 | "Secure" means unbreakable — they found a way; the flaw, almost too small to see | A | 4 |
+| 07 | 1:30–1:45 | Overfill a page: the system stumbles and spills foreign data | A | 4 |
+| 08 | 1:45–2:00 | Ghost characters — by the club's account, a bank's login in the clear | B | 5 |
 | 09 | 2:00–2:15 | Password "USD 70000"; providers may charge per page | B/A | 5 |
 | 10 | 2:15–2:30 | 9.97 DM a look; the 31-line program | A/B | 5 |
 | 11 | 2:30–2:45 | It loops; they sleep; by morning… | B | 4 |
 | 12 | 2:45–3:00 | 13,000+ calls, ~134,000 DM moved | A/B | 4 |
-| 13 | 3:00–3:15 | No alarm — nothing "broke"; "They do not keep it" | A/B | 4 |
-| 14 | 3:15–3:30 | 19 November: the press conference, the cameras | B | 5 |
+| 13 | 3:00–3:15 | No alarm — nothing "broke"; the system did what it was told | A/B | 4 |
+| 14 | 3:15–3:30 | They do not keep it; 19 November: the press conference, the cameras | B | 5 |
 | 15 | 3:30–3:45 | They return every mark; "the point was the word" | B | 4 |
 | 16 | 3:45–4:00 | Overnight fame; the Bundespost: "minor" | B | 5 |
-| 17 | 4:00–4:15 | CCC: "the whole argument"; Btx never recovers | A/B | 5 |
-| 18 | 4:15–4:30 | Switched off in 2001; the argument didn't switch off | B | 4 |
+| 17 | 4:00–4:15 | CCC: "the whole argument" — a 19,000-user network, two men | A/B | 5 |
+| 18 | 4:15–4:30 | An inquiry never proves how they got the password; Btx dies in 2001 | B | 4 |
 | 19 | 4:30–4:45 | "Safe," every year since | A | 5 |
 | 20 | 4:45–5:00 | Implicating close — overfill the page, watch what spills | B | 4 |
 

@@ -12,7 +12,7 @@ The network is called Bildschirmtext — screen text, Btx for short. It is West 
 
 Wau Holland does not believe them. He belongs to a small group of hackers who call themselves the Chaos Computer Club, and their argument with the state is simple. A system is not secure because an official says it is. It is secure only if it cannot be broken. And they have found a way to break this one.
 
-The flaw is almost too small to see. When a Btx page is filled with more text than it expects, the system stumbles. For a fraction of a second, the overflow spills onto the screen — fragments of data from somewhere else inside the machine, characters that were never meant for your eyes. Ghost characters. And one night, in that spill, the Chaos Computer Club sees something remarkable: the login and the password of another Btx account, printed in the clear. The account belongs to the Hamburger Sparkasse. A bank.
+The flaw is almost too small to see. When a Btx page is filled with more text than it expects, the system stumbles. For a fraction of a second, the overflow spills onto the screen — fragments of data from somewhere else inside the machine, characters that were never meant for your eyes. Ghost characters. And one night, the club says, that spill shows them something remarkable: the login and the password of another Btx account, printed in the clear. The account belongs to the Hamburger Sparkasse. A bank.
 
 The password is "USD 70000."
 
@@ -26,7 +26,7 @@ Here is the part that does not belong in the story of a robbery. They do not kee
 
 On the 19th of November, three days later, the Chaos Computer Club calls a press conference. In front of television cameras, they explain what they did, how they did it, and to whom. Then they return the hundred and thirty-four thousand marks to the Hamburger Sparkasse, in full. The money was never the point. The point was the word "secure," and the fact that a state had used it to sell a system it did not understand.
 
-The effect is immediate. Overnight, the Chaos Computer Club goes from a handful of enthusiasts to the most famous hackers in the country. The Bundespost calls the flaw minor, an isolated case. The hackers call it the whole argument: a network trusted by millions, opened by two men and a home computer, using nothing but a mistake the operator had sworn did not exist.
+The effect is immediate. Overnight, the Chaos Computer Club goes from a handful of enthusiasts to the most famous hackers in the country. The Bundespost calls the flaw minor, an isolated case. The hackers call it the whole argument: a national network of nineteen thousand users, opened by two men and a home computer, using nothing but a mistake the operator had sworn did not exist. An official inquiry never establishes how the password reached them.
 
 Btx never recovered. It ran on for another sixteen years, always about to become the future, and was quietly switched off in 2001, having never arrived.
 
@@ -36,5 +36,5 @@ The password was there the whole time. All anyone had to do was overload the pag
 
 ---
 
-**Word count:** 720
+**Word count:** 731
 **Ending type used:** 2 — implicating turn (last line 10 words, lands on "page")

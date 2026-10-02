@@ -16,10 +16,19 @@ network on a home computer and connects.
 
 **The mechanism:** the Bundespost markets Btx as secure → the CCC finds that overfilling a Btx
 page makes the system spill fragments of other users' memory onto the screen ("ghost
-characters") → in that spill they read the Hamburger Sparkasse's Btx login and password
-("USD 70000") → on Btx a provider charges to view its page; the CCC owns one costing 9.97 DM →
-a 31-line program logs in as the bank and opens the CCC's page in a loop overnight → by morning
-the bank has been billed 13,000+ times, ~134,000 DM, with no alarm because nothing "broke."
+characters") → by the club's own account, that spill showed them the Hamburger Sparkasse's Btx
+login and password ("USD 70000") → on Btx a provider charges to view its page; the CCC owns one
+costing 9.97 DM → a 31-line program logs in as the bank and opens the CCC's page in a loop
+overnight → by morning the bank has been billed 13,000+ times, ~134,000 DM, with no alarm
+because nothing "broke."
+
+**Provenance caveat (keep it in the script):** the 1985 report of Hamburg's data-protection
+commissioner (pp. 24–27) confirmed the editing bug and that it *could* have exposed both
+credentials, but concluded it cannot be established that the bank's data actually appeared on
+the hackers' screen; spying during the bank's Btx demonstrations, a phone tap, or an insider
+remained possible. The line the hackers used was a demonstration line with no access to any
+bank account. Btx had ~19,000 participants (incl. ~3,000 providers) in November 1984 — not
+millions.
 
 **Ending type:** 2 — implicating turn. The money comes back; the false promise doesn't. Every
 system since is sold with the same one word, "secure." Last line lands on "page."

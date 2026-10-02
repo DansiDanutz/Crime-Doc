@@ -31,10 +31,19 @@ network on a home computer and connects.
 
 **The mechanism:** the Bundespost markets Btx as secure → the CCC finds that overfilling a Btx
 page makes the system spill fragments of other users' memory onto the screen ("ghost
-characters") → in that spill they read the Hamburger Sparkasse's Btx login and password
-("USD 70000") → on Btx a provider charges to view its page; the CCC owns one costing 9.97 DM →
-a 31-line program logs in as the bank and opens the CCC's page in a loop overnight → by morning
-the bank has been billed 13,000+ times, ~134,000 DM, with no alarm because nothing "broke."
+characters") → by the club's own account, that spill showed them the Hamburger Sparkasse's Btx
+login and password ("USD 70000") → on Btx a provider charges to view its page; the CCC owns one
+costing 9.97 DM → a 31-line program logs in as the bank and opens the CCC's page in a loop
+overnight → by morning the bank has been billed 13,000+ times, ~134,000 DM, with no alarm
+because nothing "broke."
+
+**Provenance caveat (keep it in the script):** the 1985 report of Hamburg's data-protection
+commissioner (pp. 24–27) confirmed the editing bug and that it *could* have exposed both
+credentials, but concluded it cannot be established that the bank's data actually appeared on
+the hackers' screen; spying during the bank's Btx demonstrations, a phone tap, or an insider
+remained possible. The line the hackers used was a demonstration line with no access to any
+bank account. Btx had ~19,000 participants (incl. ~3,000 providers) in November 1984 — not
+millions.
 
 **Ending type:** 2 — implicating turn. The money comes back; the false promise doesn't. Every
 system since is sold with the same one word, "secure." Last line lands on "page."
@@ -61,7 +70,7 @@ The network is called Bildschirmtext — screen text, Btx for short. It is West 
 
 Wau Holland does not believe them. He belongs to a small group of hackers who call themselves the Chaos Computer Club, and their argument with the state is simple. A system is not secure because an official says it is. It is secure only if it cannot be broken. And they have found a way to break this one.
 
-The flaw is almost too small to see. When a Btx page is filled with more text than it expects, the system stumbles. For a fraction of a second, the overflow spills onto the screen — fragments of data from somewhere else inside the machine, characters that were never meant for your eyes. Ghost characters. And one night, in that spill, the Chaos Computer Club sees something remarkable: the login and the password of another Btx account, printed in the clear. The account belongs to the Hamburger Sparkasse. A bank.
+The flaw is almost too small to see. When a Btx page is filled with more text than it expects, the system stumbles. For a fraction of a second, the overflow spills onto the screen — fragments of data from somewhere else inside the machine, characters that were never meant for your eyes. Ghost characters. And one night, the club says, that spill shows them something remarkable: the login and the password of another Btx account, printed in the clear. The account belongs to the Hamburger Sparkasse. A bank.
 
 The password is "USD 70000."
 
@@ -75,7 +84,7 @@ Here is the part that does not belong in the story of a robbery. They do not kee
 
 On the 19th of November, three days later, the Chaos Computer Club calls a press conference. In front of television cameras, they explain what they did, how they did it, and to whom. Then they return the hundred and thirty-four thousand marks to the Hamburger Sparkasse, in full. The money was never the point. The point was the word "secure," and the fact that a state had used it to sell a system it did not understand.
 
-The effect is immediate. Overnight, the Chaos Computer Club goes from a handful of enthusiasts to the most famous hackers in the country. The Bundespost calls the flaw minor, an isolated case. The hackers call it the whole argument: a network trusted by millions, opened by two men and a home computer, using nothing but a mistake the operator had sworn did not exist.
+The effect is immediate. Overnight, the Chaos Computer Club goes from a handful of enthusiasts to the most famous hackers in the country. The Bundespost calls the flaw minor, an isolated case. The hackers call it the whole argument: a national network of nineteen thousand users, opened by two men and a home computer, using nothing but a mistake the operator had sworn did not exist. An official inquiry never establishes how the password reached them.
 
 Btx never recovered. It ran on for another sixteen years, always about to become the future, and was quietly switched off in 2001, having never arrived.
 
@@ -85,7 +94,7 @@ The password was there the whole time. All anyone had to do was overload the pag
 
 ---
 
-**Word count:** 720
+**Word count:** 731
 **Ending type used:** 2 — implicating turn (last line 10 words, lands on "page")
 
 
@@ -210,8 +219,8 @@ ARRI Alexa, 16:9.
 ## Chapter map (5:00 = 20 chapters × 15 s, derived from the narration)
 
 Windows come from the script's actual word timeline, **not** one paragraph per chapter: narration
-runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (720 words ≈ 4:48 in total; the
-~12 s of slack is absorbed as breathing room). Dense paragraphs therefore span two chapters.
+runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (731 words ≈ 4:52 in total; the
+~8 s of slack is absorbed as breathing room). Dense paragraphs therefore span two chapters.
 
 | Ch | Time | Script beat (VO in this window) | Mode | Scenes |
 |----|------|---------------------------------|------|--------|
@@ -219,20 +228,20 @@ runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (720 words ≈
 | 02 | 0:15–0:30 | "Wau" + anchor — 135,000 marks out, every mark back | B/A | 4 |
 | 03 | 0:30–0:45 | Bildschirmtext: the Bundespost's TV-as-terminal | B/A | 5 |
 | 04 | 0:45–1:00 | News, weather, banking; "a fortune"; "Btx is secure." | B/A | 5 |
-| 05 | 1:00–1:15 | Wau doesn't believe them; the Chaos Computer Club | B/A | 4 |
-| 06 | 1:15–1:30 | The argument: "secure" means unbreakable — and they found a way | A | 4 |
-| 07 | 1:30–1:45 | The flaw: overfill a page and the system stumbles | A | 4 |
-| 08 | 1:45–2:00 | Ghost characters spill; a bank's login in the clear | B | 5 |
+| 05 | 1:00–1:15 | Wau doesn't believe them; the Chaos Computer Club's argument | B/A | 4 |
+| 06 | 1:15–1:30 | "Secure" means unbreakable — they found a way; the flaw, almost too small to see | A | 4 |
+| 07 | 1:30–1:45 | Overfill a page: the system stumbles and spills foreign data | A | 4 |
+| 08 | 1:45–2:00 | Ghost characters — by the club's account, a bank's login in the clear | B | 5 |
 | 09 | 2:00–2:15 | Password "USD 70000"; providers may charge per page | B/A | 5 |
 | 10 | 2:15–2:30 | 9.97 DM a look; the 31-line program | A/B | 5 |
 | 11 | 2:30–2:45 | It loops; they sleep; by morning… | B | 4 |
 | 12 | 2:45–3:00 | 13,000+ calls, ~134,000 DM moved | A/B | 4 |
-| 13 | 3:00–3:15 | No alarm — nothing "broke"; "They do not keep it" | A/B | 4 |
-| 14 | 3:15–3:30 | 19 November: the press conference, the cameras | B | 5 |
+| 13 | 3:00–3:15 | No alarm — nothing "broke"; the system did what it was told | A/B | 4 |
+| 14 | 3:15–3:30 | They do not keep it; 19 November: the press conference, the cameras | B | 5 |
 | 15 | 3:30–3:45 | They return every mark; "the point was the word" | B | 4 |
 | 16 | 3:45–4:00 | Overnight fame; the Bundespost: "minor" | B | 5 |
-| 17 | 4:00–4:15 | CCC: "the whole argument"; Btx never recovers | A/B | 5 |
-| 18 | 4:15–4:30 | Switched off in 2001; the argument didn't switch off | B | 4 |
+| 17 | 4:00–4:15 | CCC: "the whole argument" — a 19,000-user network, two men | A/B | 5 |
+| 18 | 4:15–4:30 | An inquiry never proves how they got the password; Btx dies in 2001 | B | 4 |
 | 19 | 4:30–4:45 | "Safe," every year since | A | 5 |
 | 20 | 4:45–5:00 | Implicating close — overfill the page, watch what spills | B | 4 |
 
