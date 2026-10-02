@@ -1,0 +1,346 @@
+{
+  "episode": "ep03-ghost-characters",
+  "channel": "umbra",
+  "aspect_ratio": "16:9",
+  "style_anchor": "Mannequin world — glossy white civilians / matte red protagonist The Hacker / matte black institution (Bundespost + bank), eggshell featureless heads, Mode B sparse 1980s photoreal (Hamburg flat, boxy computers, Btx TV terminals) + Mode A white-void diagrams, cool CRT screen-glow accent, cinematic key from above, shallow DoF, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa.",
+  "models": {
+    "image": "nano_banana_pro",
+    "video": "seedance_2_0"
+  },
+  "characters": [
+    {
+      "id": "the_hacker",
+      "label": "red",
+      "aliases": [
+        "the hacker",
+        "hacker",
+        "wau",
+        "holland",
+        "wernéry",
+        "wernery",
+        "ccc",
+        "chaos computer club"
+      ],
+      "ref_prompt": "matte red mannequin, 1980s knit cardigan + round glasses, eggshell head, at a boxy home computer, white void (re-skin of Vesper)",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "btx_user",
+      "label": "white",
+      "aliases": [
+        "btx user",
+        "user",
+        "public",
+        "viewer",
+        "subscriber",
+        "citizen",
+        "civilian",
+        "civilians",
+        "crowd"
+      ],
+      "ref_prompt": "glossy white mannequin at a boxy 1980s TV + numeric Btx keypad, white void (re-skin of The Courier)",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "journalist",
+      "label": "white",
+      "aliases": [
+        "journalist",
+        "the journalist",
+        "press",
+        "reporter",
+        "cameras",
+        "camera",
+        "microphone"
+      ],
+      "ref_prompt": "glossy white mannequin + photoreal handheld reporter's microphone + press camera, white void (re-skin of The Insider)",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "bundespost",
+      "label": "black",
+      "aliases": [
+        "bundespost",
+        "bundespost official",
+        "official",
+        "post office",
+        "postal",
+        "operator"
+      ],
+      "ref_prompt": "matte black mannequin in 1980s postal-service uniform + peaked cap + posthorn emblem, white void (re-skin of The Detective)",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "banker",
+      "label": "black",
+      "aliases": [
+        "banker",
+        "the banker",
+        "bank",
+        "sparkasse",
+        "haspa",
+        "hamburger sparkasse"
+      ],
+      "ref_prompt": "matte black mannequin in a 1980s banker's three-piece suit holding a ledger, white void (re-skin of The Detective)",
+      "image_job_id": null,
+      "element_id": null
+    },
+    {
+      "id": "investigator",
+      "label": "black",
+      "aliases": [
+        "investigator",
+        "postal investigator",
+        "technician",
+        "auditor",
+        "security"
+      ],
+      "ref_prompt": "matte black mannequin + photoreal 1980s technician headset + clipboard + tool belt, white void (re-skin of The Breacher)",
+      "image_job_id": null,
+      "element_id": null
+    }
+  ],
+  "chapters": [
+    {
+      "id": "ch01",
+      "title": "The dial-in",
+      "duration_s": 15,
+      "sfx": "modem handshake tones, a single key clack, a wall clock",
+      "ambient": "quiet night flat, faint street hum",
+      "music": "low patient synth drone, one cold pulse",
+      "scenes": [
+        {
+          "id": "ch01_s1",
+          "duration_s": 3,
+          "characters": [
+            "the_hacker"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a dim 1980s Hamburg flat at night, a single matte red\nmannequin (eggshell head, red cardigan) seated at a cluttered desk before a boxy home computer,\nthe only light the cool glow of the CRT, sparse Mode B, shallow depth of field, volumetric\nlight, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static wide, very slow push-in toward the red mannequin lit by the screen 0–3s. Dust drifts in\nthe CRT glow. Quiet, ordinary, nocturnal. Hold color code and wardrobe. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s2",
+          "duration_s": 3,
+          "characters": [
+            "the_hacker"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of matte red mannequin hands pressing a\n1980s telephone handset into the rubber cups of an acoustic modem, a single status LED lit,\ncool desk light, Mode B, shallow depth of field, volumetric light, dust particles, cinematic\ncolor grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Locked macro, the red hands seat the handset 0–2s, the LED blinks to steady 2–3s. Connection\nbeing made. No camera move. Deadpan, slow. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s3",
+          "duration_s": 3,
+          "characters": [
+            "the_hacker"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, over-the-shoulder of a matte red mannequin facing a boxy CRT\nthat wakes to a blocky 1980s videotex login screen in cool green and amber, screen glow on the\nred eggshell head, Mode B, shallow depth of field, volumetric light, dust particles, cinematic\ncolor grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static over-the-shoulder, blocky videotex characters paint onto the screen line by line 0–3s,\ncolor glow flickering on the red head. No camera move. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s4",
+          "duration_s": 3,
+          "characters": [
+            "the_hacker"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, medium shot of a matte red mannequin (red cardigan, round\nred glasses, eggshell head) leaning toward the CRT and typing on a chunky keyboard, calm and\nabsorbed, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color\ngrade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Medium static, the red mannequin's fingers move over the keys 0–3s, head tilted to the screen,\nunremarkable. No camera move. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch01_s5",
+          "duration_s": 3,
+          "characters": [
+            "the_hacker"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a calm wide of the quiet flat, the lone matte red mannequin\nat his glowing desk among bookshelves and coffee cups, an ordinary night, Mode B, shallow depth\nof field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane\nrender, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Slow pull-back from the red figure revealing the calm ordinary room 0–3s. Nothing seems to be\nhappening. Hold palette. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        }
+      ]
+    },
+    {
+      "id": "ch02",
+      "title": "A hundred and thirty-five thousand marks",
+      "duration_s": 15,
+      "sfx": "a deep impact hit on the anchor line, coins settling, then silence",
+      "ambient": "thinning room tone",
+      "music": "drone lifts a step, a single struck note",
+      "scenes": [
+        {
+          "id": "ch02_s1",
+          "duration_s": 4,
+          "characters": [
+            "the_hacker"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a single matte red mannequin seated very small and centered\nat a desk in a vast dark space, immense negative space, one shaft of cool screen light, Mode B,\nshallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine\n5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static symmetrical wide, almost still. Imperceptible push-in 0–4s; dust drifts in the light. The\nlone red figure motionless. Title-card emptiness. Hold palette. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch02_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a clean diagram of stylized matte\ncurrency notes flowing along a single line from a black bank vault icon toward a small red folder\nicon, cold clinical light, soft contact shadows, cinematic key from above, shallow depth of\nfield, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static diagram, the notes slide from the black vault to the red folder 0–4s. Money moving the\nwrong way. No figures. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch02_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, the same diagram now reversed —\nthe stylized currency notes flowing back from the red folder icon into the black bank vault icon,\ncold clinical light, soft contact shadows, cinematic key from above, shallow depth of field,\nvolumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens,\nshot on ARRI Alexa, 16:9",
+          "video_prompt": "Static diagram, the notes reverse and flow back into the vault 0–4s. A robbery that undoes\nitself. No figures. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch02_s4",
+          "duration_s": 3,
+          "characters": [
+            "the_hacker"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a close, near-symmetrical shot of the matte red mannequin's\neggshell head lit by cool screen glow in the dark, utterly still, Mode B, shallow depth of field,\nvolumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K,\nanamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static close, the red head motionless as screen light shifts across it 0–3s. Motive withheld.\nNo camera move. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        }
+      ]
+    },
+    {
+      "id": "ch03",
+      "title": "Bildschirmtext",
+      "duration_s": 15,
+      "sfx": "cheerful 1980s ad jingle fragment, a TV click, a modem chirp",
+      "ambient": "living-room room tone",
+      "music": "bright period synth turning cold underneath",
+      "scenes": [
+        {
+          "id": "ch03_s1",
+          "duration_s": 3,
+          "characters": [
+            "btx_user"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a glossy white mannequin seated in a tidy 1980s living room\nbefore a boxy television showing a blocky colorful Btx menu, a small numeric keypad in its hand,\nwarm domestic light, Mode B, shallow depth of field, volumetric light, dust particles, cinematic\ncolor grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static medium, the white mannequin thumbs the keypad and the Btx menu changes on the TV 0–3s.\nThe future, at home. Hold palette. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch03_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a clean diagram of many small\ntelevision icons across a stylized map of West Germany, each linked by thin lines to one central\nnode, cold clinical light, soft contact shadows, cinematic key from above, shallow depth of\nfield, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static diagram, the links light up one by one from the central node to the TVs 0–3s. A whole\ncountry wired to one system. No figures. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch03_s3",
+          "duration_s": 3,
+          "characters": [
+            "bundespost"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin in a 1980s postal-service\nuniform and peaked cap (small posthorn emblem) standing beside the central node of a white-void\nnetwork diagram, a rubber stamp held at rest in one hand, soft contact shadow, cinematic key from\nabove, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane\nrender, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Slow push-in on the black official standing motionless by the node 0–3s, the stamp held at rest.\nThe state, in charge. Hold the color code. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch03_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of the back of a plain boxy 1980s television\nwith a small grey modem box and a coiled cable plugged into it, the screen beyond waking from\nstatic, a tidy living room, warm domestic light, Mode B, shallow depth of field, volumetric light,\ndust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot\non ARRI Alexa, 16:9",
+          "video_prompt": "Locked macro, the static on the screen resolves into a blocky Btx menu 0–3s as the modem's\nstatus light settles. An ordinary television, quietly made into something else. No figures. Hold\npalette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch03_s5",
+          "duration_s": 3,
+          "characters": [
+            "the_hacker"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, the matte red mannequin at his CRT, the blocky Btx menu\nscreen reflected across its red eggshell head, Mode B, shallow depth of field, volumetric light,\ndust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot\non ARRI Alexa, 16:9",
+          "video_prompt": "Slow push-in on the red figure as the menu screen plays across its head 0–3s. The man who\ndoesn't believe it. Hold palette. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        }
+      ]
+    },
+    {
+      "id": "ch04",
+      "title": "The promise",
+      "duration_s": 15,
+      "sfx": "soft menu blips, a coin drop, a stamp thud on the last line",
+      "ambient": "living-room room tone, TV hum",
+      "music": "bright period synth, turning cold as the stamp lands",
+      "scenes": [
+        {
+          "id": "ch04_s1",
+          "duration_s": 4,
+          "characters": [
+            "btx_user"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a glossy white mannequin seated in a tidy 1980s living room\nbefore a boxy television showing a blocky colorful Btx news page, a small numeric keypad in its\nhand, warm domestic light, Mode B, shallow depth of field, volumetric light, dust particles,\ncinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,\n16:9",
+          "video_prompt": "Static medium, the TV page flips from the news page to a blocky weather page with simple sun and\ncloud blocks 0–4s as the white mannequin thumbs the keypad. Ordinary, pleasant. Hold palette. No\nnew figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch04_s2",
+          "duration_s": 2,
+          "characters": [
+            "btx_user"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, close-up of a glossy white mannequin hand on a numeric keypad\nbefore a television showing a blocky banking page with a column of numerals, warm domestic light,\nMode B, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane\nrender, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Locked macro, the white fingers press two keys and the balance digits tick over 0–2s. Money, on\nthe television. No camera move. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch04_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a tall stack of plain matte\ncurrency blocks beside a growing web of thin cables branching out to many small television icons,\nthe stack visibly lower than before, cold clinical light, soft contact shadows, cinematic key from\nabove, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane\nrender, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Static diagram, the currency stack sinks 0–4s as cables extend and light the television icons one\nby one. A fortune, poured into a promise. No figures. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch04_s4",
+          "duration_s": 3,
+          "characters": [
+            "bundespost"
+          ],
+          "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin in a 1980s postal-service\nuniform and peaked cap (small posthorn emblem), pressing a rubber stamp down onto a document on a\ncounter, infinite white void, soft contact shadow, cinematic key from above, shallow depth of\nfield, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Locked, the black official brings the stamp down and holds it 0–3s. The state's guarantee,\npressed onto paper. Hold the color code. No new figures.",
+          "image_job_id": null,
+          "video_job_id": null
+        },
+        {
+          "id": "ch04_s5",
+          "duration_s": 2,
+          "characters": [],
+          "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of a freshly stamped document in white void,\na single blocky official seal reading as a bold mark, cold clinical light, soft contact shadow,\ncinematic key from above, shallow depth of field, volumetric light, cinematic color grade,\nUnreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Locked macro, the wet seal settles on the page 0–2s, edges sharpening. One word, guaranteed. No\nfigures. Hold palette.",
+          "image_job_id": null,
+          "video_job_id": null
+        }
+      ]
+    }
+  ]
+}
