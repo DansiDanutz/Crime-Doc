@@ -237,9 +237,12 @@ runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (720 words ≈
 | 20 | 4:45–5:00 | Implicating close — overfill the page, watch what spills | B | 4 |
 
 > Chapters 01–04 are fully built below as the worked pattern. Expand 05–20 identically
-> (CHARACTERS → IMAGE PROMPT → VIDEO PROMPT per 2–4 s scene), then run
-> `tools/build-shotlist.py umbra ep03-ghost-characters` **and** `tools/export-episode.py
-> umbra ep03-ghost-characters` (CI regenerates both and fails on drift).
+> (CHARACTERS → IMAGE PROMPT → VIDEO PROMPT per 2–4 s scene), then regenerate both artifacts
+> (CI regenerates them and fails on drift):
+>
+> `tools/build-shotlist.py umbra ep03-ghost-characters`
+>
+> `tools/export-episode.py umbra ep03-ghost-characters`
 
 ---
 
