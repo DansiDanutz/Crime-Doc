@@ -4,11 +4,11 @@
 
 ---
 
-It's the night of the 16th of November, 1984. In a flat in Hamburg, a man sits down at a home computer, dials a telephone line, and connects to a network the German state has promised is safe. His name is Herwart Holland. The people around him call him Wau.
+It's the night of the 16th of November, 1984. In a flat in Hamburg, a man sits at a home computer, dials a telephone line, and connects to a network the German state has promised is safe. His name is Herwart Holland. They call him Wau.
 
-This is the story of how two men moved a hundred and thirty-five thousand marks out of a bank in a single night, and gave every last one of them back.
+This is the story of how two men moved a hundred and thirty-five thousand marks out of a bank in one night, and gave every mark back.
 
-The network is called Bildschirmtext — screen text, Btx for short. It is West Germany's picture of the future: a nationwide system, run by the Deutsche Bundespost, that turns an ordinary television into a terminal. You can read the news on it. Check the weather. And, from 1984, do your banking. The Post Office has spent a fortune building it, and it tells the public one thing above all else. Btx is secure.
+The network is called Bildschirmtext — screen text, Btx for short. It is West Germany's picture of the future: a nationwide system, run by the Deutsche Bundespost, that turns an ordinary television into a terminal. You can read the news on it. Check the weather. From 1984, do your banking. The Post Office has spent a fortune building it, and it tells the public one thing above all else. Btx is secure.
 
 Wau Holland does not believe them. He belongs to a small group of hackers who call themselves the Chaos Computer Club, and their argument with the state is simple. A system is not secure because an official says it is. It is secure only if it cannot be broken. And they have found a way to break this one.
 
@@ -36,5 +36,5 @@ The password was there the whole time. All anyone had to do was overload the pag
 
 ---
 
-**Word count:** ~735
+**Word count:** 720
 **Ending type used:** 2 — implicating turn (last line 10 words, lands on "page")

@@ -7,7 +7,7 @@
 **Target:** 5 min (~750 words)  ·  **Status:** scripted  ·  **Ending:** 2 — implicating turn (the password was there the whole time; every system since is sold as 'secure')
 
 ## Production summary
-- **Chapters:** 3  ·  **Scenes:** 14  ·  **Runtime (storyboarded):** 0:45
+- **Chapters:** 4  ·  **Scenes:** 19  ·  **Runtime (storyboarded):** 1:00
 - **Cast:** the_hacker, btx_user, journalist, bundespost, banker, investigator
 - **Aspect ratio:** 16:9  ·  **Image model:** nano_banana_pro  ·  **Video model:** seedance_2_0
 
@@ -53,11 +53,11 @@ calls; ~134,000 DM; Btx shut down in 2001 after ~16 more years.
 
 ---
 
-It's the night of the 16th of November, 1984. In a flat in Hamburg, a man sits down at a home computer, dials a telephone line, and connects to a network the German state has promised is safe. His name is Herwart Holland. The people around him call him Wau.
+It's the night of the 16th of November, 1984. In a flat in Hamburg, a man sits at a home computer, dials a telephone line, and connects to a network the German state has promised is safe. His name is Herwart Holland. They call him Wau.
 
-This is the story of how two men moved a hundred and thirty-five thousand marks out of a bank in a single night, and gave every last one of them back.
+This is the story of how two men moved a hundred and thirty-five thousand marks out of a bank in one night, and gave every mark back.
 
-The network is called Bildschirmtext — screen text, Btx for short. It is West Germany's picture of the future: a nationwide system, run by the Deutsche Bundespost, that turns an ordinary television into a terminal. You can read the news on it. Check the weather. And, from 1984, do your banking. The Post Office has spent a fortune building it, and it tells the public one thing above all else. Btx is secure.
+The network is called Bildschirmtext — screen text, Btx for short. It is West Germany's picture of the future: a nationwide system, run by the Deutsche Bundespost, that turns an ordinary television into a terminal. You can read the news on it. Check the weather. From 1984, do your banking. The Post Office has spent a fortune building it, and it tells the public one thing above all else. Btx is secure.
 
 Wau Holland does not believe them. He belongs to a small group of hackers who call themselves the Chaos Computer Club, and their argument with the state is simple. A system is not secure because an official says it is. It is secure only if it cannot be broken. And they have found a way to break this one.
 
@@ -85,7 +85,7 @@ The password was there the whole time. All anyone had to do was overload the pag
 
 ---
 
-**Word count:** ~735
+**Word count:** 720
 **Ending type used:** 2 — implicating turn (last line 10 words, lands on "page")
 
 
@@ -207,39 +207,44 @@ ARRI Alexa, 16:9.
 
 ---
 
-## Chapter map (≈5:00 → 20 chapters × ~15 s)
+## Chapter map (5:00 = 20 chapters × 15 s, derived from the narration)
 
-| Ch | Time | Script beat | Mode | Scenes |
-|----|------|-------------|------|--------|
-| 01 | 0:00–0:15 | Cold open — the flat, the dial-in, "Wau" | B flat | 5 |
-| 02 | 0:15–0:30 | Anchor — 135,000 marks out, and all of it back | B/A | 4 |
-| 03 | 0:30–0:45 | Bildschirmtext: the TV as terminal; "Btx is secure" | B/A | 5 |
-| 04 | 0:45–1:00 | The Chaos Computer Club and its argument with the state | A | 5 |
-| 05 | 1:00–1:15 | The flaw: overfill a page and the system stumbles | A | 4 |
-| 06 | 1:15–1:30 | Ghost characters spill onto the screen | B | 5 |
-| 07 | 1:30–1:45 | In the spill: the bank's login — password "USD 70000" | B | 4 |
-| 08 | 1:45–2:00 | The paid-page mechanism: 9.97 DM a look | A | 5 |
-| 09 | 2:00–2:15 | The 31-line program | B | 4 |
-| 10 | 2:15–2:30 | They leave it running and go to sleep | B | 4 |
-| 11 | 2:30–2:45 | By morning: 13,000+ calls, ~134,000 DM moved | A/B | 5 |
-| 12 | 2:45–3:00 | No alarm — nothing "broke" | A | 4 |
-| 13 | 3:00–3:15 | The turn — they don't keep it | B | 4 |
+Windows come from the script's actual word timeline, **not** one paragraph per chapter: narration
+runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (720 words ≈ 4:48 in total; the
+~12 s of slack is absorbed as breathing room). Dense paragraphs therefore span two chapters.
+
+| Ch | Time | Script beat (VO in this window) | Mode | Scenes |
+|----|------|---------------------------------|------|--------|
+| 01 | 0:00–0:15 | Cold open — the flat, the dial-in, the "safe" network | B flat | 5 |
+| 02 | 0:15–0:30 | "Wau" + anchor — 135,000 marks out, every mark back | B/A | 4 |
+| 03 | 0:30–0:45 | Bildschirmtext: the Bundespost's TV-as-terminal | B/A | 5 |
+| 04 | 0:45–1:00 | News, weather, banking; "a fortune"; "Btx is secure." | B/A | 5 |
+| 05 | 1:00–1:15 | Wau doesn't believe them; the Chaos Computer Club | B/A | 4 |
+| 06 | 1:15–1:30 | The argument: "secure" means unbreakable — and they found a way | A | 4 |
+| 07 | 1:30–1:45 | The flaw: overfill a page and the system stumbles | A | 4 |
+| 08 | 1:45–2:00 | Ghost characters spill; a bank's login in the clear | B | 5 |
+| 09 | 2:00–2:15 | Password "USD 70000"; providers may charge per page | B/A | 5 |
+| 10 | 2:15–2:30 | 9.97 DM a look; the 31-line program | A/B | 5 |
+| 11 | 2:30–2:45 | It loops; they sleep; by morning… | B | 4 |
+| 12 | 2:45–3:00 | 13,000+ calls, ~134,000 DM moved | A/B | 4 |
+| 13 | 3:00–3:15 | No alarm — nothing "broke"; "They do not keep it" | A/B | 4 |
 | 14 | 3:15–3:30 | 19 November: the press conference, the cameras | B | 5 |
-| 15 | 3:30–3:45 | They return every mark, in full | B | 4 |
-| 16 | 3:45–4:00 | Overnight, the most famous hackers in the country | B | 5 |
-| 17 | 4:00–4:15 | Bundespost: "minor." CCC: "the whole argument." | A/B | 5 |
-| 18 | 4:15–4:30 | Btx never recovers; switched off in 2001 | B | 4 |
-| 19 | 4:30–4:45 | The argument didn't switch off: "secure," every year since | A | 5 |
+| 15 | 3:30–3:45 | They return every mark; "the point was the word" | B | 4 |
+| 16 | 3:45–4:00 | Overnight fame; the Bundespost: "minor" | B | 5 |
+| 17 | 4:00–4:15 | CCC: "the whole argument"; Btx never recovers | A/B | 5 |
+| 18 | 4:15–4:30 | Switched off in 2001; the argument didn't switch off | B | 4 |
+| 19 | 4:30–4:45 | "Safe," every year since | A | 5 |
 | 20 | 4:45–5:00 | Implicating close — overfill the page, watch what spills | B | 4 |
 
-> Chapters 01–03 are fully built below as the worked pattern. Expand 04–20 identically
+> Chapters 01–04 are fully built below as the worked pattern. Expand 05–20 identically
 > (CHARACTERS → IMAGE PROMPT → VIDEO PROMPT per 2–4 s scene), then run
-> `tools/build-shotlist.py umbra ep03-ghost-characters` to regenerate the shotlist.
+> `tools/build-shotlist.py umbra ep03-ghost-characters` **and** `tools/export-episode.py
+> umbra ep03-ghost-characters` (CI regenerates both and fails on drift).
 
 ---
 
 ## CHAPTER 01 — The dial-in  (0:00–0:15)
-**Script covered:** "It's the night of the 16th of November, 1984… connects to a network the German state has promised is safe. His name is Herwart Holland. The people around him call him Wau."
+**Script covered (37 words ≈ 14.8 s):** "It's the night of the 16th of November, 1984. In a flat in Hamburg, a man sits at a home computer, dials a telephone line, and connects to a network the German state has promised is safe."
 **SFX:** modem handshake tones, a single key clack, a wall clock · **Ambient:** quiet night flat, faint street hum · **Music:** low patient synth drone, one cold pulse
 
 ### Scene ch01_s1 — 3s — wide, the flat at night
@@ -318,12 +323,12 @@ Slow pull-back from the red figure revealing the calm ordinary room 0–3s. Noth
 happening. Hold palette. No new figures.
 ```
 
-**Chapter handoff →** hold on the unremarkable room; cut to the anchor line of Chapter 02.
+**Chapter handoff →** hold on the unremarkable room; cut to the name and the anchor line of Chapter 02.
 
 ---
 
 ## CHAPTER 02 — A hundred and thirty-five thousand marks  (0:15–0:30)
-**Script covered:** "This is the story of how two men moved a hundred and thirty-five thousand marks out of a bank in a single night, and gave every last one of them back."
+**Script covered (36 words ≈ 14.4 s):** "His name is Herwart Holland. They call him Wau. This is the story of how two men moved a hundred and thirty-five thousand marks out of a bank in one night, and gave every mark back."
 **SFX:** a deep impact hit on the anchor line, coins settling, then silence · **Ambient:** thinning room tone · **Music:** drone lifts a step, a single struck note
 
 ### Scene ch02_s1 — 4s — STYLE ANCHOR / title beat
@@ -393,8 +398,8 @@ No camera move. Hold palette.
 ---
 
 ## CHAPTER 03 — Bildschirmtext  (0:30–0:45)
-**Script covered:** "The network is called Bildschirmtext… a nationwide system, run by the Deutsche Bundespost, that turns an ordinary television into a terminal… The Post Office tells the public one thing above all else. Btx is secure."
-**SFX:** cheerful 1980s ad jingle fragment, a TV click, a stamp thud · **Ambient:** living-room room tone · **Music:** bright period synth turning cold underneath
+**Script covered (35 words ≈ 14 s):** "The network is called Bildschirmtext — screen text, Btx for short. It is West Germany's picture of the future: a nationwide system, run by the Deutsche Bundespost, that turns an ordinary television into a terminal."
+**SFX:** cheerful 1980s ad jingle fragment, a TV click, a modem chirp · **Ambient:** living-room room tone · **Music:** bright period synth turning cold underneath
 
 ### Scene ch03_s1 — 3s — the living-room terminal
 1. **CHARACTERS IN SCENE:** The Btx User (white)
@@ -427,7 +432,111 @@ Static diagram, the links light up one by one from the central node to the TVs 0
 country wired to one system. No figures. Hold palette.
 ```
 
-### Scene ch03_s3 — 3s — the Bundespost stamps it secure
+### Scene ch03_s3 — 3s — the Bundespost runs it
+1. **CHARACTERS IN SCENE:** The Bundespost Official (black)
+2. **IMAGE PROMPT:**
+```
+Cinematic photorealistic 3D render, a single matte black mannequin in a 1980s postal-service
+uniform and peaked cap (small posthorn emblem) standing beside the central node of a white-void
+network diagram, a rubber stamp held at rest in one hand, soft contact shadow, cinematic key from
+above, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane
+render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+```
+3. **VIDEO PROMPT:**
+```
+Slow push-in on the black official standing motionless by the node 0–3s, the stamp held at rest.
+The state, in charge. Hold the color code. No new figures.
+```
+
+### Scene ch03_s4 — 3s — an ordinary television becomes a terminal
+1. **CHARACTERS IN SCENE:** No recurring characters
+2. **IMAGE PROMPT:**
+```
+Cinematic photorealistic 3D render, extreme close-up of the back of a plain boxy 1980s television
+with a small grey modem box and a coiled cable plugged into it, the screen beyond waking from
+static, a tidy living room, warm domestic light, Mode B, shallow depth of field, volumetric light,
+dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot
+on ARRI Alexa, 16:9
+```
+3. **VIDEO PROMPT:**
+```
+Locked macro, the static on the screen resolves into a blocky Btx menu 0–3s as the modem's
+status light settles. An ordinary television, quietly made into something else. No figures. Hold
+palette.
+```
+
+### Scene ch03_s5 — 3s — the red figure watches the screen (handoff)
+1. **CHARACTERS IN SCENE:** The Hacker
+2. **IMAGE PROMPT:**
+```
+Cinematic photorealistic 3D render, the matte red mannequin at his CRT, the blocky Btx menu
+screen reflected across its red eggshell head, Mode B, shallow depth of field, volumetric light,
+dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot
+on ARRI Alexa, 16:9
+```
+3. **VIDEO PROMPT:**
+```
+Slow push-in on the red figure as the menu screen plays across its head 0–3s. The man who
+doesn't believe it. Hold palette. No new figures.
+```
+
+**Chapter handoff →** the reflected menu scrolls into the news page that opens Chapter 04.
+
+---
+
+## CHAPTER 04 — The promise  (0:45–1:00)
+**Script covered (37 words ≈ 14.8 s):** "You can read the news on it. Check the weather. From 1984, do your banking. The Post Office has spent a fortune building it, and it tells the public one thing above all else. Btx is secure."
+**SFX:** soft menu blips, a coin drop, a stamp thud on the last line · **Ambient:** living-room room tone, TV hum · **Music:** bright period synth, turning cold as the stamp lands
+
+### Scene ch04_s1 — 4s — the news, then the weather
+1. **CHARACTERS IN SCENE:** The Btx User (white)
+2. **IMAGE PROMPT:**
+```
+Cinematic photorealistic 3D render, a glossy white mannequin seated in a tidy 1980s living room
+before a boxy television showing a blocky colorful Btx news page, a small numeric keypad in its
+hand, warm domestic light, Mode B, shallow depth of field, volumetric light, dust particles,
+cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
+16:9
+```
+3. **VIDEO PROMPT:**
+```
+Static medium, the TV page flips from the news page to a blocky weather page with simple sun and
+cloud blocks 0–4s as the white mannequin thumbs the keypad. Ordinary, pleasant. Hold palette. No
+new figures.
+```
+
+### Scene ch04_s2 — 2s — banking
+1. **CHARACTERS IN SCENE:** The Btx User (hand)
+2. **IMAGE PROMPT:**
+```
+Cinematic photorealistic 3D render, close-up of a glossy white mannequin hand on a numeric keypad
+before a television showing a blocky banking page with a column of numerals, warm domestic light,
+Mode B, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane
+render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+```
+3. **VIDEO PROMPT:**
+```
+Locked macro, the white fingers press two keys and the balance digits tick over 0–2s. Money, on
+the television. No camera move. Hold palette.
+```
+
+### Scene ch04_s3 — 4s — a fortune spent building it (white-void diagram)
+1. **CHARACTERS IN SCENE:** No recurring characters
+2. **IMAGE PROMPT:**
+```
+Cinematic photorealistic 3D render, in an infinite white void, a tall stack of plain matte
+currency blocks beside a growing web of thin cables branching out to many small television icons,
+the stack visibly lower than before, cold clinical light, soft contact shadows, cinematic key from
+above, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane
+render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+```
+3. **VIDEO PROMPT:**
+```
+Static diagram, the currency stack sinks 0–4s as cables extend and light the television icons one
+by one. A fortune, poured into a promise. No figures. Hold palette.
+```
+
+### Scene ch04_s4 — 3s — the Bundespost stamps it
 1. **CHARACTERS IN SCENE:** The Bundespost Official (black)
 2. **IMAGE PROMPT:**
 ```
@@ -443,7 +552,7 @@ Locked, the black official brings the stamp down and holds it 0–3s. The state'
 pressed onto paper. Hold the color code. No new figures.
 ```
 
-### Scene ch03_s4 — 3s — "SECURE" (the word)
+### Scene ch04_s5 — 2s — "SECURE" (the word)
 1. **CHARACTERS IN SCENE:** No recurring characters
 2. **IMAGE PROMPT:**
 ```
@@ -454,33 +563,19 @@ Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
-Locked macro, the wet seal settles on the page 0–3s, edges sharpening. One word, guaranteed. No
+Locked macro, the wet seal settles on the page 0–2s, edges sharpening. One word, guaranteed. No
 figures. Hold palette.
 ```
 
-### Scene ch03_s5 — 3s — the red figure watches the promise (handoff)
-1. **CHARACTERS IN SCENE:** The Hacker
-2. **IMAGE PROMPT:**
-```
-Cinematic photorealistic 3D render, the matte red mannequin at his CRT, the blocky Btx promise
-screen reflected across its red eggshell head, Mode B, shallow depth of field, volumetric light,
-dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot
-on ARRI Alexa, 16:9
-```
-3. **VIDEO PROMPT:**
-```
-Slow push-in on the red figure as the promise screen plays across its head 0–3s. The man who
-doesn't believe it. Hold palette. No new figures.
-```
-
-**Chapter handoff →** the reflected promise narrows to a single overfilled page; Chapter 04
-introduces the Chaos Computer Club and the argument.
+**Chapter handoff →** the seal sets and holds on the stamped word; cut to the red figure who does not
+believe it (Chapter 05).
 
 ---
 
-> **Chapters 04–20:** expand identically (CHARACTERS → IMAGE PROMPT → VIDEO PROMPT per scene),
+> **Chapters 05–20:** expand identically (CHARACTERS → IMAGE PROMPT → VIDEO PROMPT per scene),
 > keeping The Hacker red, Bundespost/Bank black, the public/press white. Then run
-> `tools/build-shotlist.py umbra ep03-ghost-characters`.
+> `tools/build-shotlist.py umbra ep03-ghost-characters` and
+> `tools/export-episode.py umbra ep03-ghost-characters`.
 
 Type "next" for thumbnail prompts.
 
