@@ -69,8 +69,9 @@ async function suggestNext($: EngineInterface, turnId: string, suggestSkills: bo
 
   await update($, suggestions, () => ({ turnId, items }))
   const top = items[0]
-  // The ghost text is a bonus on top of the band; if the surface refuses it, the band still shows.
-  if (top !== undefined) await $.prompt.suggest({ text: top }).catch(() => undefined)
+  // The ghost text is a bonus on top of the band. It can stay pending while a dialog holds the box,
+  // so it is not awaited (the turn must not wait on it), and a refusal is handled: the band still shows.
+  if (top !== undefined) void $.prompt.suggest({ text: top }).catch(() => undefined)
 }
 
 /** The suggestions as buttons: a press writes one into the prompt box as a draft. */
