@@ -1,7 +1,8 @@
 # next-steps-anywhere
 
-After each answer, suggests up to three next prompts above the input box — on **every**
-surface: the terminal, the desktop app, the mobile app and VS Code.
+After each answer, suggests up to three next prompts. In the terminal and the desktop app they
+appear above the input box on their own; on any surface (mobile and VS Code included) type
+`/next-steps` to open them in a pane.
 
 ```
 next:
@@ -12,8 +13,8 @@ next:
 ```
 
 Tap a suggestion (or press `1`, `2`, `3` from an empty prompt box) and it is written into the box
-as a draft — edit it, then send it yourself. `0` / **dismiss** clears them. The top suggestion is
-also offered as the box's dim ghost text (Tab takes it). It never submits a prompt on its own.
+as a draft — edit it, then send it yourself. Where the surface supports it, the top suggestion is
+also the box's dim ghost text. `0` / **dismiss** clears them. It never submits a prompt on its own.
 
 ## Install (all projects)
 
@@ -31,8 +32,10 @@ A function-hooks plugin (`hooks/register.tsx`):
   about one short reply per turn.
 - `$.command.list` — the session's skills and slash commands go into the question, so a suggestion
   can be one of them; a suggestion naming a command the session lacks is dropped.
-- `ui.render` on `AbovePrompt` — draws the suggestions as buttons with `Box`/`Text`/`Button`,
-  which every surface has.
+- `ui.render` on `AbovePrompt` — draws the suggestions as buttons above the prompt. Claude Code
+  raises that site on the terminal and desktop only.
+- `/next-steps` — opens the same buttons in a `Pane`, which every surface (mobile and VS Code
+  included) draws.
 - A press calls `$.prompt.fill`; the top suggestion goes to `$.prompt.suggest`.
 - `turn.start` / `prompt.submit` — clear stale suggestions.
 

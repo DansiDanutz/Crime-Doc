@@ -1,10 +1,12 @@
 import { atom, read, update } from 'claude-code'
-import type { EngineInterface, Register } from 'claude-code'
+import type { EngineInterface, Register, RenderInput } from 'claude-code'
 
 import type { Suggestions } from '../types'
 
 const suggestions = atom({ plugin: 'next-steps-anywhere', key: 'suggestions' } as const, null as Suggestions | null)
 
+const PANE = 'next-steps'
+const COMMAND = 'next-steps'
 const MAX_SUGGESTIONS = 3
 const MAX_LENGTH = 160
 const MAX_COMMANDS = 40
@@ -53,6 +55,7 @@ function parseSuggestions(text: string, known: Set<string> | null): string[] {
 
 async function clear($: EngineInterface): Promise<void> {
   await update($, suggestions, () => null)
+  await $.ui.close({ id: PANE })
 }
 
 async function suggestNext($: EngineInterface, turnId: string, suggestSkills: boolean): Promise<void> {
@@ -68,6 +71,34 @@ async function suggestNext($: EngineInterface, turnId: string, suggestSkills: bo
   const top = items[0]
   // The ghost text is a bonus on top of the band; if the surface refuses it, the band still shows.
   if (top !== undefined) await $.prompt.suggest({ text: top }).catch(() => undefined)
+}
+
+/** The suggestions as buttons: a press writes one into the prompt box as a draft. */
+function drawSuggestions(
+  $: EngineInterface,
+  e: RenderInput<'AbovePrompt' | 'Pane'>,
+  items: string[],
+  columns: number,
+) {
+  const { Box, Text, Button } = $.ui.resolve(e)
+  return (
+    <Box flexDirection="column">
+      <Text dimColor>next:</Text>
+      {items.map((item, i) => (
+        <Button
+          key={`suggestion-${i + 1}`}
+          hotkey={String(i + 1)}
+          plain
+          label={fit(item, columns)}
+          onPress={async () => {
+            await $.prompt.fill({ text: item })
+            await clear($)
+          }}
+        />
+      ))}
+      <Button key="dismiss" hotkey="0" plain dimColor label="dismiss" onPress={() => clear($)} />
+    </Box>
+  )
 }
 
 function fit(label: string, columns: number): string {
@@ -104,32 +135,35 @@ export const register: Register = (on, options) => {
     return result
   })
 
+  // The band above the prompt: raised on the terminal and the desktop app.
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
     const current = await read($, suggestions)
     if (current === null || current.items.length === 0 || e.props.hasSurvey || e.props.isWorking) {
       return next(e)
     }
+    return drawSuggestions($, e, current.items, e.props.bodyColumns)
+  })
 
-    const { Box, Text, Button } = $.ui.resolve(e)
-    const columns = e.props.bodyColumns
+  // Mobile and VS Code raise no AbovePrompt; /next-steps opens the same list in a pane,
+  // which every surface draws.
+  on('session.start', async ($, e, next) => {
+    await $.command.register({ name: COMMAND, description: 'Show suggested next prompts in a pane' })
+    return next(e)
+  })
 
-    return (
-      <Box flexDirection="column">
-        <Text dimColor>next:</Text>
-        {current.items.map((item, i) => (
-          <Button
-            key={`suggestion-${i + 1}`}
-            hotkey={String(i + 1)}
-            plain
-            label={fit(item, columns)}
-            onPress={async () => {
-              await $.prompt.fill({ text: item })
-              await clear($)
-            }}
-          />
-        ))}
-        <Button key="dismiss" hotkey="0" plain dimColor label="dismiss" onPress={() => clear($)} />
-      </Box>
-    )
+  on('command.run', { command: COMMAND }, async $ => {
+    const current = await read($, suggestions)
+    if (current === null || current.items.length === 0) {
+      return { text: 'No suggestions yet: they appear after the next answer.' }
+    }
+    await $.ui.open({ id: PANE, title: 'Next steps' })
+    return {}
+  })
+
+  on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
+    const { Text } = $.ui.resolve(e)
+    const current = await read($, suggestions)
+    if (current === null || current.items.length === 0) return <Text dimColor>No suggestions.</Text>
+    return drawSuggestions($, e, current.items, e.viewport?.columns ?? 80)
   })
 }
