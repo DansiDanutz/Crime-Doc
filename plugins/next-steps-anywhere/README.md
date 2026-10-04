@@ -13,8 +13,7 @@ next:
 ```
 
 Tap a suggestion (or press `1`, `2`, `3` from an empty prompt box) and it is written into the box
-as a draft — edit it, then send it yourself. Where the surface supports it, the top suggestion is
-also the box's dim ghost text. `0` / **dismiss** clears them. It never submits a prompt on its own.
+as a draft — edit it, then send it yourself. `0` / **dismiss** clears them. It never submits a prompt on its own.
 
 ## Install (all projects)
 
@@ -36,7 +35,8 @@ A function-hooks plugin (`hooks/register.tsx`):
   raises that site on the terminal and desktop only.
 - `/next-steps` — opens the same buttons in a `Pane`, which every surface (mobile and VS Code
   included) draws.
-- A press calls `$.prompt.fill`; the top suggestion goes to `$.prompt.suggest`.
+- A press calls `$.prompt.fill`. The plugin leaves the box's dim ghost text (`$.prompt.suggest`)
+  to Claude Code's own suggestion.
 - `turn.start` / `prompt.submit` — clear stale suggestions.
 
 Skipped after subagent turns, interrupted turns, errors and short answers.

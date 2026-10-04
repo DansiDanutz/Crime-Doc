@@ -67,11 +67,9 @@ async function suggestNext($: EngineInterface, turnId: string, suggestSkills: bo
   const items = parseSuggestions(reply.text, known)
   if (items.length === 0) return
 
+  // No $.prompt.suggest ghost text: the engine already proposes its own there, and a plugin's
+  // proposal can stay pending into a later turn with no way to withdraw it.
   await update($, suggestions, () => ({ turnId, items }))
-  const top = items[0]
-  // The ghost text is a bonus on top of the band. It can stay pending while a dialog holds the box,
-  // so it is not awaited (the turn must not wait on it), and a refusal is handled: the band still shows.
-  if (top !== undefined) void $.prompt.suggest({ text: top }).catch(() => undefined)
 }
 
 /** The suggestions as buttons: a press writes one into the prompt box as a draft. */
