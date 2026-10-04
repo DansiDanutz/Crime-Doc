@@ -19,9 +19,9 @@ function turn(answer: string, extra: Partial<TurnCompleteInput> = {}): TurnCompl
 }
 
 /** The engine beneath the plugin: a forked model that answers `reply`, and records of fills/forks. */
-function engine(on: On, reply: string) {
+function engine(on: On, reply: string, fail: { fork?: boolean; suggest?: boolean } = {}) {
   const seen = { forks: 0, fills: [] as string[], suggested: [] as string[] }
-  on('turn.complete', () => ({ text: '' }))
+  on('turn.complete', () => ({ text: 'engine result' }))
   on('turn.start', ($, e) => ({ turnId: e.turnId }))
   on('command.list', () => ({ value: [{ name: 'code-review', description: 'Review the diff', source: 'user' as const }] }))
   on('ui.render', ($, e) => {
@@ -30,6 +30,7 @@ function engine(on: On, reply: string) {
   })
   on('model.fork', () => {
     seen.forks += 1
+    if (fail.fork) throw new Error('fork unavailable')
     return { value: { isAnswered: true as const, text: reply, usage: USAGE } }
   })
   on('prompt.fill', ($, e) => {
@@ -38,6 +39,7 @@ function engine(on: On, reply: string) {
   })
   on('prompt.suggest', ($, e) => {
     seen.suggested.push(e.text)
+    if (fail.suggest) throw new Error('ghost text unsupported')
     return { isShown: true }
   })
   return seen
@@ -93,6 +95,20 @@ test('dismiss clears the band, and a new turn clears stale suggestions', async (
 test('a reply that is not a JSON list shows nothing', async ($, on) => {
   engine(on, 'Sure! You could run the tests next.')
   await $.turn.complete(turn(LONG_ANSWER))
+  const ui = await $.ui.mount({ plugin: PLUGIN, surface: 'terminal', component: 'AbovePrompt', props: BAND })
+  expect(await ui.find({ type: 'Button' })).toBeUndefined()
+})
+
+test('a refused ghost suggestion still shows the band and leaves the turn result alone', async ($, on) => {
+  engine(on, '["run the tests"]', { suggest: true })
+  expect(await $.turn.complete(turn(LONG_ANSWER))).toEqual({ text: 'engine result' })
+  const ui = await $.ui.mount({ plugin: PLUGIN, surface: 'desktop', component: 'AbovePrompt', props: BAND })
+  expect(await ui.find({ key: 'suggestion-1' })).toBeDefined()
+})
+
+test('a fork that throws shows nothing and does not fail the turn', async ($, on) => {
+  engine(on, '["anything"]', { fork: true })
+  expect(await $.turn.complete(turn(LONG_ANSWER))).toEqual({ text: 'engine result' })
   const ui = await $.ui.mount({ plugin: PLUGIN, surface: 'terminal', component: 'AbovePrompt', props: BAND })
   expect(await ui.find({ type: 'Button' })).toBeUndefined()
 })

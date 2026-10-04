@@ -55,6 +55,21 @@ async function clear($: EngineInterface): Promise<void> {
   await update($, suggestions, () => null)
 }
 
+async function suggestNext($: EngineInterface, turnId: string, suggestSkills: boolean): Promise<void> {
+  const commands = suggestSkills ? await $.command.list() : []
+  const known = suggestSkills ? new Set(commands.map(c => c.name)) : null
+  const reply = await $.model.fork({ prompt: buildQuestion(commands) })
+  if (!reply.isAnswered) return
+
+  const items = parseSuggestions(reply.text, known)
+  if (items.length === 0) return
+
+  await update($, suggestions, () => ({ turnId, items }))
+  const top = items[0]
+  // The ghost text is a bonus on top of the band; if the surface refuses it, the band still shows.
+  if (top !== undefined) await $.prompt.suggest({ text: top }).catch(() => undefined)
+}
+
 function fit(label: string, columns: number): string {
   const room = Math.max(12, columns - 6)
   return label.length <= room ? label : `${label.slice(0, room - 1)}…`
@@ -80,17 +95,12 @@ export const register: Register = (on, options) => {
       return result
     }
 
-    const commands = suggestSkills ? await $.command.list() : []
-    const known = suggestSkills ? new Set(commands.map(c => c.name)) : null
-    const reply = await $.model.fork({ prompt: buildQuestion(commands) })
-    if (!reply.isAnswered) return result
-
-    const items = parseSuggestions(reply.text, known)
-    if (items.length === 0) return result
-
-    await update($, suggestions, () => ({ turnId: e.turnId, items }))
-    const top = items[0]
-    if (top !== undefined) void $.prompt.suggest({ text: top })
+    // Suggestions are optional: a failure here must never fail the turn that already answered.
+    try {
+      await suggestNext($, e.turnId, suggestSkills)
+    } catch {
+      // nothing to show this turn
+    }
     return result
   })
 
