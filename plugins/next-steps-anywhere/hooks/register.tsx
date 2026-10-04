@@ -53,12 +53,21 @@ function parseSuggestions(text: string, known: Set<string> | null): string[] {
   return out
 }
 
+// Bumped by every clear: a fork that started before a clear must not write its now-stale result.
+let generation = 0
+
 async function clear($: EngineInterface): Promise<void> {
+  generation += 1
   await update($, suggestions, () => null)
   await $.ui.close({ id: PANE })
 }
 
-async function suggestNext($: EngineInterface, turnId: string, suggestSkills: boolean): Promise<void> {
+async function suggestNext(
+  $: EngineInterface,
+  turnId: string,
+  suggestSkills: boolean,
+  startedAt: number,
+): Promise<void> {
   const commands = suggestSkills ? await $.command.list() : []
   const known = suggestSkills ? new Set(commands.map(c => c.name)) : null
   const reply = await $.model.fork({ prompt: buildQuestion(commands) })
@@ -69,7 +78,8 @@ async function suggestNext($: EngineInterface, turnId: string, suggestSkills: bo
 
   // No $.prompt.suggest ghost text: the engine already proposes its own there, and a plugin's
   // proposal can stay pending into a later turn with no way to withdraw it.
-  await update($, suggestions, () => ({ turnId, items }))
+  // Checked inside the update, so a clear that lands while this write retries still wins.
+  await update($, suggestions, current => (generation === startedAt ? { turnId, items } : current))
 }
 
 /** The suggestions as buttons: a press writes one into the prompt box as a draft. */
@@ -120,6 +130,8 @@ export const register: Register = (on, options) => {
   })
 
   on('turn.complete', async ($, e, next) => {
+    // Taken before any await: a clear from here on makes this turn's suggestions stale.
+    const startedAt = generation
     const result = await next(e)
     if (e.agentId || e.reason !== 'answer' || e.isAborted || e.answer.trim().length < minAnswerChars) {
       return result
@@ -127,7 +139,7 @@ export const register: Register = (on, options) => {
 
     // Suggestions are optional: a failure here must never fail the turn that already answered.
     try {
-      await suggestNext($, e.turnId, suggestSkills)
+      await suggestNext($, e.turnId, suggestSkills, startedAt)
     } catch {
       // nothing to show this turn
     }

@@ -35,7 +35,7 @@ function turn(answer: string, extra: Partial<TurnCompleteInput> = {}): TurnCompl
 }
 
 /** The engine beneath the plugin: a forked model that answers `reply`, and records of fills/forks. */
-function engine(on: On, reply: string, fail: { fork?: boolean } = {}) {
+function engine(on: On, reply: string, fail: { fork?: boolean; forkGate?: Promise<void> } = {}) {
   const seen = { forks: 0, fills: [] as string[], suggested: [] as string[], opened: [] as string[], closed: [] as string[] }
   on('turn.complete', () => ({ text: 'engine result' }))
   on('turn.start', ($, e) => ({ turnId: e.turnId }))
@@ -44,9 +44,10 @@ function engine(on: On, reply: string, fail: { fork?: boolean } = {}) {
     const { Box } = $.ui.resolve(e)
     return <Box />
   })
-  on('model.fork', () => {
+  on('model.fork', async () => {
     seen.forks += 1
     if (fail.fork) throw new Error('fork unavailable')
+    if (fail.forkGate) await fail.forkGate
     return { value: { isAnswered: true as const, text: reply, usage: USAGE } }
   })
   on('session.start', ($, e) => ({ cwd: e.cwd }))
@@ -152,4 +153,19 @@ test('a fork that throws shows nothing and does not fail the turn', async ($, on
   expect(await $.turn.complete(turn(LONG_ANSWER))).toEqual({ text: 'engine result' })
   const ui = await $.ui.mount({ plugin: PLUGIN, surface: 'terminal', component: 'AbovePrompt', props: BAND })
   expect(await ui.find({ type: 'Button' })).toBeUndefined()
+})
+
+test('a reply that lands after the next prompt cleared the band does not bring old suggestions back', async ($, on) => {
+  let release = () => {}
+  const forkGate = new Promise<void>(resolve => {
+    release = resolve
+  })
+  engine(on, '["stale suggestion"]', { forkGate })
+  const completing = $.turn.complete(turn(LONG_ANSWER))
+  await $.turn.start({ text: 'next prompt', turnId: 't2' } as Parameters<typeof $.turn.start>[0])
+  release()
+  await completing
+
+  const ui = await $.ui.mount({ plugin: PLUGIN, surface: 'terminal', component: 'AbovePrompt', props: BAND })
+  expect(await ui.find({ key: 'suggestion-1' })).toBeUndefined()
 })
