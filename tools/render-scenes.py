@@ -20,7 +20,9 @@ Billing guards:
   * a job's request id is saved the moment it is queued, so an interrupted run picks that job
     back up next time instead of paying for it again;
   * a scene is skipped only while its render inputs are unchanged; edited scenes re-render;
-  * the first API error (e.g. no credits left) stops the batch;
+  * the first API error (e.g. no credits left), or 2 failed jobs in a row, stops the batch;
+  * --max-new N refuses the whole run when it would need more than N new renders (a budget cap);
+  * a scene marked REUSE in 04-scenes.md is never rendered: the edit uses the named earlier clip;
   * one render run per episode at a time (a lock file), and the ledger is replaced atomically.
 
 Usage:
@@ -41,6 +43,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MODEL = "bytedance/seedance-2.5/text-to-video"
 MIN_DURATION_S = 4  # the model's shortest clip; shorter scenes are trimmed in the edit
+MAX_FAILED_IN_A_ROW = 2  # consecutive failed jobs almost always mean an account problem
 KIND = ("preview: prompt-only text-to-video, not anchored to the locked cast or a keyframe; "
         "production shots come from the reference-element path in docs/PRODUCTION_PIPELINE.md")
 
@@ -100,10 +103,24 @@ def video_url(result: dict) -> str | None:
     return None
 
 
+def failure_reason(result) -> str:
+    """The reason Higgsfield gives for a failed job, when the response carries one."""
+    if not isinstance(result, dict):
+        return ""
+    for key in ("error", "message", "detail", "reason", "failure_reason", "error_message"):
+        value = result.get(key)
+        if isinstance(value, dict):
+            value = value.get("message") or value.get("detail") or json.dumps(value, ensure_ascii=False)
+        if value:
+            return " ".join(str(value).split())[:200]
+    return ""
+
+
 def classify(sdk, final, result: dict) -> tuple[str | None, str]:
     """Return (url, outcome); url is set only for a completed render that has a video."""
     if isinstance(final, sdk.Failed):
-        return None, "FAILED"
+        reason = failure_reason(result)
+        return None, f"FAILED: {reason}" if reason else "FAILED (Higgsfield gave no reason)"
     if isinstance(final, sdk.NSFW):
         return None, "MODERATED"
     if isinstance(final, sdk.Cancelled):
@@ -240,6 +257,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--resolution", default="720p", choices=["480p", "720p", "1080p"])
     ap.add_argument("--force", action="store_true", help="re-render scenes that are already up to date")
     ap.add_argument("--dry-run", action="store_true", help="print what would be sent; submit nothing")
+    ap.add_argument("--max-new", type=int, default=None, metavar="N",
+                    help="spending cap: refuse to submit anything if the run needs more than N new renders")
     args = ap.parse_args(argv)
 
     if not (args.scene or args.chapter or args.all):
@@ -259,8 +278,17 @@ def run(args, ep: Path, shotlist: dict) -> int:
     ledger = Ledger(ep / "production" / "renders.json")
 
     jobs = []
+    reused = []
     for scene in select_scenes(shotlist, args.scene, args.chapter, args.all):
         arguments = arguments_for(scene, shotlist, args.resolution)
+        if scene.get("reuse"):
+            # The edit uses an earlier scene's clip here; nothing new to render or pay for. A job
+            # queued before the scene was marked REUSE is already paid for, so still collect it.
+            reused.append((scene["id"], scene["reuse"]))
+            queued = ledger.data["pending"].get(scene["id"])
+            if queued:
+                jobs.append((scene, arguments, queued["inputs_sha256"]))
+            continue
         inputs = fingerprint(arguments)
         # A queued job is always picked up, even when an older clip with the same inputs exists
         # (an interrupted --force re-render), so a paid replacement is never left behind.
@@ -274,6 +302,12 @@ def run(args, ep: Path, shotlist: dict) -> int:
     print(f"{len(new)} new render(s), {seconds} s of video at {args.resolution}"
           + (f"; {len(resuming)} queued earlier, to be resumed" if resuming else "")
           + "  [previews: prompt-only, not cast-locked]")
+    if reused:
+        pairs = ", ".join(f"{sid} uses {src}" for sid, src in reused)
+        print(f"  {len(reused)} scene(s) reuse an existing clip, not rendered: {pairs}")
+        missing = sorted({src for _, src in reused if src not in ledger.data["scenes"]})
+        if missing:
+            print(f"  note: no clip yet for {', '.join(missing)}; render it before the edit")
     if replacing:
         why = "--force" if args.force else "their prompt or settings changed since they were rendered"
         print(f"  replaces existing clips ({why}): {', '.join(replacing)}")
@@ -284,6 +318,18 @@ def run(args, ep: Path, shotlist: dict) -> int:
         return 0
     if not jobs:
         return 0
+    capped = args.max_new is not None and len(new) > args.max_new
+    if capped:
+        # The cap blocks new spending only: jobs queued earlier are already paid for, so they
+        # are still collected below.
+        print(f"error: {len(new)} new renders exceed --max-new {args.max_new}. No new render was "
+              "submitted" + (f"; collecting the {len(resuming)} queued earlier." if resuming else "."),
+              file=sys.stderr)
+        new = []
+        replacing = []
+        jobs = resuming
+        if not jobs:
+            return 2
     if (len(new) > 1 or replacing) and not args.yes:
         what = f"{len(new)} billable render(s)" + (
             f", replacing {len(replacing)} existing clip(s)" if replacing else "")
@@ -301,9 +347,12 @@ def run(args, ep: Path, shotlist: dict) -> int:
     import higgsfield_client as sdk
     import higgsfield_client.exceptions  # noqa: F401  (makes sdk.exceptions available)
 
-    rendered = failed = 0
+    # Collect jobs queued by an earlier run first: they are already paid for, so a stop on new
+    # submissions below must never leave one of them uncollected.
+    ordered = resuming + new
+    rendered = failed = failed_in_a_row = 0
     try:
-        for scene, arguments, inputs in jobs:
+        for position, (scene, arguments, inputs) in enumerate(ordered):
             if scene.get("image_job_id"):
                 print(f"  {scene['id']}: note: this scene has a keyframe; the preview does not use it")
             request_id = ledger.pending(scene["id"], inputs)
@@ -313,16 +362,29 @@ def run(args, ep: Path, shotlist: dict) -> int:
                 url, outcome = render_one(sdk, ledger, scene["id"], arguments, inputs)
             if url:
                 rendered += 1
+                failed_in_a_row = 0
                 print(f"  {scene['id']}: {url}")
             else:
                 failed += 1
                 print(f"  {scene['id']}: NOT rendered ({outcome})", file=sys.stderr)
+                if request_id:  # a resumed job: nothing new was submitted, so no stop
+                    continue
+                failed_in_a_row = failed_in_a_row + 1 if outcome.startswith("FAILED") else 0
+                if failed_in_a_row == MAX_FAILED_IN_A_ROW and position + 1 < len(ordered):
+                    raise StopBatch(
+                        f"{MAX_FAILED_IN_A_ROW} renders failed in a row, which usually means an account "
+                        "problem (credits, plan or rate limit) rather than the prompts. Check the reason "
+                        f"above and your Higgsfield balance, then re-run: the {len(ordered) - position - 1} "
+                        "remaining new scene(s) were not submitted, and rendered ones are skipped.")
     except StopBatch as stop:
-        failed += 1
+        if not str(stop).startswith(f"{MAX_FAILED_IN_A_ROW} renders failed in a row"):
+            failed += 1
         print(f"  {stop}\nstopped: no further scenes were submitted.", file=sys.stderr)
 
     print(f"done: {rendered} rendered, {failed} not rendered; "
           f"results in {ledger.path.relative_to(ROOT)}")
+    if capped:
+        return 2
     return 0 if failed == 0 and rendered == len(jobs) else 1
 
 

@@ -32,13 +32,15 @@ This is the **CHARACTER LOCK**: every later scene references the element so the 
 looks identical throughout.
 
 ### 2. Render scene keyframes
-For each scene in `shotlist.json.chapters[].scenes[]`:
+For each scene in `shotlist.json.chapters[].scenes[]` **except scenes with `reuse` set** (they
+borrow an earlier clip; see *Reusing an earlier clip* below):
 - `generate_image`, `model: nano_banana_pro`, `prompt: scene.image_prompt`,
   `medias: [{role:"reference", value:<element_id>}, …]` for each character in the scene,
   `aspect_ratio: "16:9"`.
 - Record the image job id into `scene.image_job_id`.
 
 ### 3. Animate each scene
+Again skip scenes with `reuse` set.
 - `generate_video`, `model: seedance_2_0`,
   `medias: [{role:"start_image", value: scene.image_job_id}]`,
   `prompt: scene.video_prompt`, `duration: scene.duration_s`, `aspect_ratio:"16:9"`.
@@ -50,6 +52,15 @@ For each scene in `shotlist.json.chapters[].scenes[]`:
 the API endpoint takes a text prompt only, so they are not anchored to the cast elements or a
 keyframe. They are recorded in `production/renders.json`, never in `image_job_id` /
 `video_job_id`. A run of more than one scene needs `--yes`; `--dry-run` shows what would be sent.
+
+### Reusing an earlier clip
+A scene can borrow an earlier scene's clip instead of being rendered (a callback, or the same
+diagram again). Add a line after its VIDEO PROMPT block in `04-scenes.md`:
+`4. **REUSE:** ch02_s3 — why it fits`. `build-shotlist.py` records it as `scene.reuse` (it must
+name an earlier scene that is not itself a reuse), `render-scenes.py` never renders that scene,
+and the edit places the named clip there, trimmed to the scene's own duration. Rendered clips are
+at least 4 s long (the model's minimum), so a reused clip covers any scene of up to 4 s even when
+its own planned duration is shorter.
 
 ### 4. Thumbnails
 - `generate_image`, `model: nano_banana_pro`, each prompt from `05-thumbnails.md`,

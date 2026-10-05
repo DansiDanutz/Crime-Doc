@@ -80,6 +80,7 @@ class RenderScenesTests(unittest.TestCase):
                     code = self.tool.main(["umbra", "ep03-ghost-characters", *argv])
                 except SystemExit as exc:
                     code = exc.code
+        self._last_out = out.getvalue()
         return code, out.getvalue(), err.getvalue()
 
     def _inputs(self, scene_id):
@@ -217,6 +218,49 @@ class RenderScenesTests(unittest.TestCase):
         self.assertEqual(saved["scenes"], {})
         self.assertEqual(saved["pending"], {})
 
+    def test_two_failures_in_a_row_stop_the_batch_and_show_the_reason(self):
+        self._subscribe([
+            (["Queued", "Failed"], {"status": "failed", "error": "Insufficient credits"}),
+            (["Queued", "Failed"], {"status": "failed"}),
+            (["Completed"], {"status": "completed", "video": {"url": "https://cdn/never.mp4"}}),
+        ])
+        code, _, err = self._run("--scene", "ch01_s1", "--scene", "ch01_s2", "--scene", "ch01_s3", "--yes")
+        self.assertEqual(code, 1)
+        self.assertEqual(len(self.calls), 2)  # the third scene was never submitted
+        self.assertIn("FAILED: Insufficient credits", err)
+        self.assertIn("FAILED (Higgsfield gave no reason)", err)
+        self.assertIn("2 renders failed in a row", err)
+        self.assertIn("1 remaining new scene(s) were not submitted", err)
+        self.assertIn("done: 0 rendered, 2 not rendered", err + self._last_out)
+
+    def test_queued_job_is_collected_even_when_new_submissions_fail(self):
+        # ch01_s3 was queued by an interrupted run; ch01_s1 and ch01_s2 then fail.
+        self.renders.write_text(json.dumps({"scenes": {}, "pending": {
+            "ch01_s3": {"request_id": "req-old", "inputs_sha256": self._inputs("ch01_s3")}}}))
+        self._subscribe([
+            (["Queued", "Failed"], {"status": "failed"}),
+            (["Queued", "Failed"], {"status": "failed"}),
+        ])
+        self.sdk.result = lambda rid: {"status": "completed", "video": {"url": "https://cdn/old.mp4"}}
+        self.sdk.status = lambda rid: self.sdk.Completed()
+        code, _, err = self._run("--scene", "ch01_s1", "--scene", "ch01_s2", "--scene", "ch01_s3", "--yes")
+        self.assertEqual(code, 1)
+        saved = json.loads(self.renders.read_text())
+        self.assertEqual(saved["scenes"]["ch01_s3"]["video_url"], "https://cdn/old.mp4")
+        self.assertEqual(saved["pending"], {})
+        self.assertEqual(len(self.calls), 2)
+
+    def test_one_failure_does_not_stop_the_batch(self):
+        self._subscribe([
+            (["Queued", "Failed"], {"status": "failed", "message": "content rejected"}),
+            (["Completed"], {"status": "completed", "video": {"url": "https://cdn/2.mp4"}}),
+        ])
+        code, _, err = self._run("--scene", "ch01_s1", "--scene", "ch01_s2", "--yes")
+        self.assertEqual(code, 1)
+        self.assertEqual(len(self.calls), 2)
+        self.assertIn("FAILED: content rejected", err)
+        self.assertNotIn("failed in a row", err)
+
     def test_api_error_stops_the_batch(self):
         error = self.modules["higgsfield_client.exceptions"].HiggsfieldClientError("402 insufficient credits")
         self._subscribe([
@@ -250,6 +294,66 @@ class RenderScenesTests(unittest.TestCase):
             self.assertEqual(code, 2, selector)
             self.assertIn("--yes", err)
         self.assertEqual(self.calls, [])
+
+    def test_a_reused_scene_is_never_rendered(self):
+        shotlist_path = self.renders.parent / "shotlist.json"
+        shotlist = json.loads(shotlist_path.read_text())
+        for ch in shotlist["chapters"]:
+            for sc in ch["scenes"]:
+                if sc["id"] == "ch01_s2":
+                    sc["reuse"] = "ch01_s1"
+        shotlist_path.write_text(json.dumps(shotlist))
+        self._subscribe([(["Completed"], {"status": "completed", "video": {"url": "https://cdn/1.mp4"}})])
+        code, out, _ = self._run("--scene", "ch01_s1", "--scene", "ch01_s2")
+        self.assertEqual(code, 0)
+        self.assertEqual(len(self.calls), 1)
+        self.assertIn("ch01_s2 uses ch01_s1", out)
+        self.assertNotIn("ch01_s2", json.loads(self.renders.read_text())["scenes"])
+
+    def test_max_new_cap_refuses_a_run_that_needs_more(self):
+        self._subscribe([])
+        code, _, err = self._run("--chapter", "ch01", "--yes", "--max-new", "4")
+        self.assertEqual(code, 2)
+        self.assertIn("5 new renders exceed --max-new 4. No new render was submitted.", err)
+        self.assertEqual(self.calls, [])
+        self._subscribe([(["Completed"], {"status": "completed", "video": {"url": "https://cdn/1.mp4"}})])
+        code, _, _ = self._run("--scene", "ch01_s1", "--max-new", "1")
+        self.assertEqual(code, 0)
+        self.assertEqual(len(self.calls), 1)
+
+    def test_a_job_queued_before_the_scene_became_a_reuse_is_still_collected(self):
+        shotlist_path = self.renders.parent / "shotlist.json"
+        shotlist = json.loads(shotlist_path.read_text())
+        for ch in shotlist["chapters"]:
+            for sc in ch["scenes"]:
+                if sc["id"] == "ch01_s2":
+                    sc["reuse"] = "ch01_s1"
+        shotlist_path.write_text(json.dumps(shotlist))
+        self.renders.write_text(json.dumps({"scenes": {}, "pending": {
+            "ch01_s2": {"request_id": "req-old", "inputs_sha256": "from-before-the-reuse"}}}))
+        self._subscribe([])
+        self.sdk.result = lambda rid: {"status": "completed", "video": {"url": "https://cdn/old.mp4"}}
+        self.sdk.status = lambda rid: self.sdk.Completed()
+        code, _, _ = self._run("--scene", "ch01_s2")
+        self.assertEqual(code, 0)
+        self.assertEqual(self.calls, [])  # nothing new submitted
+        saved = json.loads(self.renders.read_text())
+        self.assertEqual(saved["scenes"]["ch01_s2"]["video_url"], "https://cdn/old.mp4")
+        self.assertEqual(saved["pending"], {})
+
+    def test_max_new_cap_still_collects_jobs_queued_earlier(self):
+        self.renders.write_text(json.dumps({"scenes": {}, "pending": {
+            "ch01_s3": {"request_id": "req-old", "inputs_sha256": self._inputs("ch01_s3")}}}))
+        self._subscribe([])
+        self.sdk.result = lambda rid: {"status": "completed", "video": {"url": "https://cdn/old.mp4"}}
+        self.sdk.status = lambda rid: self.sdk.Completed()
+        code, _, err = self._run("--chapter", "ch01", "--yes", "--max-new", "0")
+        self.assertEqual(code, 2)
+        self.assertIn("No new render was submitted; collecting the 1 queued earlier", err)
+        self.assertEqual(self.calls, [])  # no new submission
+        saved = json.loads(self.renders.read_text())
+        self.assertEqual(saved["scenes"]["ch01_s3"]["video_url"], "https://cdn/old.mp4")
+        self.assertEqual(saved["pending"], {})
 
     def test_dry_run_and_missing_key_submit_nothing(self):
         self._subscribe([])
