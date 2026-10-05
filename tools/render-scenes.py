@@ -280,11 +280,15 @@ def run(args, ep: Path, shotlist: dict) -> int:
     jobs = []
     reused = []
     for scene in select_scenes(shotlist, args.scene, args.chapter, args.all):
-        if scene.get("reuse"):
-            # The edit uses an earlier scene's clip here; nothing to render or pay for.
-            reused.append((scene["id"], scene["reuse"]))
-            continue
         arguments = arguments_for(scene, shotlist, args.resolution)
+        if scene.get("reuse"):
+            # The edit uses an earlier scene's clip here; nothing new to render or pay for. A job
+            # queued before the scene was marked REUSE is already paid for, so still collect it.
+            reused.append((scene["id"], scene["reuse"]))
+            queued = ledger.data["pending"].get(scene["id"])
+            if queued:
+                jobs.append((scene, arguments, queued["inputs_sha256"]))
+            continue
         inputs = fingerprint(arguments)
         # A queued job is always picked up, even when an older clip with the same inputs exists
         # (an interrupted --force re-render), so a paid replacement is never left behind.

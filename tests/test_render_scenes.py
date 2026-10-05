@@ -321,6 +321,26 @@ class RenderScenesTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(len(self.calls), 1)
 
+    def test_a_job_queued_before_the_scene_became_a_reuse_is_still_collected(self):
+        shotlist_path = self.renders.parent / "shotlist.json"
+        shotlist = json.loads(shotlist_path.read_text())
+        for ch in shotlist["chapters"]:
+            for sc in ch["scenes"]:
+                if sc["id"] == "ch01_s2":
+                    sc["reuse"] = "ch01_s1"
+        shotlist_path.write_text(json.dumps(shotlist))
+        self.renders.write_text(json.dumps({"scenes": {}, "pending": {
+            "ch01_s2": {"request_id": "req-old", "inputs_sha256": "from-before-the-reuse"}}}))
+        self._subscribe([])
+        self.sdk.result = lambda rid: {"status": "completed", "video": {"url": "https://cdn/old.mp4"}}
+        self.sdk.status = lambda rid: self.sdk.Completed()
+        code, _, _ = self._run("--scene", "ch01_s2")
+        self.assertEqual(code, 0)
+        self.assertEqual(self.calls, [])  # nothing new submitted
+        saved = json.loads(self.renders.read_text())
+        self.assertEqual(saved["scenes"]["ch01_s2"]["video_url"], "https://cdn/old.mp4")
+        self.assertEqual(saved["pending"], {})
+
     def test_dry_run_and_missing_key_submit_nothing(self):
         self._subscribe([])
         code, out, _ = self._run("--chapter", "ch01", "--dry-run")
