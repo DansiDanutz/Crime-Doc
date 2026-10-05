@@ -20,7 +20,7 @@ Billing guards:
   * a job's request id is saved the moment it is queued, so an interrupted run picks that job
     back up next time instead of paying for it again;
   * a scene is skipped only while its render inputs are unchanged; edited scenes re-render;
-  * the first API error (e.g. no credits left) stops the batch;
+  * the first API error (e.g. no credits left), or 2 failed jobs in a row, stops the batch;
   * one render run per episode at a time (a lock file), and the ledger is replaced atomically.
 
 Usage:
@@ -41,6 +41,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MODEL = "bytedance/seedance-2.5/text-to-video"
 MIN_DURATION_S = 4  # the model's shortest clip; shorter scenes are trimmed in the edit
+MAX_FAILED_IN_A_ROW = 2  # consecutive failed jobs almost always mean an account problem
 KIND = ("preview: prompt-only text-to-video, not anchored to the locked cast or a keyframe; "
         "production shots come from the reference-element path in docs/PRODUCTION_PIPELINE.md")
 
@@ -100,10 +101,24 @@ def video_url(result: dict) -> str | None:
     return None
 
 
+def failure_reason(result) -> str:
+    """The reason Higgsfield gives for a failed job, when the response carries one."""
+    if not isinstance(result, dict):
+        return ""
+    for key in ("error", "message", "detail", "reason", "failure_reason", "error_message"):
+        value = result.get(key)
+        if isinstance(value, dict):
+            value = value.get("message") or value.get("detail") or json.dumps(value, ensure_ascii=False)
+        if value:
+            return " ".join(str(value).split())[:200]
+    return ""
+
+
 def classify(sdk, final, result: dict) -> tuple[str | None, str]:
     """Return (url, outcome); url is set only for a completed render that has a video."""
     if isinstance(final, sdk.Failed):
-        return None, "FAILED"
+        reason = failure_reason(result)
+        return None, f"FAILED: {reason}" if reason else "FAILED (Higgsfield gave no reason)"
     if isinstance(final, sdk.NSFW):
         return None, "MODERATED"
     if isinstance(final, sdk.Cancelled):
@@ -301,9 +316,9 @@ def run(args, ep: Path, shotlist: dict) -> int:
     import higgsfield_client as sdk
     import higgsfield_client.exceptions  # noqa: F401  (makes sdk.exceptions available)
 
-    rendered = failed = 0
+    rendered = failed = failed_in_a_row = 0
     try:
-        for scene, arguments, inputs in jobs:
+        for position, (scene, arguments, inputs) in enumerate(jobs):
             if scene.get("image_job_id"):
                 print(f"  {scene['id']}: note: this scene has a keyframe; the preview does not use it")
             request_id = ledger.pending(scene["id"], inputs)
@@ -313,12 +328,21 @@ def run(args, ep: Path, shotlist: dict) -> int:
                 url, outcome = render_one(sdk, ledger, scene["id"], arguments, inputs)
             if url:
                 rendered += 1
+                failed_in_a_row = 0
                 print(f"  {scene['id']}: {url}")
             else:
                 failed += 1
                 print(f"  {scene['id']}: NOT rendered ({outcome})", file=sys.stderr)
+                failed_in_a_row = failed_in_a_row + 1 if outcome.startswith("FAILED") else 0
+                if failed_in_a_row == MAX_FAILED_IN_A_ROW and position + 1 < len(jobs):
+                    raise StopBatch(
+                        f"{MAX_FAILED_IN_A_ROW} renders failed in a row, which usually means an account "
+                        "problem (credits, plan or rate limit) rather than the prompts. Check the reason "
+                        f"above and your Higgsfield balance, then re-run: the {len(jobs) - position - 1} "
+                        "remaining scene(s) were not submitted, and rendered ones are skipped.")
     except StopBatch as stop:
-        failed += 1
+        if not str(stop).startswith(f"{MAX_FAILED_IN_A_ROW} renders failed in a row"):
+            failed += 1
         print(f"  {stop}\nstopped: no further scenes were submitted.", file=sys.stderr)
 
     print(f"done: {rendered} rendered, {failed} not rendered; "

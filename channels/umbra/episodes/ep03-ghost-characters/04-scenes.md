@@ -822,9 +822,11 @@ No camera move. Hold palette. No captions, titles or subtitle text.
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, extreme close-up of a dot-matrix printout of a short
-program, a column of numbered lines ending at 31, the tractor-feed paper curling over a desk
-edge, dim light, shallow depth of field, volumetric light, dust particles, cinematic color
-grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+program, a left margin of line numbers counting up in order 1, 2, 3 … 31 with no gaps, the last
+printed line numbered 31, the code beside them small and unreadable, the tractor-feed paper
+curling over a desk edge, dim light, shallow depth of field, volumetric light, dust particles,
+cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
+16:9
 ```
 3. **VIDEO PROMPT:**
 ```

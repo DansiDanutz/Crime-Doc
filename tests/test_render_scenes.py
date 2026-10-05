@@ -80,6 +80,7 @@ class RenderScenesTests(unittest.TestCase):
                     code = self.tool.main(["umbra", "ep03-ghost-characters", *argv])
                 except SystemExit as exc:
                     code = exc.code
+        self._last_out = out.getvalue()
         return code, out.getvalue(), err.getvalue()
 
     def _inputs(self, scene_id):
@@ -216,6 +217,32 @@ class RenderScenesTests(unittest.TestCase):
         saved = json.loads(self.renders.read_text())
         self.assertEqual(saved["scenes"], {})
         self.assertEqual(saved["pending"], {})
+
+    def test_two_failures_in_a_row_stop_the_batch_and_show_the_reason(self):
+        self._subscribe([
+            (["Queued", "Failed"], {"status": "failed", "error": "Insufficient credits"}),
+            (["Queued", "Failed"], {"status": "failed"}),
+            (["Completed"], {"status": "completed", "video": {"url": "https://cdn/never.mp4"}}),
+        ])
+        code, _, err = self._run("--scene", "ch01_s1", "--scene", "ch01_s2", "--scene", "ch01_s3", "--yes")
+        self.assertEqual(code, 1)
+        self.assertEqual(len(self.calls), 2)  # the third scene was never submitted
+        self.assertIn("FAILED: Insufficient credits", err)
+        self.assertIn("FAILED (Higgsfield gave no reason)", err)
+        self.assertIn("2 renders failed in a row", err)
+        self.assertIn("1 remaining scene(s) were not submitted", err)
+        self.assertIn("done: 0 rendered, 2 not rendered", err + self._last_out)
+
+    def test_one_failure_does_not_stop_the_batch(self):
+        self._subscribe([
+            (["Queued", "Failed"], {"status": "failed", "message": "content rejected"}),
+            (["Completed"], {"status": "completed", "video": {"url": "https://cdn/2.mp4"}}),
+        ])
+        code, _, err = self._run("--scene", "ch01_s1", "--scene", "ch01_s2", "--yes")
+        self.assertEqual(code, 1)
+        self.assertEqual(len(self.calls), 2)
+        self.assertIn("FAILED: content rejected", err)
+        self.assertNotIn("failed in a row", err)
 
     def test_api_error_stops_the_batch(self):
         error = self.modules["higgsfield_client.exceptions"].HiggsfieldClientError("402 insufficient credits")
