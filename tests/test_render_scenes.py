@@ -105,19 +105,29 @@ class RenderScenesTests(unittest.TestCase):
         self.assertIn("preview", saved["kind"])
         self.assertNotIn(SECRET, out + err)
 
-    def test_up_to_date_scene_is_skipped_but_an_edited_one_rerenders(self):
+    def test_up_to_date_scene_is_skipped_but_an_edited_one_rerenders_with_yes(self):
         self.renders.write_text(json.dumps({"scenes": {
             "ch01_s1": {"video_url": "x", "inputs_sha256": self._inputs("ch01_s1")},
             "ch01_s2": {"video_url": "y", "inputs_sha256": "stale"},
         }}))
         self._subscribe([(["Completed"], {"status": "completed", "video": {"url": "https://cdn/new.mp4"}})])
-        code, out, _ = self._run("--scene", "ch01_s1", "--scene", "ch01_s2")
+        code, out, _ = self._run("--scene", "ch01_s1", "--scene", "ch01_s2", "--yes")
         self.assertEqual(code, 0)
+        self.assertIn("replaces existing clips", out)
         self.assertEqual(len(self.calls), 1)  # only the edited scene was sent
         self.assertIn("matte red mannequin hands", self.calls[0][1]["prompt"])  # ch01_s2's prompt
         scenes = json.loads(self.renders.read_text())["scenes"]
         self.assertEqual(scenes["ch01_s1"]["video_url"], "x")
         self.assertEqual(scenes["ch01_s2"]["video_url"], "https://cdn/new.mp4")
+
+    def test_replacing_an_existing_clip_needs_yes_even_for_one_scene(self):
+        self.renders.write_text(json.dumps({"scenes": {"ch01_s2": {"video_url": "y", "inputs_sha256": "stale"}}}))
+        self._subscribe([])
+        code, out, err = self._run("--scene", "ch01_s2")
+        self.assertEqual(code, 2)
+        self.assertIn("replaces existing clips", out)
+        self.assertIn("replacing 1 existing clip", err)
+        self.assertEqual(self.calls, [])
 
     def test_clip_recorded_by_the_first_version_is_not_rendered_again(self):
         # renders.json as written by the first release: no inputs fingerprint, no pending map.

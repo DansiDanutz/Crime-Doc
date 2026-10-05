@@ -15,7 +15,8 @@ loaded here from the repo's git-ignored .env.local. Nothing prints or stores the
 
 Billing guards:
   * nothing is submitted without --scene, --chapter or --all;
-  * more than one scene in a run needs --yes; --dry-run shows exactly what would be sent;
+  * more than one scene in a run, or re-rendering a scene that already has a clip, needs --yes;
+    --dry-run shows exactly what would be sent;
   * a job's request id is saved the moment it is queued, so an interrupted run picks that job
     back up next time instead of paying for it again;
   * a scene is skipped only while its render inputs are unchanged; edited scenes re-render;
@@ -267,10 +268,15 @@ def run(args, ep: Path, shotlist: dict) -> int:
             jobs.append((scene, arguments, inputs))
     resuming = [j for j in jobs if ledger.pending(j[0]["id"], j[2])]
     new = [j for j in jobs if not ledger.pending(j[0]["id"], j[2])]
+    # Scenes that already have a clip: rendering them again pays a second time.
+    replacing = [j[0]["id"] for j in new if j[0]["id"] in ledger.data["scenes"]]
     seconds = sum(a["duration"] for _, a, _ in new)
     print(f"{len(new)} new render(s), {seconds} s of video at {args.resolution}"
           + (f"; {len(resuming)} queued earlier, to be resumed" if resuming else "")
           + "  [previews: prompt-only, not cast-locked]")
+    if replacing:
+        why = "--force" if args.force else "their prompt or settings changed since they were rendered"
+        print(f"  replaces existing clips ({why}): {', '.join(replacing)}")
 
     if args.dry_run:
         for scene, arguments, _ in new:
@@ -278,8 +284,10 @@ def run(args, ep: Path, shotlist: dict) -> int:
         return 0
     if not jobs:
         return 0
-    if len(new) > 1 and not args.yes:
-        print(f"error: {len(new)} billable renders; re-run with --yes to confirm "
+    if (len(new) > 1 or replacing) and not args.yes:
+        what = f"{len(new)} billable render(s)" + (
+            f", replacing {len(replacing)} existing clip(s)" if replacing else "")
+        print(f"error: {what}; re-run with --yes to confirm "
               "(or --dry-run to see them). Nothing was submitted.", file=sys.stderr)
         return 2
 
