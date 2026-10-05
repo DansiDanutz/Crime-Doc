@@ -262,7 +262,7 @@
           "id": "ch03_s4",
           "duration_s": 3,
           "characters": [],
-          "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of the back of a plain boxy 1980s television\nwith a small grey modem box and a coiled cable plugged into it, the screen beyond waking from\nstatic, a tidy living room, warm domestic light, Mode B, shallow depth of field, volumetric light,\ndust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot\non ARRI Alexa, 16:9",
+          "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of the back of a plain boxy 1980s\ntelevision with a small grey modem box and a coiled cable plugged into it, the screen beyond\nwaking from static, a tidy living room, warm domestic light, the on-screen characters abstract\nblocky glyphs with no readable words, Mode B, shallow depth of field, volumetric light, dust\nparticles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on\nARRI Alexa, 16:9",
           "video_prompt": "Locked macro, the static on the screen resolves into a blocky Btx menu 0–3s as the modem's\nstatus light settles. An ordinary television, quietly made into something else. No figures. Hold\npalette.",
           "image_job_id": null,
           "video_job_id": null
@@ -273,7 +273,7 @@
           "characters": [
             "the_hacker"
           ],
-          "image_prompt": "Cinematic photorealistic 3D render, the matte red mannequin (eggshell head, red cardigan, round\nred glasses) at his CRT, the blocky Btx menu screen reflected across its red eggshell head, Mode\nB, shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal\nEngine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "image_prompt": "Cinematic photorealistic 3D render, the matte red mannequin (eggshell head, red cardigan, round\nred glasses) at his CRT, the blocky Btx menu screen reflected across its red eggshell head, the\non-screen characters abstract blocky glyphs with no readable words, Mode B, shallow depth of\nfield, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render,\n8K, anamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Slow push-in on the red figure as the menu screen plays across its head 0–3s. The man who\ndoesn't believe it. Hold palette. No new figures.",
           "image_job_id": null,
           "video_job_id": null
@@ -355,7 +355,7 @@
           "characters": [
             "the_hacker"
           ],
-          "image_prompt": "Cinematic photorealistic 3D render, a matte red mannequin (eggshell head, red cardigan, round\nred glasses) at his desk turning slightly away from a glowing CRT showing a stamped Btx page,\nunconvinced posture, dim 1980s Hamburg flat, Mode B, shallow depth of field, volumetric light,\ndust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot\non ARRI Alexa, 16:9",
+          "image_prompt": "Cinematic photorealistic 3D render, a matte red mannequin (eggshell head, red cardigan, round\nred glasses) at his desk turning slightly away from a glowing CRT showing a stamped Btx page,\nunconvinced posture, dim 1980s Hamburg flat, the on-screen characters abstract blocky glyphs\nwith no readable words, Mode B, shallow depth of field, volumetric light, dust particles,\ncinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,\n16:9",
           "video_prompt": "Static medium, the red mannequin slowly turns its head away from the screen 0–4s. Disbelief,\nwithout a face. No camera move. Hold palette. No new figures.",
           "image_job_id": null,
           "video_job_id": null
