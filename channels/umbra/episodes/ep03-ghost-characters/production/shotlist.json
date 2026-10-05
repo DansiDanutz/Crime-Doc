@@ -829,7 +829,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a clean diagram of a small red\nfolder icon full of coins with a thin return arrow curving from it back toward a black vault\nicon, cold clinical light, soft contact shadows, cinematic key from above, shallow depth of\nfield, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Static diagram, the return arrow draws itself from the red folder toward the vault 0–3s. Not\ntheirs to keep. No figures. Hold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch02_s3"
         },
         {
           "id": "ch14_s2",
@@ -870,7 +871,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a clean diagram of three linked\nicons in a row — a small red program icon, a black bank-vault icon, and a red-headed page icon —\njoined by thin lines, cold clinical light, soft contact shadows, cinematic key from above,\nshallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane render,\n8K, anamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Static diagram, the three icons light up one after another along the line 0–3s. What, how, to\nwhom. No figures. Hold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch10_s4"
         }
       ]
     },
@@ -901,7 +903,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin in a plain 1980s banker's\nthree-piece suit standing beside a closed black vault, a slim ledger shut in its hands, infinite\nwhite void, soft contact shadow, cinematic key from above, shallow depth of field, volumetric\nlight, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI\nAlexa, 16:9",
           "video_prompt": "Locked, the black banker closes the ledger 0–4s and stands still. Accounted for. Hold the color\ncode. No new figures. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch08_s5"
         },
         {
           "id": "ch15_s3",
@@ -943,7 +946,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin in a 1980s postal-service\nuniform and peaked cap standing beside a tall tangled machine of cables and grey boxes, looking\nup at it, infinite white void, soft contact shadow, cinematic key from above, shallow depth of\nfield, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Static wide, the black official looks up at the tangled machine 0–3s and does not move. Owner,\nnot author. Hold the color code. No new figures. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch03_s3"
         },
         {
           "id": "ch16_s2",
@@ -974,7 +978,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, two matte red mannequins (featureless eggshell heads with no\nfaces; one in a red cardigan and round red glasses, the other in a red bomber jacket) standing\nin a doorway lit by a burst of camera flashes from out of frame, 1980s casual silhouettes, night\nstreet, shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal\nEngine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Static, flashes strobe across the two red figures 0–3s. A handful of enthusiasts, suddenly seen.\nHold palette. No new figures. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch14_s4"
         },
         {
           "id": "ch16_s5",
@@ -1071,7 +1076,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin in 1980s technician's kit\nwith a clipboard, seated at a long table stacked with file boxes, one open folder in front of it\nwith a blank page, shallow depth of field, volumetric light, dust particles, cinematic color\ngrade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Static medium, the black investigator turns a page and finds it blank 0–4s. Never established.\nHold the color code. No new figures. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch13_s3"
         },
         {
           "id": "ch18_s2",
@@ -1098,7 +1104,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, the same empty living room, the dark television, a small\nnumeric keypad left on the armrest of an empty chair, dusk light, shallow depth of field,\nvolumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K,\nanamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Static wide, dust settles over the keypad on the empty chair 0–3s. Nobody waiting any more. No\nfigures. Hold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch18_s3"
         }
       ]
     },
@@ -1141,7 +1148,7 @@
           "video_prompt": "Locked, the black banker taps the vault box once and holds 0–3s. Safe. Hold the color code. No\nnew figures. No captions, titles or subtitle text.",
           "image_job_id": null,
           "video_job_id": null,
-          "reuse": "ch08_s5"
+          "reuse": "ch12_s3"
         },
         {
           "id": "ch19_s4",
@@ -1161,7 +1168,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a clean diagram of a single\nclosed black padlock icon in empty space, perfectly centered, a thin crack barely visible along\nits shackle, cold clinical light, soft contact shadows, cinematic key from above, shallow depth\nof field, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K,\nanamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Slow push-in on the padlock 0–3s; the hairline crack catches the light at the very end. No\nfigures. Hold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch06_s2"
         }
       ]
     },

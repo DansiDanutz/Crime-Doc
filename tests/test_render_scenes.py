@@ -310,6 +310,17 @@ class RenderScenesTests(unittest.TestCase):
         self.assertIn("ch01_s2 uses ch01_s1", out)
         self.assertNotIn("ch01_s2", json.loads(self.renders.read_text())["scenes"])
 
+    def test_max_new_cap_refuses_a_run_that_needs_more(self):
+        self._subscribe([])
+        code, _, err = self._run("--chapter", "ch01", "--yes", "--max-new", "4")
+        self.assertEqual(code, 2)
+        self.assertIn("5 new renders exceed --max-new 4", err)
+        self.assertEqual(self.calls, [])
+        self._subscribe([(["Completed"], {"status": "completed", "video": {"url": "https://cdn/1.mp4"}})])
+        code, _, _ = self._run("--scene", "ch01_s1", "--max-new", "1")
+        self.assertEqual(code, 0)
+        self.assertEqual(len(self.calls), 1)
+
     def test_dry_run_and_missing_key_submit_nothing(self):
         self._subscribe([])
         code, out, _ = self._run("--chapter", "ch01", "--dry-run")

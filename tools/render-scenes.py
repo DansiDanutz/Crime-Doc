@@ -21,6 +21,7 @@ Billing guards:
     back up next time instead of paying for it again;
   * a scene is skipped only while its render inputs are unchanged; edited scenes re-render;
   * the first API error (e.g. no credits left), or 2 failed jobs in a row, stops the batch;
+  * --max-new N refuses the whole run when it would need more than N new renders (a budget cap);
   * a scene marked REUSE in 04-scenes.md is never rendered: the edit uses the named earlier clip;
   * one render run per episode at a time (a lock file), and the ledger is replaced atomically.
 
@@ -256,6 +257,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--resolution", default="720p", choices=["480p", "720p", "1080p"])
     ap.add_argument("--force", action="store_true", help="re-render scenes that are already up to date")
     ap.add_argument("--dry-run", action="store_true", help="print what would be sent; submit nothing")
+    ap.add_argument("--max-new", type=int, default=None, metavar="N",
+                    help="spending cap: refuse to submit anything if the run needs more than N new renders")
     args = ap.parse_args(argv)
 
     if not (args.scene or args.chapter or args.all):
@@ -311,6 +314,10 @@ def run(args, ep: Path, shotlist: dict) -> int:
         return 0
     if not jobs:
         return 0
+    if args.max_new is not None and len(new) > args.max_new:
+        print(f"error: {len(new)} new renders exceed --max-new {args.max_new}. Nothing was submitted.",
+              file=sys.stderr)
+        return 2
     if (len(new) > 1 or replacing) and not args.yes:
         what = f"{len(new)} billable render(s)" + (
             f", replacing {len(replacing)} existing clip(s)" if replacing else "")

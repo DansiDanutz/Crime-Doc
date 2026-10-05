@@ -77,13 +77,14 @@ class ToolRegressionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "itself a reuse"):
             tool.parse_scenes_md(md(("ch01_s1", None), ("ch01_s2", "ch01_s1"), ("ch01_s3", "ch01_s2")))
 
-    def test_ep03_reuses_twelve_existing_clips(self):
+    def test_ep03_reuses_twenty_existing_clips(self):
         import json
         shotlist = json.loads((ROOT / "channels/umbra/episodes/ep03-ghost-characters/production/shotlist.json").read_text())
         reuse = {sc["id"]: sc["reuse"] for ch in shotlist["chapters"] for sc in ch["scenes"] if sc.get("reuse")}
-        self.assertEqual(len(reuse), 12)
+        self.assertEqual(len(reuse), 20)
         self.assertEqual(reuse["ch15_s4"], "ch04_s5")  # the stamped SECURE seal
         self.assertEqual(reuse["ch20_s3"], "ch08_s3")  # the login on the old CRT
+        self.assertEqual(sum(1 for ch in shotlist["chapters"] for sc in ch["scenes"] if not sc.get("reuse")), 70)
 
     def test_yaml_reader_decodes_quotes_and_comments(self):
         tool = load_tool("export-episode")

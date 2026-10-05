@@ -1104,6 +1104,7 @@ lens, shot on ARRI Alexa, 16:9
 Static diagram, the return arrow draws itself from the red folder toward the vault 0–3s. Not
 theirs to keep. No figures. Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch02_s3 — they do not keep it: the money flowing back from the red folder. Not rendered; the edit uses that clip.
 
 ### Scene ch14_s2 — 3s — 19 November, three days later
 1. **CHARACTERS IN SCENE:** No recurring characters
@@ -1167,6 +1168,7 @@ shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5
 Static diagram, the three icons light up one after another along the line 0–3s. What, how, to
 whom. No figures. Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch10_s4 — how and to whom: the program passing through the bank's gate. Not rendered; the edit uses that clip.
 
 **Chapter handoff →** the diagram completes; Chapter 15 returns the money.
 
@@ -1208,6 +1210,7 @@ Alexa, 16:9
 Locked, the black banker closes the ledger 0–4s and stands still. Accounted for. Hold the color
 code. No new figures. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch08_s5 — the black banker standing by the vault. Not rendered; the edit uses that clip.
 
 ### Scene ch15_s3 — 4s — not the money
 1. **CHARACTERS IN SCENE:** The Hacker
@@ -1265,6 +1268,7 @@ lens, shot on ARRI Alexa, 16:9
 Static wide, the black official looks up at the tangled machine 0–3s and does not move. Owner,
 not author. Hold the color code. No new figures. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch03_s3 — the official beside the system he runs. Not rendered; the edit uses that clip.
 
 ### Scene ch16_s2 — 3s — overnight
 1. **CHARACTERS IN SCENE:** No recurring characters
@@ -1311,6 +1315,7 @@ Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 Static, flashes strobe across the two red figures 0–3s. A handful of enthusiasts, suddenly seen.
 Hold palette. No new figures. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch14_s4 — the two red figures in front of the press. Not rendered; the edit uses that clip.
 
 ### Scene ch16_s5 — 3s — "minor" (handoff)
 1. **CHARACTERS IN SCENE:** The Bundespost Official
@@ -1441,6 +1446,7 @@ grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 
 Static medium, the black investigator turns a page and finds it blank 0–4s. Never established.
 Hold the color code. No new figures. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch13_s3 — the Postal Investigator, now looking back at what happened. Not rendered; the edit uses that clip.
 
 ### Scene ch18_s2 — 4s — sixteen years (white-void diagram)
 1. **CHARACTERS IN SCENE:** No recurring characters
@@ -1487,6 +1493,7 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 Static wide, dust settles over the keypad on the empty chair 0–3s. Nobody waiting any more. No
 figures. Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch18_s3 — hold on the switched-off television. Not rendered; the edit uses that clip.
 
 **Chapter handoff →** the room stays dark; Chapter 19 picks the word back up.
 
@@ -1544,7 +1551,7 @@ render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 Locked, the black banker taps the vault box once and holds 0–3s. Safe. Hold the color code. No
 new figures. No captions, titles or subtitle text.
 ```
-4. **REUSE:** ch08_s5 — the black banker before the vault. Not rendered; the edit uses that clip.
+4. **REUSE:** ch12_s3 — the banker by the vault as money leaves it: 'your money is safe'. Not rendered; the edit uses that clip.
 
 ### Scene ch19_s4 — 3s — your data is safe
 1. **CHARACTERS IN SCENE:** The Btx User (white)
@@ -1576,6 +1583,7 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 Slow push-in on the padlock 0–3s; the hairline crack catches the light at the very end. No
 figures. Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch06_s2 — the hairline crack in what was sold as sealed. Not rendered; the edit uses that clip.
 
 **Chapter handoff →** the crack catches the light; Chapter 20 returns to the screen.
 
