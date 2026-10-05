@@ -124,10 +124,12 @@ unremarkable. No camera move. Hold palette.
 1. **CHARACTERS IN SCENE:** The Hacker (small)
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a calm wide of the quiet flat, the lone matte red mannequin
-at his glowing desk among bookshelves and coffee cups, an ordinary night, Mode B, shallow depth
-of field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane
-render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, a calm wide of a small dim 1980s Hamburg flat at night, the
+lone matte red mannequin (eggshell head, red cardigan, round red glasses) seated at a cluttered
+desk before a boxy beige home computer whose CRT screen is the main light, a low bookshelf and a
+ceramic coffee mug nearby, an ordinary night, Mode B, shallow depth of field, volumetric light,
+dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot
+on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```

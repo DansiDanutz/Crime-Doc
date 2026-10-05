@@ -162,7 +162,7 @@
           "characters": [
             "the_hacker"
           ],
-          "image_prompt": "Cinematic photorealistic 3D render, a calm wide of the quiet flat, the lone matte red mannequin\nat his glowing desk among bookshelves and coffee cups, an ordinary night, Mode B, shallow depth\nof field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane\nrender, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "image_prompt": "Cinematic photorealistic 3D render, a calm wide of a small dim 1980s Hamburg flat at night, the\nlone matte red mannequin (eggshell head, red cardigan, round red glasses) seated at a cluttered\ndesk before a boxy beige home computer whose CRT screen is the main light, a low bookshelf and a\nceramic coffee mug nearby, an ordinary night, Mode B, shallow depth of field, volumetric light,\ndust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot\non ARRI Alexa, 16:9",
           "video_prompt": "Slow pull-back from the red figure revealing the calm ordinary room 0–3s. Nothing seems to be\nhappening. Hold palette. No new figures.",
           "image_job_id": null,
           "video_job_id": null
