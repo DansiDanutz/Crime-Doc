@@ -314,7 +314,7 @@ class RenderScenesTests(unittest.TestCase):
         self._subscribe([])
         code, _, err = self._run("--chapter", "ch01", "--yes", "--max-new", "4")
         self.assertEqual(code, 2)
-        self.assertIn("5 new renders exceed --max-new 4", err)
+        self.assertIn("5 new renders exceed --max-new 4. No new render was submitted.", err)
         self.assertEqual(self.calls, [])
         self._subscribe([(["Completed"], {"status": "completed", "video": {"url": "https://cdn/1.mp4"}})])
         code, _, _ = self._run("--scene", "ch01_s1", "--max-new", "1")
@@ -339,6 +339,20 @@ class RenderScenesTests(unittest.TestCase):
         self.assertEqual(self.calls, [])  # nothing new submitted
         saved = json.loads(self.renders.read_text())
         self.assertEqual(saved["scenes"]["ch01_s2"]["video_url"], "https://cdn/old.mp4")
+        self.assertEqual(saved["pending"], {})
+
+    def test_max_new_cap_still_collects_jobs_queued_earlier(self):
+        self.renders.write_text(json.dumps({"scenes": {}, "pending": {
+            "ch01_s3": {"request_id": "req-old", "inputs_sha256": self._inputs("ch01_s3")}}}))
+        self._subscribe([])
+        self.sdk.result = lambda rid: {"status": "completed", "video": {"url": "https://cdn/old.mp4"}}
+        self.sdk.status = lambda rid: self.sdk.Completed()
+        code, _, err = self._run("--chapter", "ch01", "--yes", "--max-new", "0")
+        self.assertEqual(code, 2)
+        self.assertIn("No new render was submitted; collecting the 1 queued earlier", err)
+        self.assertEqual(self.calls, [])  # no new submission
+        saved = json.loads(self.renders.read_text())
+        self.assertEqual(saved["scenes"]["ch01_s3"]["video_url"], "https://cdn/old.mp4")
         self.assertEqual(saved["pending"], {})
 
     def test_dry_run_and_missing_key_submit_nothing(self):

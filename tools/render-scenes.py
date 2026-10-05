@@ -318,10 +318,18 @@ def run(args, ep: Path, shotlist: dict) -> int:
         return 0
     if not jobs:
         return 0
-    if args.max_new is not None and len(new) > args.max_new:
-        print(f"error: {len(new)} new renders exceed --max-new {args.max_new}. Nothing was submitted.",
+    capped = args.max_new is not None and len(new) > args.max_new
+    if capped:
+        # The cap blocks new spending only: jobs queued earlier are already paid for, so they
+        # are still collected below.
+        print(f"error: {len(new)} new renders exceed --max-new {args.max_new}. No new render was "
+              "submitted" + (f"; collecting the {len(resuming)} queued earlier." if resuming else "."),
               file=sys.stderr)
-        return 2
+        new = []
+        replacing = []
+        jobs = resuming
+        if not jobs:
+            return 2
     if (len(new) > 1 or replacing) and not args.yes:
         what = f"{len(new)} billable render(s)" + (
             f", replacing {len(replacing)} existing clip(s)" if replacing else "")
@@ -375,6 +383,8 @@ def run(args, ep: Path, shotlist: dict) -> int:
 
     print(f"done: {rendered} rendered, {failed} not rendered; "
           f"results in {ledger.path.relative_to(ROOT)}")
+    if capped:
+        return 2
     return 0 if failed == 0 and rendered == len(jobs) else 1
 
 
