@@ -634,14 +634,14 @@ group, nobody official. Hold palette. No new figures.
 ```
 Cinematic photorealistic 3D render, in an infinite white void, a clean diagram of a black rubber
 stamp icon on the left and a small red padlock icon on the right, a single thin line between
-them breaking in the middle, cold clinical light, soft contact shadows, cinematic key from
-above, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane
-render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+them breaking in the middle, no text or lettering anywhere, cold clinical light, soft contact
+shadows, cinematic key from above, shallow depth of field, volumetric light, cinematic color
+grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
-Static diagram, the line from the stamp to the padlock cracks and parts 0–4s. Saying is not
-proving. No figures. Hold palette.
+Static diagram, the line from the stamp to the padlock cracks and parts 0–4s. No figures. Hold
+palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch05_s4 — 3s — the official, unmoved (handoff)
@@ -831,16 +831,17 @@ No figures. Hold palette.
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a wide of the dim Hamburg flat at night, the matte red
-mannequin (eggshell head, red cardigan, round red glasses) leaning very close to the glowing
-CRT, the room otherwise dark, shallow depth of field, volumetric light, dust particles,
-cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
-16:9
+Cinematic photorealistic 3D render, a wide of a dim 1980s Hamburg flat at night, the matte red
+mannequin (featureless eggshell head with no eyes, nose or mouth, red cardigan, round red
+glasses) seated naturally in a chair at his desk, leaning forward toward a boxy beige home
+computer whose glowing CRT is the only light, normal human posture and proportions, the room
+otherwise dark, shallow depth of field, volumetric light, dust particles, cinematic color grade,
+Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Static wide, the red figure leans in toward the screen and stops 0–3s. Something has appeared.
-No camera move. Hold palette. No new figures.
+No camera move. Hold palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch08_s3 — 3s — a login, in the clear
@@ -862,15 +863,16 @@ palette.
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a close shot of the matte red mannequin's eggshell head and
-round red glasses, the green lines of a CRT reflected across them, dark room, shallow depth of
-field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render,
-8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, a close shot of the matte red mannequin's completely smooth
+featureless eggshell head (no eyes, nose, mouth or ears) and round red glasses, the green lines
+of a CRT reflected across the smooth surface and lenses, dark room, shallow depth of field,
+volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K,
+anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Static close, the reflected green text crawls across the red head 0–3s. Reading. No camera move.
-Hold palette.
+Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch08_s5 — 3s — the bank (handoff)
@@ -909,23 +911,23 @@ shallow depth of field, volumetric light, dust particles, cinematic color grade,
 3. **VIDEO PROMPT:**
 ```
 Locked macro, the characters U S D 7 0 0 0 0 appear one at a time 0–3s. That is all it is. No
-figures. Hold palette.
+figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch09_s2 — 3s — almost trivial
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a medium shot of the matte red mannequin (eggshell head, red
-cardigan, round red glasses) sitting back in his chair at the glowing desk, hands resting in his
-lap, the CRT showing the login screen, shallow depth of field, volumetric light, dust particles,
-cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
-16:9
+Cinematic photorealistic 3D render, a medium shot of the matte red mannequin (featureless
+eggshell head with no eyes, nose or mouth, red cardigan, round red glasses) sitting back in his
+chair at the glowing desk, hands resting in his lap, the CRT showing the login screen, shallow
+depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane
+render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Static medium, the red figure leans back from the keyboard 0–3s. The hard part is over. No
-camera move. Hold palette. No new figures.
+camera move. Hold palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch09_s3 — 3s — a page that charges (white-void diagram)
@@ -941,7 +943,7 @@ lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static diagram, a coin drops through the slot as the line opens the page 0–3s. Pay to look. No
-figures. Hold palette.
+figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch09_s4 — 3s — a few marks a look
@@ -957,7 +959,7 @@ Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static medium, the white mannequin presses a key and the charge notice blinks on the TV 0–3s.
-Ordinary, priced. Hold palette. No new figures.
+Ordinary, priced. Hold palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch09_s5 — 3s — the club's own page (handoff)
@@ -972,7 +974,7 @@ field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5,
 3. **VIDEO PROMPT:**
 ```
 Locked, the red-headed page paints in line by line 0–3s. A page of their own. No figures. Hold
-palette.
+palette. No captions, titles or subtitle text.
 ```
 
 **Chapter handoff →** the price in the corner holds; Chapter 10 reads it out.
@@ -995,7 +997,7 @@ lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Locked macro, the price field blinks once and holds 0–3s. A small number. No figures. Hold
-palette.
+palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch10_s2 — 3s — the program
@@ -1011,7 +1013,7 @@ field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5,
 3. **VIDEO PROMPT:**
 ```
 Locked macro, the red fingers type in short bursts 0–3s as lines of code scroll up. Small work.
-No camera move. Hold palette.
+No camera move. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch10_s3 — 3s — thirty-one lines
@@ -1026,7 +1028,7 @@ grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 
 3. **VIDEO PROMPT:**
 ```
 Slow tilt down the printout from line 1 to line 31 0–3s. That is the whole of it. No figures.
-Hold palette.
+Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch10_s4 — 3s — it logs in as the bank (white-void diagram)
@@ -1042,7 +1044,7 @@ shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the red program icon slides through the black gate wearing the bank's badge
-0–3s. Let in as someone else. No figures. Hold palette.
+0–3s. Let in as someone else. No figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch10_s5 — 3s — and opens the club's page (handoff)
@@ -1058,7 +1060,7 @@ lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the line connects and the page opens 0–3s; one coin drops. Once. No figures.
-Hold palette.
+Hold palette. No captions, titles or subtitle text.
 ```
 
 **Chapter handoff →** the single coin settles; the loop begins in Chapter 11.
@@ -1082,7 +1084,7 @@ render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the loop cycles again and again 0–4s, a coin dropping on every pass. No figures.
-Hold palette.
+Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch11_s2 — 4s — they go to sleep
@@ -1090,15 +1092,15 @@ Hold palette.
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, a wide of the dim Hamburg flat at night, the matte red
-mannequin (eggshell head, red cardigan, round red glasses) standing at the doorway with one hand
-on the light switch, the CRT still glowing on the desk, shallow depth of field, volumetric
-light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic
-lens, shot on ARRI Alexa, 16:9
+mannequin (featureless eggshell head with no eyes, nose or mouth, red cardigan, round red
+glasses) standing at the doorway with one hand on the light switch, the CRT still glowing on the
+desk, shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal
+Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Static wide, the red figure flicks the switch off and leaves the frame 0–4s; only the screen
-stays lit. No camera move. Hold palette. No new figures.
+stays lit. No camera move. Hold palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch11_s3 — 4s — the machine works alone
@@ -1113,7 +1115,7 @@ render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Locked, the modem LED blinks in a steady rhythm and the screen refreshes 0–4s. Nobody watching.
-No figures. Hold palette.
+No figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch11_s4 — 3s — by morning (handoff)
@@ -1128,7 +1130,7 @@ lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static, dawn light slowly rises across the desk 0–3s while the screen keeps refreshing. Hours
-have passed. No figures. Hold palette.
+have passed. No figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 **Chapter handoff →** the screen refreshes one more time; the counter appears in Chapter 12.
@@ -1151,7 +1153,7 @@ field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5,
 3. **VIDEO PROMPT:**
 ```
 Locked macro, the counter rolls upward past thirteen thousand 0–4s. Every one billed. No
-figures. Hold palette.
+figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch12_s2 — 4s — the total (white-void diagram)
@@ -1167,7 +1169,8 @@ render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the coin column fills toward the top mark 0–4s and stops. A little over a
-hundred and thirty-four thousand. No figures. Hold palette.
+hundred and thirty-four thousand. No figures. Hold palette. No captions, titles or subtitle
+text.
 ```
 
 ### Scene ch12_s3 — 4s — out of the bank
@@ -1183,7 +1186,7 @@ Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static medium, coins stream out of the vault past the motionless black banker 0–4s. It does not
-move. Hold the color code. No new figures.
+move. Hold the color code. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch12_s4 — 3s — into the club's account (handoff)
@@ -1199,7 +1202,7 @@ lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the last coins settle into the red folder 0–3s. Moved, not stolen. No figures.
-Hold palette.
+Hold palette. No captions, titles or subtitle text.
 ```
 
 **Chapter handoff →** the folder fills; Chapter 13 waits for an alarm that never comes.
@@ -1222,7 +1225,7 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Locked, the alarm bell stays perfectly still 0–4s; dust drifts past it. Nothing rings. No
-figures. Hold palette.
+figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch13_s2 — 4s — nothing broken (white-void diagram)
@@ -1238,7 +1241,7 @@ shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the key turns and the lock opens cleanly 0–4s. No damage anywhere. No figures.
-Hold palette.
+Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch13_s3 — 4s — the operator's machine room
@@ -1254,7 +1257,7 @@ ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Slow push-in on the black technician among the cabinets 0–4s, every light steady. Everything
-normal. Hold the color code. No new figures.
+normal. Hold the color code. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch13_s4 — 3s — not a robbery (handoff)
@@ -1262,14 +1265,15 @@ normal. Hold the color code. No new figures.
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, a close, near-symmetrical shot of the matte red mannequin's
-eggshell head, round red glasses and red cardigan collar in the pale morning light of the flat,
-utterly still, shallow depth of field, volumetric light, dust particles, cinematic color grade,
-Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+completely smooth featureless eggshell head, round red glasses and red cardigan collar in the
+pale morning light of the flat, utterly still, shallow depth of field, volumetric light, dust
+particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on
+ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Static close, the red head holds still as morning light shifts across it 0–3s. Something else is
-coming. No camera move. Hold palette.
+coming. No camera move. Hold palette. No captions, titles or subtitle text.
 ```
 
 **Chapter handoff →** the red head holds; Chapter 14 shows what they do instead.
@@ -1293,7 +1297,7 @@ lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the return arrow draws itself from the red folder toward the vault 0–3s. Not
-theirs to keep. No figures. Hold palette.
+theirs to keep. No figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch14_s2 — 3s — 19 November, three days later
@@ -1307,7 +1311,8 @@ lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
-Locked, a calendar page turns to 19 November 0–3s. Three days. No figures. Hold palette.
+Locked, a calendar page turns to 19 November 0–3s. Three days. No figures. Hold palette. No
+captions, titles or subtitle text.
 ```
 
 ### Scene ch14_s3 — 3s — the cameras
@@ -1322,23 +1327,24 @@ grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 
 3. **VIDEO PROMPT:**
 ```
 Static wide, flashes pop along the row of white figures 0–3s. The press, assembled. Hold
-palette. No new figures.
+palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch14_s4 — 3s — the two red figures at the table
 1. **CHARACTERS IN SCENE:** The Hacker (two red figures) and The Journalist
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, two matte red mannequins (eggshell heads; one in a red
-cardigan and round red glasses, the other in a red bomber jacket) seated at a plain table
-covered in 1980s microphones, a row of glossy white press mannequins with cameras in the
-foreground, flat hall light, shallow depth of field, volumetric light, dust particles, cinematic
-color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, two matte red mannequins (featureless eggshell heads with no
+faces; one in a red cardigan and round red glasses, the other in a red bomber jacket) seated at
+a plain table covered in 1980s microphones, a row of glossy white press mannequins with cameras
+in the foreground, flat hall light, shallow depth of field, volumetric light, dust particles,
+cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
+16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Slow push-in past the white cameras toward the two red figures at the table 0–3s. They explain.
-Hold palette. No new figures.
+Hold palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch14_s5 — 3s — how, and to whom (handoff)
@@ -1354,7 +1360,7 @@ shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the three icons light up one after another along the line 0–3s. What, how, to
-whom. No figures. Hold palette.
+whom. No figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 **Chapter handoff →** the diagram completes; Chapter 15 returns the money.
@@ -1378,7 +1384,7 @@ shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5
 3. **VIDEO PROMPT:**
 ```
 Static diagram, every coin flows back into the vault 0–4s until the folder is empty. In full. No
-figures. Hold palette.
+figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch15_s2 — 4s — the banker receives it
@@ -1394,22 +1400,23 @@ Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Locked, the black banker closes the ledger 0–4s and stands still. Accounted for. Hold the color
-code. No new figures.
+code. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch15_s3 — 4s — not the money
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a medium shot of the matte red mannequin (eggshell head, red
-cardigan, round red glasses) standing at a plain table, an empty red folder lying open in front
-of it, flat hall light, shallow depth of field, volumetric light, dust particles, cinematic
-color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, a medium shot of the matte red mannequin (featureless
+eggshell head with no eyes, nose or mouth, red cardigan, round red glasses) standing at a plain
+table, an empty red folder lying open in front of it, flat hall light, shallow depth of field,
+volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K,
+anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Static medium, the red figure closes the empty folder and leaves its hand on it 0–4s. It was
-never the point. No camera move. Hold palette.
+never the point. No camera move. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch15_s4 — 3s — the word (handoff)
@@ -1425,7 +1432,7 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Locked macro, the light slowly hardens across the stamped seal 0–3s. One word, used to sell
-something. No figures. Hold palette.
+something. No figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 **Chapter handoff →** the seal holds; Chapter 16 shows what the word was used to sell.
@@ -1449,7 +1456,7 @@ lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static wide, the black official looks up at the tangled machine 0–3s and does not move. Owner,
-not author. Hold the color code. No new figures.
+not author. Hold the color code. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch16_s2 — 3s — overnight
@@ -1463,7 +1470,8 @@ shallow depth of field, volumetric light, dust particles, cinematic color grade,
 ```
 3. **VIDEO PROMPT:**
 ```
-Locked, the pages race through the press 0–3s. Overnight. No figures. Hold palette.
+Locked, the pages race through the press 0–3s. Overnight. No figures. Hold palette. No captions,
+titles or subtitle text.
 ```
 
 ### Scene ch16_s3 — 3s — on every television
@@ -1478,23 +1486,23 @@ Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static medium, the white mannequin leans toward the TV as the red figures appear on screen 0–3s.
-Famous by morning. Hold palette. No new figures.
+Famous by morning. Hold palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch16_s4 — 3s — the most famous hackers
 1. **CHARACTERS IN SCENE:** The Hacker (two red figures)
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, two matte red mannequins (eggshell heads; one in a red
-cardigan and round red glasses, the other in a red bomber jacket) standing in a doorway lit by a
-burst of camera flashes from out of frame, 1980s casual silhouettes, night street, shallow depth
-of field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane
-render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, two matte red mannequins (featureless eggshell heads with no
+faces; one in a red cardigan and round red glasses, the other in a red bomber jacket) standing
+in a doorway lit by a burst of camera flashes from out of frame, 1980s casual silhouettes, night
+street, shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal
+Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Static, flashes strobe across the two red figures 0–3s. A handful of enthusiasts, suddenly seen.
-Hold palette. No new figures.
+Hold palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch16_s5 — 3s — "minor" (handoff)
@@ -1510,7 +1518,7 @@ shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Locked, the black official stamps the statement and holds 0–3s. Minor. An isolated case. Hold
-the color code. No new figures.
+the color code. No new figures. No captions, titles or subtitle text.
 ```
 
 **Chapter handoff →** the stamp lifts; Chapter 17 gives the hackers' answer.
@@ -1533,7 +1541,7 @@ Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the black circle closes tightly around the single dot 0–3s. Contained, they say.
-No figures. Hold palette.
+No figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch17_s2 — 3s — the whole argument
@@ -1549,7 +1557,7 @@ lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Slow pull-back from the circled dot until the whole web of linked TVs fills the frame 0–3s. Not
-isolated. No figures. Hold palette.
+isolated. No figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch17_s3 — 3s — nineteen thousand users
@@ -1564,23 +1572,23 @@ field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5,
 3. **VIDEO PROMPT:**
 ```
 Slow crane up over the rows of white figures at their TVs 0–3s. Everyone who trusted it. Hold
-palette. No new figures.
+palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch17_s4 — 3s — two men and a home computer
 1. **CHARACTERS IN SCENE:** The Hacker (two red figures)
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, two matte red mannequins (eggshell heads; one in a red
-cardigan and round red glasses, the other in a red bomber jacket) at a single cluttered desk
-with one boxy home computer and an acoustic modem, dim 1980s flat, the only light the CRT,
-shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine
-5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, two matte red mannequins (featureless eggshell heads with no
+faces; one in a red cardigan and round red glasses, the other in a red bomber jacket) at a
+single cluttered desk with one boxy home computer and an acoustic modem, dim 1980s flat, the
+only light the CRT, shallow depth of field, volumetric light, dust particles, cinematic color
+grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Static medium, the two red figures sit at one small machine 0–3s. That was all it took. No
-camera move. Hold palette. No new figures.
+camera move. Hold palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch17_s5 — 3s — the mistake that did not exist (handoff)
@@ -1596,7 +1604,8 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Locked, the black official holds the oath pose while the crack in the block beside it widens
-0–3s. Sworn, and wrong. Hold the color code. No new figures.
+0–3s. Sworn, and wrong. Hold the color code. No new figures. No captions, titles or subtitle
+text.
 ```
 
 **Chapter handoff →** the crack holds; Chapter 18 asks the question no inquiry answered.
@@ -1619,7 +1628,7 @@ grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 
 3. **VIDEO PROMPT:**
 ```
 Static medium, the black investigator turns a page and finds it blank 0–4s. Never established.
-Hold the color code. No new figures.
+Hold the color code. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch18_s2 — 4s — sixteen years (white-void diagram)
@@ -1635,7 +1644,7 @@ grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the emblem travels the timeline 0–4s while the future marker keeps sliding ahead
-of it. Always about to arrive. No figures. Hold palette.
+of it. Always about to arrive. No figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch18_s3 — 4s — switched off
@@ -1650,7 +1659,7 @@ render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Locked, the picture collapses to a line, then a point, then dark 0–4s. 2001. No figures. Hold
-palette.
+palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch18_s4 — 3s — never arrived (handoff)
@@ -1665,7 +1674,7 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static wide, dust settles over the keypad on the empty chair 0–3s. Nobody waiting any more. No
-figures. Hold palette.
+figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 **Chapter handoff →** the room stays dark; Chapter 19 picks the word back up.
@@ -1680,15 +1689,16 @@ figures. Hold palette.
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a matte red mannequin (eggshell head, red cardigan, round
-red glasses) standing alone in a pool of light at the center of a vast dark space, unmoved, the
-only lit object, shallow depth of field, volumetric light, dust particles, cinematic color
-grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, a matte red mannequin (featureless eggshell head with no
+eyes, nose or mouth, red cardigan, round red glasses) standing alone in a pool of light at the
+center of a vast dark space, unmoved, the only lit object, shallow depth of field, volumetric
+light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic
+lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Static wide, the light around the red figure stays on as the space around it goes dark 0–3s.
-Still there. No camera move. Hold palette. No new figures.
+Still there. No camera move. Hold palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch19_s2 — 3s — every year since (white-void diagram)
@@ -1704,7 +1714,7 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static diagram, the black stamp comes down on each device in turn along the row 0–3s. The same
-word, every year. No figures. Hold palette.
+word, every year. No figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch19_s3 — 3s — your money is safe
@@ -1720,7 +1730,7 @@ render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Locked, the black banker taps the vault box once and holds 0–3s. Safe. Hold the color code. No
-new figures.
+new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch19_s4 — 3s — your data is safe
@@ -1735,7 +1745,7 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static medium, the white figure glances at the padlock on the phone and lowers it 0–3s.
-Reassured. Hold palette. No new figures.
+Reassured. Hold palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch19_s5 — 3s — your account cannot be reached (handoff)
@@ -1751,7 +1761,7 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Slow push-in on the padlock 0–3s; the hairline crack catches the light at the very end. No
-figures. Hold palette.
+figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 **Chapter handoff →** the crack catches the light; Chapter 20 returns to the screen.
@@ -1766,15 +1776,16 @@ figures. Hold palette.
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a matte red mannequin seated alone at a modern desk at
-night, a slim laptop screen the only light, a dark city window behind, shallow depth of field,
-volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K,
-anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, a matte red mannequin (featureless eggshell head with no
+eyes, nose or mouth) seated alone at a modern desk at night, a slim laptop screen the only
+light, a dark city window behind, shallow depth of field, volumetric light, dust particles,
+cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
+16:9
 ```
 3. **VIDEO PROMPT:**
 ```
 Static wide, the red figure types a long unbroken line 0–4s. Quietly. No camera move. Hold
-palette. No new figures.
+palette. No new figures. No captions, titles or subtitle text.
 ```
 
 ### Scene ch20_s2 — 4s — waits to see what spills
@@ -1790,7 +1801,7 @@ field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5,
 3. **VIDEO PROMPT:**
 ```
 Locked macro, a few foreign characters drip below the page edge 0–4s. Watching for ghosts. No
-figures. Hold palette.
+figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch20_s3 — 4s — maybe it was there the whole time
@@ -1806,7 +1817,7 @@ ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Locked macro, the faint green lines surface on the old glass and hold 0–4s. Unexplained. No
-figures. Hold palette.
+figures. Hold palette. No captions, titles or subtitle text.
 ```
 
 ### Scene ch20_s4 — 3s — the page (final)
@@ -1821,7 +1832,7 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 3. **VIDEO PROMPT:**
 ```
 Static, the blank page glows and holds 0–3s; hard cut to black on the last word. No figures.
-Hold palette.
+Hold palette. No captions, titles or subtitle text.
 ```
 
 **End →** hard cut to black on "page." No end card over the image; the last word is the last thing.
