@@ -295,6 +295,21 @@ class RenderScenesTests(unittest.TestCase):
             self.assertIn("--yes", err)
         self.assertEqual(self.calls, [])
 
+    def test_a_reused_scene_is_never_rendered(self):
+        shotlist_path = self.renders.parent / "shotlist.json"
+        shotlist = json.loads(shotlist_path.read_text())
+        for ch in shotlist["chapters"]:
+            for sc in ch["scenes"]:
+                if sc["id"] == "ch01_s2":
+                    sc["reuse"] = "ch01_s1"
+        shotlist_path.write_text(json.dumps(shotlist))
+        self._subscribe([(["Completed"], {"status": "completed", "video": {"url": "https://cdn/1.mp4"}})])
+        code, out, _ = self._run("--scene", "ch01_s1", "--scene", "ch01_s2")
+        self.assertEqual(code, 0)
+        self.assertEqual(len(self.calls), 1)
+        self.assertIn("ch01_s2 uses ch01_s1", out)
+        self.assertNotIn("ch01_s2", json.loads(self.renders.read_text())["scenes"])
+
     def test_dry_run_and_missing_key_submit_nothing(self):
         self._subscribe([])
         code, out, _ = self._run("--chapter", "ch01", "--dry-run")

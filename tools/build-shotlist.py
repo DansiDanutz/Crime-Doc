@@ -83,6 +83,7 @@ def parse_scenes_md(md: str) -> list[dict]:
     scene_re = re.compile(r"^###\s+Scene\s+(\S+)\s+[—-]\s+(\d+)s")
     meta_re = re.compile(r"\*\*SFX:\*\*\s*(.*?)\s*·\s*\*\*Ambient:\*\*\s*(.*?)\s*·\s*\*\*Music:\*\*\s*(.*)")
     chars_re = re.compile(r"\*\*CHARACTERS IN SCENE:\*\*\s*(.*)")
+    reuse_re = re.compile(r"\*\*REUSE:\*\*\s*(\S+)")
 
     def close_field():
         nonlocal field, buf, scene
@@ -135,6 +136,10 @@ def parse_scenes_md(md: str) -> list[dict]:
             if mc and not in_fence:
                 scene["characters_raw"] = mc.group(1).strip()
                 continue
+            mr = reuse_re.search(line)
+            if mr and not in_fence:
+                scene["reuse"] = mr.group(1).strip()
+                continue
             if not in_fence and "**IMAGE PROMPT:**" in line:
                 close_field(); field = "image"; continue
             if not in_fence and "**VIDEO PROMPT:**" in line:
@@ -151,7 +156,24 @@ def parse_scenes_md(md: str) -> list[dict]:
                 buf.append(line)
 
     close_field()
+    check_reuse(chapters)
     return chapters
+
+
+def check_reuse(chapters: list[dict]) -> None:
+    """A REUSE line names an earlier, rendered-in-its-own-right scene whose clip the edit uses."""
+    order = [sc["id"] for ch in chapters for sc in ch["scenes"]]
+    by_id = {sc["id"]: sc for ch in chapters for sc in ch["scenes"]}
+    for sc in by_id.values():
+        target = sc.get("reuse")
+        if target is None:
+            continue
+        if target not in by_id:
+            raise ValueError(f"{sc['id']}: REUSE names unknown scene {target}")
+        if order.index(target) >= order.index(sc["id"]):
+            raise ValueError(f"{sc['id']}: REUSE must name an earlier scene, not {target}")
+        if by_id[target].get("reuse"):
+            raise ValueError(f"{sc['id']}: REUSE target {target} is itself a reuse")
 
 
 def main() -> int:

@@ -51,6 +51,13 @@ the API endpoint takes a text prompt only, so they are not anchored to the cast 
 keyframe. They are recorded in `production/renders.json`, never in `image_job_id` /
 `video_job_id`. A run of more than one scene needs `--yes`; `--dry-run` shows what would be sent.
 
+### Reusing an earlier clip
+A scene can borrow an earlier scene's clip instead of being rendered (a callback, or the same
+diagram again). Add a line after its VIDEO PROMPT block in `04-scenes.md`:
+`4. **REUSE:** ch02_s3 — why it fits`. `build-shotlist.py` records it as `scene.reuse` (it must
+name an earlier scene that is not itself a reuse), `render-scenes.py` never renders that scene,
+and the edit places the named clip there, trimmed to the scene's own duration.
+
 ### 4. Thumbnails
 - `generate_image`, `model: nano_banana_pro`, each prompt from `05-thumbnails.md`,
   `count: 4`, `aspect_ratio:"16:9"`.

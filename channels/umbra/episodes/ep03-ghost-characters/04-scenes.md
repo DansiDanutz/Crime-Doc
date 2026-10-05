@@ -1007,6 +1007,7 @@ lens, shot on ARRI Alexa, 16:9
 Static diagram, the last coins settle into the red folder 0–3s. Moved, not stolen. No figures.
 Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch02_s2 — the same diagram: money flowing from the vault into the red folder. Not rendered; the edit uses that clip.
 
 **Chapter handoff →** the folder fills; Chapter 13 waits for an alarm that never comes.
 
@@ -1078,6 +1079,7 @@ ARRI Alexa, 16:9
 Static close, the red head holds still as morning light shifts across it 0–3s. Something else is
 coming. No camera move. Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch02_s4 — the same still close-up of the red head, motive withheld. Not rendered; the edit uses that clip.
 
 **Chapter handoff →** the red head holds; Chapter 14 shows what they do instead.
 
@@ -1189,6 +1191,7 @@ shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5
 Static diagram, every coin flows back into the vault 0–4s until the folder is empty. In full. No
 figures. Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch02_s3 — that shot is the money flowing back into the vault. Not rendered; the edit uses that clip.
 
 ### Scene ch15_s2 — 4s — the banker receives it
 1. **CHARACTERS IN SCENE:** The Banker
@@ -1237,6 +1240,7 @@ anamorphic lens, shot on ARRI Alexa, 16:9
 Locked macro, the light slowly hardens across the stamped seal 0–3s. One word, used to sell
 something. No figures. Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch04_s5 — the stamped SECURE seal from chapter 04, as the prompt intends. Not rendered; the edit uses that clip.
 
 **Chapter handoff →** the seal holds; Chapter 16 shows what the word was used to sell.
 
@@ -1323,6 +1327,7 @@ shot on ARRI Alexa, 16:9
 Locked, the black official stamps the statement and holds 0–3s. Minor. An isolated case. Hold
 the color code. No new figures. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch04_s4 — the black official bringing the stamp down. Not rendered; the edit uses that clip.
 
 **Chapter handoff →** the stamp lifts; Chapter 17 gives the hackers' answer.
 
@@ -1362,6 +1367,7 @@ lens, shot on ARRI Alexa, 16:9
 Slow pull-back from the circled dot until the whole web of linked TVs fills the frame 0–3s. Not
 isolated. No figures. Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch03_s2 — the whole network: TV icons across the map wired to one node. Not rendered; the edit uses that clip.
 
 ### Scene ch17_s3 — 3s — nineteen thousand users
 1. **CHARACTERS IN SCENE:** The Btx User (white)
@@ -1393,6 +1399,7 @@ grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 
 Static medium, the two red figures sit at one small machine 0–3s. That was all it took. No
 camera move. Hold palette. No new figures. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch05_s2 — the two red figures at their machines. Not rendered; the edit uses that clip.
 
 ### Scene ch17_s5 — 3s — the mistake that did not exist (handoff)
 1. **CHARACTERS IN SCENE:** The Bundespost Official
@@ -1410,6 +1417,7 @@ Locked, the black official holds the oath pose while the crack in the block besi
 0–3s. Sworn, and wrong. Hold the color code. No new figures. No captions, titles or subtitle
 text.
 ```
+4. **REUSE:** ch05_s4 — the official, unmoved, beside his stamped document. Not rendered; the edit uses that clip.
 
 **Chapter handoff →** the crack holds; Chapter 18 asks the question no inquiry answered.
 
@@ -1503,6 +1511,7 @@ lens, shot on ARRI Alexa, 16:9
 Static wide, the light around the red figure stays on as the space around it goes dark 0–3s.
 Still there. No camera move. Hold palette. No new figures. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch02_s1 — the lone red figure in a shaft of light in the dark. Not rendered; the edit uses that clip.
 
 ### Scene ch19_s2 — 3s — every year since (white-void diagram)
 1. **CHARACTERS IN SCENE:** No recurring characters
@@ -1535,6 +1544,7 @@ render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 Locked, the black banker taps the vault box once and holds 0–3s. Safe. Hold the color code. No
 new figures. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch08_s5 — the black banker before the vault. Not rendered; the edit uses that clip.
 
 ### Scene ch19_s4 — 3s — your data is safe
 1. **CHARACTERS IN SCENE:** The Btx User (white)
@@ -1606,6 +1616,7 @@ field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5,
 Locked macro, a few foreign characters drip below the page edge 0–4s. Watching for ghosts. No
 figures. Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch07_s3 — callback to the original spill below the page. Not rendered; the edit uses that clip.
 
 ### Scene ch20_s3 — 4s — maybe it was there the whole time
 1. **CHARACTERS IN SCENE:** No recurring characters
@@ -1622,6 +1633,7 @@ ARRI Alexa, 16:9
 Locked macro, the faint green lines surface on the old glass and hold 0–4s. Unexplained. No
 figures. Hold palette. No captions, titles or subtitle text.
 ```
+4. **REUSE:** ch08_s3 — callback to the login on the old CRT. Not rendered; the edit uses that clip.
 
 ### Scene ch20_s4 — 3s — the page (final)
 1. **CHARACTERS IN SCENE:** No recurring characters

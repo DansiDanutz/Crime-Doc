@@ -758,7 +758,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a clean diagram of a thin stream\nof coins arriving into a small red folder icon, the folder filling, the black vault icon far\nbehind it, cold clinical light, soft contact shadows, cinematic key from above, shallow depth of\nfield, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Static diagram, the last coins settle into the red folder 0–3s. Moved, not stolen. No figures.\nHold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch02_s2"
         }
       ]
     },
@@ -808,7 +809,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, a close, near-symmetrical shot of the matte red mannequin's\ncompletely smooth featureless eggshell head, round red glasses and red cardigan collar in the\npale morning light of the flat, utterly still, shallow depth of field, volumetric light, dust\nparticles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on\nARRI Alexa, 16:9",
           "video_prompt": "Static close, the red head holds still as morning light shifts across it 0–3s. Something else is\ncoming. No camera move. Hold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch02_s4"
         }
       ]
     },
@@ -887,7 +889,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a clean diagram of a stream of\nsmall coins flowing out of a red folder icon back into a black bank-vault icon, the folder\nemptying completely, cold clinical light, soft contact shadows, cinematic key from above,\nshallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane render,\n8K, anamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Static diagram, every coin flows back into the vault 0–4s until the folder is empty. In full. No\nfigures. Hold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch02_s3"
         },
         {
           "id": "ch15_s2",
@@ -918,7 +921,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, extreme close-up of the stamped\nofficial document from before, a single blocky seal reading as a bold mark, cold clinical light,\nwhite void, cold clinical light, soft contact shadows, cinematic key from above, shallow depth\nof field, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K,\nanamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Locked macro, the light slowly hardens across the stamped seal 0–3s. One word, used to sell\nsomething. No figures. Hold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch04_s5"
         }
       ]
     },
@@ -981,7 +985,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin in a 1980s postal-service\nuniform and peaked cap pressing a small rubber stamp onto a short typed statement on a counter,\ninfinite white void, soft contact shadow, cinematic key from above, shallow depth of field,\nvolumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens,\nshot on ARRI Alexa, 16:9",
           "video_prompt": "Locked, the black official stamps the statement and holds 0–3s. Minor. An isolated case. Hold\nthe color code. No new figures. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch04_s4"
         }
       ]
     },
@@ -1009,7 +1014,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, in an infinite white void, a clean diagram that pulls back\nfrom the circled dot to reveal it is one node in a vast web of thousands of linked television\nicons, cold clinical light, soft contact shadows, cinematic key from above, shallow depth of\nfield, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Slow pull-back from the circled dot until the whole web of linked TVs fills the frame 0–3s. Not\nisolated. No figures. Hold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch03_s2"
         },
         {
           "id": "ch17_s3",
@@ -1031,7 +1037,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, two matte red mannequins (featureless eggshell heads with no\nfaces; one in a red cardigan and round red glasses, the other in a red bomber jacket) at a\nsingle cluttered desk with one boxy home computer and an acoustic modem, dim 1980s flat, the\nonly light the CRT, shallow depth of field, volumetric light, dust particles, cinematic color\ngrade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Static medium, the two red figures sit at one small machine 0–3s. That was all it took. No\ncamera move. Hold palette. No new figures. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch05_s2"
         },
         {
           "id": "ch17_s5",
@@ -1042,7 +1049,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin in a 1980s postal-service\nuniform standing with one hand raised flat as if swearing an oath, beside the cracked solid\nblock from before, infinite white void, soft contact shadow, cinematic key from above, shallow\ndepth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K,\nanamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Locked, the black official holds the oath pose while the crack in the block beside it widens\n0–3s. Sworn, and wrong. Hold the color code. No new figures. No captions, titles or subtitle\ntext.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch05_s4"
         }
       ]
     },
@@ -1111,7 +1119,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, a matte red mannequin (featureless eggshell head with no\neyes, nose or mouth, red cardigan, round red glasses) standing alone in a pool of light at the\ncenter of a vast dark space, unmoved, the only lit object, shallow depth of field, volumetric\nlight, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Static wide, the light around the red figure stays on as the space around it goes dark 0–3s.\nStill there. No camera move. Hold palette. No new figures. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch02_s1"
         },
         {
           "id": "ch19_s2",
@@ -1131,7 +1140,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin in a plain banker's\nthree-piece suit standing behind a counter, one hand resting on a closed black vault box, a\nsmall stamped card on the counter, infinite white void, soft contact shadow, cinematic key from\nabove, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane\nrender, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Locked, the black banker taps the vault box once and holds 0–3s. Safe. Hold the color code. No\nnew figures. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch08_s5"
         },
         {
           "id": "ch19_s4",
@@ -1181,7 +1191,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of a modern screen where a page of text\noverfills its box and a few stray characters spill below the edge into the dark margin, cool\nlight, the on-screen characters abstract blocky glyphs with no readable words, shallow depth of\nfield, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render,\n8K, anamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Locked macro, a few foreign characters drip below the page edge 0–4s. Watching for ghosts. No\nfigures. Hold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch07_s3"
         },
         {
           "id": "ch20_s3",
@@ -1190,7 +1201,8 @@
           "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of the old 1980s CRT from the first\nchapter, two lines of blocky green text — a login and a password field — faintly visible beneath\nthe surface of the glass, scanlines, dark room, shallow depth of field, volumetric light, dust\nparticles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on\nARRI Alexa, 16:9",
           "video_prompt": "Locked macro, the faint green lines surface on the old glass and hold 0–4s. Unexplained. No\nfigures. Hold palette. No captions, titles or subtitle text.",
           "image_job_id": null,
-          "video_job_id": null
+          "video_job_id": null,
+          "reuse": "ch08_s3"
         },
         {
           "id": "ch20_s4",

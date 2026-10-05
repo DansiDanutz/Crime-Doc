@@ -57,6 +57,34 @@ class ToolRegressionTests(unittest.TestCase):
         for scene_id in [k for k in scenes if int(k[2:4]) >= 5]:
             self.assertNotIn("Mode B", flat[scene_id][0], scene_id)
 
+    def test_reuse_must_name_an_earlier_scene_that_is_not_itself_a_reuse(self):
+        tool = load_tool("build-shotlist")
+        def md(*scenes):
+            body = ["## CHAPTER 01 — t  (0:00–0:15)"]
+            for sid, reuse in scenes:
+                body += [f"### Scene {sid} — 3s — x", "1. **CHARACTERS IN SCENE:** No recurring characters",
+                         "2. **IMAGE PROMPT:**", "```", "img", "```", "3. **VIDEO PROMPT:**", "```", "vid", "```"]
+                if reuse:
+                    body.append(f"4. **REUSE:** {reuse} — why")
+            return "\n".join(body)
+        chapters = tool.parse_scenes_md(md(("ch01_s1", None), ("ch01_s2", "ch01_s1")))
+        self.assertEqual(chapters[0]["scenes"][1]["reuse"], "ch01_s1")
+        self.assertNotIn("reuse", chapters[0]["scenes"][0])
+        with self.assertRaisesRegex(ValueError, "unknown scene"):
+            tool.parse_scenes_md(md(("ch01_s1", "ch09_s9")))
+        with self.assertRaisesRegex(ValueError, "earlier scene"):
+            tool.parse_scenes_md(md(("ch01_s1", "ch01_s2"), ("ch01_s2", None)))
+        with self.assertRaisesRegex(ValueError, "itself a reuse"):
+            tool.parse_scenes_md(md(("ch01_s1", None), ("ch01_s2", "ch01_s1"), ("ch01_s3", "ch01_s2")))
+
+    def test_ep03_reuses_twelve_existing_clips(self):
+        import json
+        shotlist = json.loads((ROOT / "channels/umbra/episodes/ep03-ghost-characters/production/shotlist.json").read_text())
+        reuse = {sc["id"]: sc["reuse"] for ch in shotlist["chapters"] for sc in ch["scenes"] if sc.get("reuse")}
+        self.assertEqual(len(reuse), 12)
+        self.assertEqual(reuse["ch15_s4"], "ch04_s5")  # the stamped SECURE seal
+        self.assertEqual(reuse["ch20_s3"], "ch08_s3")  # the login on the old CRT
+
     def test_yaml_reader_decodes_quotes_and_comments(self):
         tool = load_tool("export-episode")
         with tempfile.TemporaryDirectory() as directory:

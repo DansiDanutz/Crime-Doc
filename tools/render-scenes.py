@@ -21,6 +21,7 @@ Billing guards:
     back up next time instead of paying for it again;
   * a scene is skipped only while its render inputs are unchanged; edited scenes re-render;
   * the first API error (e.g. no credits left), or 2 failed jobs in a row, stops the batch;
+  * a scene marked REUSE in 04-scenes.md is never rendered: the edit uses the named earlier clip;
   * one render run per episode at a time (a lock file), and the ledger is replaced atomically.
 
 Usage:
@@ -274,7 +275,12 @@ def run(args, ep: Path, shotlist: dict) -> int:
     ledger = Ledger(ep / "production" / "renders.json")
 
     jobs = []
+    reused = []
     for scene in select_scenes(shotlist, args.scene, args.chapter, args.all):
+        if scene.get("reuse"):
+            # The edit uses an earlier scene's clip here; nothing to render or pay for.
+            reused.append((scene["id"], scene["reuse"]))
+            continue
         arguments = arguments_for(scene, shotlist, args.resolution)
         inputs = fingerprint(arguments)
         # A queued job is always picked up, even when an older clip with the same inputs exists
@@ -289,6 +295,12 @@ def run(args, ep: Path, shotlist: dict) -> int:
     print(f"{len(new)} new render(s), {seconds} s of video at {args.resolution}"
           + (f"; {len(resuming)} queued earlier, to be resumed" if resuming else "")
           + "  [previews: prompt-only, not cast-locked]")
+    if reused:
+        pairs = ", ".join(f"{sid} uses {src}" for sid, src in reused)
+        print(f"  {len(reused)} scene(s) reuse an existing clip, not rendered: {pairs}")
+        missing = sorted({src for _, src in reused if src not in ledger.data["scenes"]})
+        if missing:
+            print(f"  note: no clip yet for {', '.join(missing)}; render it before the edit")
     if replacing:
         why = "--force" if args.force else "their prompt or settings changed since they were rendered"
         print(f"  replaces existing clips ({why}): {', '.join(replacing)}")
