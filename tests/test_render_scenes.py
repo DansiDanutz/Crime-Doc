@@ -219,6 +219,20 @@ class RenderScenesTests(unittest.TestCase):
         self.assertIn("no further scenes were submitted", err)
         self.assertEqual(len(self.calls), 1)
 
+    def test_gateway_html_error_is_one_line_and_names_the_queued_job(self):
+        page = ("<!DOCTYPE html><html><head><title>higgsfield.ai | 522: Connection timed out</title></head>"
+                "<body>" + "<div>noise</div>" * 200 + "</body></html>")
+        error = self.modules["higgsfield_client.exceptions"].HiggsfieldClientError(page)
+        self._subscribe([(["Queued", "InProgress"], error)])
+        code, _, err = self._run("--scene", "ch01_s1")
+        self.assertEqual(code, 1)
+        self.assertIn("522: Connection timed out", err)
+        self.assertIn("job req-1 was queued and is resumed on the next run", err)
+        self.assertNotIn("<div>", err)
+        self.assertLess(len(err), 600)
+        # the queued job survives for the next run to resume
+        self.assertEqual(json.loads(self.renders.read_text())["pending"]["ch01_s1"]["request_id"], "req-1")
+
     def test_any_batch_needs_yes_and_nothing_is_sent_without_it(self):
         self._subscribe([])
         for selector in (["--chapter", "ch01"], ["--all"], ["--scene", "ch01_s1", "--scene", "ch01_s2"]):
