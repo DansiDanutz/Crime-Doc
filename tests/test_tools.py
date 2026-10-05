@@ -33,6 +33,30 @@ class ToolRegressionTests(unittest.TestCase):
         for scene_id in ("ch13_s3", "ch18_s1"):
             self.assertEqual(scenes[scene_id]["characters"], ["investigator"], scene_id)
 
+    def test_ep03_prompts_keep_the_caption_and_face_safeguards(self):
+        # Preview renders printed direction lines as captions (ch05_s3) and gave the Hacker a
+        # face (ch08_s4); these guards keep those instructions in the generated prompts.
+        import json
+        shotlist = json.loads((ROOT / "channels/umbra/episodes/ep03-ghost-characters/production/shotlist.json").read_text())
+        scenes = {sc["id"]: sc for ch in shotlist["chapters"] for sc in ch["scenes"]}
+        flat = {k: (" ".join(v["image_prompt"].split()), " ".join(v["video_prompt"].split())) for k, v in scenes.items()}
+        late = [k for k in scenes if int(k[2:4]) >= 9]
+        self.assertEqual(len(late), 54)
+        for scene_id in late:
+            self.assertIn("No captions, titles or subtitle text", flat[scene_id][1], scene_id)
+        faces = [k for k in late if "the_hacker" in scenes[k]["characters"] and "mannequin hands" not in flat[k][0]]
+        self.assertEqual(len(faces), 9)
+        for scene_id in faces:
+            self.assertIn("featureless", flat[scene_id][0], scene_id)
+        self.assertNotIn("Saying is not proving", flat["ch05_s3"][1])
+        self.assertIn("no text or lettering", flat["ch05_s3"][0])
+        self.assertIn("No captions", flat["ch05_s3"][1])
+        self.assertIn("featureless", flat["ch08_s4"][0])
+        self.assertIn("no eyes, nose, mouth", flat["ch08_s4"][0])
+        self.assertIn("seated naturally", flat["ch08_s2"][0])
+        for scene_id in [k for k in scenes if int(k[2:4]) >= 5]:
+            self.assertNotIn("Mode B", flat[scene_id][0], scene_id)
+
     def test_yaml_reader_decodes_quotes_and_comments(self):
         tool = load_tool("export-episode")
         with tempfile.TemporaryDirectory() as directory:
