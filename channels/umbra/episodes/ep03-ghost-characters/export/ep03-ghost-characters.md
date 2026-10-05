@@ -348,10 +348,11 @@ happening. Hold palette. No new figures.
 1. **CHARACTERS IN SCENE:** The Hacker (tiny, centered)
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a single matte red mannequin seated very small and centered
-at a desk in a vast dark space, immense negative space, one shaft of cool screen light, Mode B,
-shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine
-5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, a single matte red mannequin (eggshell head, red cardigan,
+round red glasses) seated very small and centered at a desk in a vast dark space, immense
+negative space, one shaft of cool screen light, Mode B, shallow depth of field, volumetric
+light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic
+lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -396,9 +397,9 @@ itself. No figures. Hold palette.
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, a close, near-symmetrical shot of the matte red mannequin's
-eggshell head lit by cool screen glow in the dark, utterly still, Mode B, shallow depth of field,
-volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K,
-anamorphic lens, shot on ARRI Alexa, 16:9
+eggshell head, round red glasses and red cardigan collar lit by cool screen glow in the dark,
+utterly still, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color
+grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -420,8 +421,9 @@ No camera move. Hold palette.
 ```
 Cinematic photorealistic 3D render, a glossy white mannequin seated in a tidy 1980s living room
 before a boxy television showing a blocky colorful Btx menu, a small numeric keypad in its hand,
-warm domestic light, Mode B, shallow depth of field, volumetric light, dust particles, cinematic
-color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+warm domestic light, the on-screen characters abstract blocky glyphs with no readable words,
+Mode B, shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal
+Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -465,11 +467,12 @@ The state, in charge. Hold the color code. No new figures.
 1. **CHARACTERS IN SCENE:** No recurring characters
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, extreme close-up of the back of a plain boxy 1980s television
-with a small grey modem box and a coiled cable plugged into it, the screen beyond waking from
-static, a tidy living room, warm domestic light, Mode B, shallow depth of field, volumetric light,
-dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot
-on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, extreme close-up of the back of a plain boxy 1980s
+television with a small grey modem box and a coiled cable plugged into it, the screen beyond
+waking from static, a tidy living room, warm domestic light, the on-screen characters abstract
+blocky glyphs with no readable words, Mode B, shallow depth of field, volumetric light, dust
+particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on
+ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -482,10 +485,11 @@ palette.
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, the matte red mannequin at his CRT, the blocky Btx menu
-screen reflected across its red eggshell head, Mode B, shallow depth of field, volumetric light,
-dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot
-on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, the matte red mannequin (eggshell head, red cardigan, round
+red glasses) at his CRT, the blocky Btx menu screen reflected across its red eggshell head, the
+on-screen characters abstract blocky glyphs with no readable words, Mode B, shallow depth of
+field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render,
+8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -507,9 +511,9 @@ doesn't believe it. Hold palette. No new figures.
 ```
 Cinematic photorealistic 3D render, a glossy white mannequin seated in a tidy 1980s living room
 before a boxy television showing a blocky colorful Btx news page, a small numeric keypad in its
-hand, warm domestic light, Mode B, shallow depth of field, volumetric light, dust particles,
-cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
-16:9
+hand, warm domestic light, the on-screen characters abstract blocky glyphs with no readable
+words, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color grade,
+Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -595,9 +599,10 @@ believe it (Chapter 05).
 ```
 Cinematic photorealistic 3D render, a matte red mannequin (eggshell head, red cardigan, round
 red glasses) at his desk turning slightly away from a glowing CRT showing a stamped Btx page,
-unconvinced posture, dim 1980s Hamburg flat, Mode B, shallow depth of field, volumetric light,
-dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot
-on ARRI Alexa, 16:9
+unconvinced posture, dim 1980s Hamburg flat, the on-screen characters abstract blocky glyphs
+with no readable words, Mode B, shallow depth of field, volumetric light, dust particles,
+cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
+16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -610,10 +615,11 @@ without a face. No camera move. Hold palette. No new figures.
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, a cramped 1980s club room crowded with boxy computers,
-cables, and stacked magazines, two matte red mannequins (eggshell heads, 1980s casual
-silhouettes) seated side by side at a long table under a single hanging lamp, Mode B, shallow
-depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane
-render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+cables, and stacked magazines, two matte red mannequins (eggshell heads; one in a red cardigan
+and round red glasses, the other in a red bomber jacket) seated side by side at a long table
+under a single hanging lamp, Mode B, shallow depth of field, volumetric light, dust particles,
+cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
+16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -713,8 +719,9 @@ Hold palette.
 ```
 Cinematic photorealistic 3D render, extreme close-up of a blocky 1980s videotex page on a CRT,
 coarse coloured mosaic characters filling the screen edge to edge, scanlines visible, dark room,
-Mode B, shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal
-Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+the on-screen characters abstract blocky glyphs with no readable words, Mode B, shallow depth of
+field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render,
+8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -750,10 +757,12 @@ built to hold. No figures. Hold palette.
 1. **CHARACTERS IN SCENE:** The Hacker (over-shoulder)
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, over-the-shoulder of a matte red mannequin facing a boxy CRT
-where a blocky videotex page has frozen mid-draw, a band of torn scanlines across it, cool green
-screen glow, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color
-grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, over-the-shoulder of a matte red mannequin (eggshell head,
+red cardigan, round red glasses) facing a boxy CRT where a blocky videotex page has frozen
+mid-draw, a band of torn scanlines across it, cool green screen glow, the on-screen characters
+abstract blocky glyphs with no readable words, Mode B, shallow depth of field, volumetric light,
+dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot
+on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -767,8 +776,9 @@ Hold palette.
 ```
 Cinematic photorealistic 3D render, extreme close-up of a CRT screen where stray blocky
 characters in mismatched colours leak below the edge of a videotex page into the black margin,
-scanlines visible, Mode B, shallow depth of field, volumetric light, dust particles, cinematic
-color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+scanlines visible, the on-screen characters abstract blocky glyphs with no readable words, Mode
+B, shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal
+Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -806,8 +816,9 @@ Data that was never meant to leave. No figures. Hold palette.
 ```
 Cinematic photorealistic 3D render, extreme close-up of a dark CRT where faint, half-formed
 blocky characters hang over a videotex page like an afterimage, pale and translucent, scanlines
-visible, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color
-grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+visible, the on-screen characters abstract blocky glyphs with no readable words, Mode B, shallow
+depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane
+render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -820,9 +831,10 @@ No figures. Hold palette.
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, a wide of the dim Hamburg flat at night, the matte red
-mannequin leaning very close to the glowing CRT, the room otherwise dark, Mode B, shallow depth
-of field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane
-render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+mannequin (eggshell head, red cardigan, round red glasses) leaning very close to the glowing
+CRT, the room otherwise dark, Mode B, shallow depth of field, volumetric light, dust particles,
+cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
+16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -903,10 +915,11 @@ figures. Hold palette.
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a medium shot of the matte red mannequin sitting back in his
-chair at the glowing desk, hands resting in his lap, the CRT showing the login screen, Mode B,
-shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine
-5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, a medium shot of the matte red mannequin (eggshell head, red
+cardigan, round red glasses) sitting back in his chair at the glowing desk, hands resting in his
+lap, the CRT showing the login screen, Mode B, shallow depth of field, volumetric light, dust
+particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on
+ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -936,9 +949,9 @@ figures. Hold palette.
 ```
 Cinematic photorealistic 3D render, a glossy white mannequin in a tidy 1980s living room opening
 a page on a boxy television, a small coin-shaped charge notice in the corner of the blocky
-screen, warm domestic light, Mode B, shallow depth of field, volumetric light, dust particles,
-cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
-16:9
+screen, warm domestic light, the on-screen characters abstract blocky glyphs with no readable
+words, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color grade,
+Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -990,8 +1003,9 @@ palette.
 ```
 Cinematic photorealistic 3D render, extreme close-up of matte red mannequin hands typing quickly
 on a chunky 1980s keyboard, short lines of green code scrolling on a CRT behind, cool desk
-light, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color grade,
-Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+light, the on-screen characters abstract blocky glyphs with no readable words, Mode B, shallow
+depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane
+render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -1075,9 +1089,10 @@ Hold palette.
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, a wide of the dim Hamburg flat at night, the matte red
-mannequin standing at the doorway with one hand on the light switch, the CRT still glowing on
-the desk, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color
-grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+mannequin (eggshell head, red cardigan, round red glasses) standing at the doorway with one hand
+on the light switch, the CRT still glowing on the desk, Mode B, shallow depth of field,
+volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K,
+anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -1246,9 +1261,9 @@ normal. Hold the color code. No new figures.
 2. **IMAGE PROMPT:**
 ```
 Cinematic photorealistic 3D render, a close, near-symmetrical shot of the matte red mannequin's
-eggshell head in the pale morning light of the flat, utterly still, Mode B, shallow depth of
-field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render,
-8K, anamorphic lens, shot on ARRI Alexa, 16:9
+eggshell head, round red glasses and red cardigan collar in the pale morning light of the flat,
+utterly still, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color
+grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -1313,10 +1328,12 @@ palette. No new figures.
 1. **CHARACTERS IN SCENE:** The Hacker (two red figures) and The Journalist
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, two matte red mannequins seated at a plain table covered in
-1980s microphones, a row of glossy white press mannequins with cameras in the foreground, flat
-hall light, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color
-grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, two matte red mannequins (eggshell heads; one in a red
+cardigan and round red glasses, the other in a red bomber jacket) seated at a plain table
+covered in 1980s microphones, a row of glossy white press mannequins with cameras in the
+foreground, flat hall light, Mode B, shallow depth of field, volumetric light, dust particles,
+cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
+16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -1384,10 +1401,11 @@ code. No new figures.
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a medium shot of the matte red mannequin standing at a plain
-table, an empty red folder lying open in front of it, flat hall light, Mode B, shallow depth of
-field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render,
-8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, a medium shot of the matte red mannequin (eggshell head, red
+cardigan, round red glasses) standing at a plain table, an empty red folder lying open in front
+of it, flat hall light, Mode B, shallow depth of field, volumetric light, dust particles,
+cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa,
+16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -1468,7 +1486,8 @@ Famous by morning. Hold palette. No new figures.
 1. **CHARACTERS IN SCENE:** The Hacker (two red figures)
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, two matte red mannequins standing in a doorway lit by a
+Cinematic photorealistic 3D render, two matte red mannequins (eggshell heads; one in a red
+cardigan and round red glasses, the other in a red bomber jacket) standing in a doorway lit by a
 burst of camera flashes from out of frame, 1980s casual silhouettes, night street, Mode B,
 shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine
 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
@@ -1553,10 +1572,11 @@ palette. No new figures.
 1. **CHARACTERS IN SCENE:** The Hacker (two red figures)
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, two matte red mannequins at a single cluttered desk with one
-boxy home computer and an acoustic modem, dim 1980s flat, the only light the CRT, Mode B,
-shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine
-5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, two matte red mannequins (eggshell heads; one in a red
+cardigan and round red glasses, the other in a red bomber jacket) at a single cluttered desk
+with one boxy home computer and an acoustic modem, dim 1980s flat, the only light the CRT, Mode
+B, shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal
+Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -1661,10 +1681,10 @@ figures. Hold palette.
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, a matte red mannequin standing alone in a pool of light at
-the center of a vast dark space, unmoved, the only lit object, Mode B, shallow depth of field,
-volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K,
-anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, a matte red mannequin (eggshell head, red cardigan, round
+red glasses) standing alone in a pool of light at the center of a vast dark space, unmoved, the
+only lit object, Mode B, shallow depth of field, volumetric light, dust particles, cinematic
+color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -1764,8 +1784,9 @@ palette. No new figures.
 ```
 Cinematic photorealistic 3D render, extreme close-up of a modern screen where a page of text
 overfills its box and a few stray characters spill below the edge into the dark margin, cool
-light, Mode B, shallow depth of field, volumetric light, dust particles, cinematic color grade,
-Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+light, the on-screen characters abstract blocky glyphs with no readable words, Mode B, shallow
+depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane
+render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
