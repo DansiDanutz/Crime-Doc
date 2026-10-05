@@ -146,6 +146,43 @@ class RenderScenesTests(unittest.TestCase):
             self._run("--scene", "ch01_s1")
         self.assertEqual(seen["ledger"]["pending"]["ch01_s1"]["request_id"], "req-1")
 
+    def test_interrupted_forced_rerender_is_resumed_even_with_an_older_clip(self):
+        inputs = self._inputs("ch01_s1")
+        self.renders.write_text(json.dumps({
+            "scenes": {"ch01_s1": {"request_id": "req-old", "video_url": "https://cdn/old.mp4", "inputs_sha256": inputs}},
+            "pending": {"ch01_s1": {"request_id": "req-new", "inputs_sha256": inputs}},
+        }))
+        self._subscribe([])
+        self.sdk.result = lambda rid: {"status": "completed", "video": {"url": "https://cdn/new.mp4"}}
+        self.sdk.status = lambda rid: self.sdk.Completed()
+        code, _, _ = self._run("--scene", "ch01_s1")
+        self.assertEqual(code, 0)
+        self.assertEqual(self.calls, [])
+        saved = json.loads(self.renders.read_text())
+        self.assertEqual(saved["scenes"]["ch01_s1"]["video_url"], "https://cdn/new.mp4")
+        self.assertEqual(saved["pending"], {})
+
+    def test_a_second_run_on_the_same_episode_is_refused(self):
+        self._subscribe([])
+        held = self.tool.lock_episode(self.renders.parent)
+        try:
+            code, _, _ = self._run("--scene", "ch01_s1")
+        finally:
+            held.close()
+        self.assertNotEqual(code, 0)
+        self.assertEqual(self.calls, [])
+
+    def test_an_interrupted_save_leaves_the_old_ledger_intact(self):
+        self.renders.write_text(json.dumps({"scenes": {"ch01_s9": {"video_url": "kept"}}, "pending": {}}))
+        before = self.renders.read_text()
+        ledger = self.tool.Ledger(self.renders)
+        ledger.data["pending"]["ch01_s1"] = {"request_id": "r", "inputs_sha256": "h"}
+        with mock.patch.object(self.tool.os, "replace", side_effect=OSError("disk full")):
+            with self.assertRaises(OSError):
+                ledger.save()
+        self.assertEqual(self.renders.read_text(), before)
+        self.assertEqual([p.name for p in self.renders.parent.iterdir() if p.name.endswith(".tmp")], [])
+
     def test_failed_moderated_and_canceled_are_not_recorded(self):
         self._subscribe([
             (["InProgress", "Failed"], {"status": "failed"}),

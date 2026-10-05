@@ -19,7 +19,8 @@ Billing guards:
   * a job's request id is saved the moment it is queued, so an interrupted run picks that job
     back up next time instead of paying for it again;
   * a scene is skipped only while its render inputs are unchanged; edited scenes re-render;
-  * the first API error (e.g. no credits left) stops the batch.
+  * the first API error (e.g. no credits left) stops the batch;
+  * one render run per episode at a time (a lock file), and the ledger is replaced atomically.
 
 Usage:
     tools/render-scenes.py umbra ep03-ghost-characters --scene ch01_s1          # the pilot
@@ -27,10 +28,12 @@ Usage:
     tools/render-scenes.py umbra ep03-ghost-characters --chapter ch01 --yes
 """
 import argparse
+import fcntl
 import hashlib
 import json
 import os
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -121,7 +124,17 @@ class Ledger:
                      "pending": data.get("pending", {})}
 
     def save(self) -> None:
-        self.path.write_text(json.dumps(self.data, indent=2, ensure_ascii=False) + "\n")
+        # Write a complete temporary file, then swap it in: an interruption never leaves half a ledger.
+        fd, tmp = tempfile.mkstemp(dir=self.path.parent, prefix=".renders.", suffix=".tmp")
+        try:
+            with os.fdopen(fd, "w") as handle:
+                handle.write(json.dumps(self.data, indent=2, ensure_ascii=False) + "\n")
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(tmp, self.path)
+        except BaseException:
+            Path(tmp).unlink(missing_ok=True)
+            raise
 
     def done(self, scene_id: str, inputs: str) -> bool:
         entry = self.data["scenes"].get(scene_id)
@@ -145,6 +158,17 @@ class Ledger:
 
 class StopBatch(Exception):
     pass
+
+
+def lock_episode(production: Path):
+    """Hold an exclusive lock for the whole run, so two runs never interleave ledger writes."""
+    handle = open(production / "renders.lock", "w")
+    try:
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        handle.close()
+        raise SystemExit("error: another render run is already working on this episode. Nothing was submitted.")
+    return handle
 
 
 def render_one(sdk, ledger: Ledger, scene_id: str, arguments: dict, inputs: str) -> tuple[str | None, str]:
@@ -203,13 +227,24 @@ def main(argv: list[str] | None = None) -> int:
 
     ep = episode_dir(args.channel, args.episode)
     shotlist = json.loads((ep / "production" / "shotlist.json").read_text())
+    lock = None if args.dry_run else lock_episode(ep / "production")
+    try:
+        return run(args, ep, shotlist)
+    finally:
+        if lock is not None:
+            lock.close()  # releases the lock
+
+
+def run(args, ep: Path, shotlist: dict) -> int:
     ledger = Ledger(ep / "production" / "renders.json")
 
     jobs = []
     for scene in select_scenes(shotlist, args.scene, args.chapter, args.all):
         arguments = arguments_for(scene, shotlist, args.resolution)
         inputs = fingerprint(arguments)
-        if args.force or not ledger.done(scene["id"], inputs):
+        # A queued job is always picked up, even when an older clip with the same inputs exists
+        # (an interrupted --force re-render), so a paid replacement is never left behind.
+        if args.force or ledger.pending(scene["id"], inputs) or not ledger.done(scene["id"], inputs):
             jobs.append((scene, arguments, inputs))
     resuming = [j for j in jobs if ledger.pending(j[0]["id"], j[2])]
     new = [j for j in jobs if not ledger.pending(j[0]["id"], j[2])]
