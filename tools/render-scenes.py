@@ -32,6 +32,7 @@ import fcntl
 import hashlib
 import json
 import os
+import re
 import sys
 import tempfile
 from pathlib import Path
@@ -164,6 +165,18 @@ class StopBatch(Exception):
     pass
 
 
+def brief(exc: Exception, limit: int = 200) -> str:
+    """One readable line for an API error: a gateway's HTML error page becomes its <title>."""
+    text = str(exc)
+    match = re.search(r"<title>(.*?)</title>", text, re.I | re.S)
+    if match:
+        text = match.group(1)
+    elif "<html" in text.lower():
+        text = re.sub(r"<[^>]+>", " ", text)
+    text = " ".join(text.split())
+    return text if len(text) <= limit else text[: limit - 1] + "…"
+
+
 def lock_episode(production: Path):
     """Hold an exclusive lock for the whole run, so two runs never interleave ledger writes."""
     handle = open(production / "renders.lock", "w")
@@ -194,7 +207,8 @@ def render_one(sdk, ledger: Ledger, scene_id: str, arguments: dict, inputs: str)
     except sdk.exceptions.CredentialsMissedError:
         raise SystemExit("error: Higgsfield credentials missing (HF_KEY). Nothing was submitted.")
     except sdk.exceptions.HiggsfieldClientError as exc:
-        raise StopBatch(f"{scene_id}: API error: {exc}") from exc
+        queued = f"; job {request['id']} was queued and is resumed on the next run" if "id" in request else ""
+        raise StopBatch(f"{scene_id}: API error: {brief(exc)}{queued}") from exc
     url, outcome = classify(sdk, statuses[-1] if statuses else None, result)
     ledger.finish(scene_id, request.get("id"), url, inputs, arguments["resolution"])
     return url, outcome
@@ -207,7 +221,8 @@ def resume_one(sdk, ledger: Ledger, scene_id: str, request_id: str, inputs: str,
         result = sdk.result(request_id)  # waits until the job is done
         final = sdk.status(request_id)
     except sdk.exceptions.HiggsfieldClientError as exc:
-        raise StopBatch(f"{scene_id}: API error while resuming {request_id}: {exc}") from exc
+        raise StopBatch(f"{scene_id}: API error while resuming {request_id}: {brief(exc)}; "
+                        "it is resumed again on the next run") from exc
     url, outcome = classify(sdk, final, result)
     ledger.finish(scene_id, request_id, url, inputs, resolution)
     return url, outcome
