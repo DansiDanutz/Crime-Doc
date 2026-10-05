@@ -273,7 +273,7 @@
           "characters": [
             "the_hacker"
           ],
-          "image_prompt": "Cinematic photorealistic 3D render, the matte red mannequin (eggshell head, red cardigan, round\nred glasses) at his CRT, the blocky Btx menu screen reflected across its red eggshell head, the\non-screen characters abstract blocky glyphs with no readable words, Mode B, shallow depth of\nfield, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render,\n8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "image_prompt": "Cinematic photorealistic 3D render, a close shot of the matte red mannequin (eggshell head, red\ncardigan, round red glasses) facing a CRT that sits just out of frame, the screen's cool glow\nand the blurred colored blocks of a Btx menu reflected across its glossy red eggshell head and\nlenses, no screen visible in the shot, no readable words anywhere, dim 1980s Hamburg flat,\nshallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine\n5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Slow push-in on the red figure as the menu screen plays across its head 0–3s. The man who\ndoesn't believe it. Hold palette. No new figures.",
           "image_job_id": null,
           "video_job_id": null
@@ -305,7 +305,7 @@
           "characters": [
             "btx_user"
           ],
-          "image_prompt": "Cinematic photorealistic 3D render, close-up of a glossy white mannequin hand on a numeric keypad\nbefore a television showing a blocky banking page with a column of numerals, warm domestic light,\nMode B, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane\nrender, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
+          "image_prompt": "Cinematic photorealistic 3D render, close-up of a glossy white mannequin hand on a numeric\nkeypad before a television showing a blocky banking page with a column of plain numerals and no\nwords, a small handheld numeric keypad (not a full keyboard), warm domestic light, shallow depth\nof field, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K,\nanamorphic lens, shot on ARRI Alexa, 16:9",
           "video_prompt": "Locked macro, the white fingers press two keys and the balance digits tick over 0–2s. Money, on\nthe television. No camera move. Hold palette.",
           "image_job_id": null,
           "video_job_id": null
@@ -334,8 +334,8 @@
           "id": "ch04_s5",
           "duration_s": 2,
           "characters": [],
-          "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of a freshly stamped document in white void,\na single blocky official seal reading as a bold mark, cold clinical light, soft contact shadow,\ncinematic key from above, shallow depth of field, volumetric light, cinematic color grade,\nUnreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",
-          "video_prompt": "Locked macro, the wet seal settles on the page 0–2s, edges sharpening. One word, guaranteed. No\nfigures. Hold palette.",
+          "image_prompt": "Cinematic photorealistic 3D render, extreme close-up of a freshly stamped document in white\nvoid, a single blocky official rubber-stamp seal whose only text is the word SECURE in bold\ncapitals, cold clinical light, soft contact shadow, cinematic key from above, shallow depth of\nfield, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic\nlens, shot on ARRI Alexa, 16:9",
+          "video_prompt": "Locked macro, the wet seal settles on the page 0–2s, edges sharpening. The word SECURE, and\nnothing else. No figures. Hold palette.",
           "image_job_id": null,
           "video_job_id": null
         }

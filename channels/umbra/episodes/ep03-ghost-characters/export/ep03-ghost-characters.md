@@ -485,11 +485,12 @@ palette.
 1. **CHARACTERS IN SCENE:** The Hacker
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, the matte red mannequin (eggshell head, red cardigan, round
-red glasses) at his CRT, the blocky Btx menu screen reflected across its red eggshell head, the
-on-screen characters abstract blocky glyphs with no readable words, Mode B, shallow depth of
-field, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render,
-8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, a close shot of the matte red mannequin (eggshell head, red
+cardigan, round red glasses) facing a CRT that sits just out of frame, the screen's cool glow
+and the blurred colored blocks of a Btx menu reflected across its glossy red eggshell head and
+lenses, no screen visible in the shot, no readable words anywhere, dim 1980s Hamburg flat,
+shallow depth of field, volumetric light, dust particles, cinematic color grade, Unreal Engine
+5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -526,10 +527,11 @@ new figures.
 1. **CHARACTERS IN SCENE:** The Btx User (hand)
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, close-up of a glossy white mannequin hand on a numeric keypad
-before a television showing a blocky banking page with a column of numerals, warm domestic light,
-Mode B, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5, octane
-render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, close-up of a glossy white mannequin hand on a numeric
+keypad before a television showing a blocky banking page with a column of plain numerals and no
+words, a small handheld numeric keypad (not a full keyboard), warm domestic light, shallow depth
+of field, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K,
+anamorphic lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
@@ -573,15 +575,16 @@ pressed onto paper. Hold the color code. No new figures.
 1. **CHARACTERS IN SCENE:** No recurring characters
 2. **IMAGE PROMPT:**
 ```
-Cinematic photorealistic 3D render, extreme close-up of a freshly stamped document in white void,
-a single blocky official seal reading as a bold mark, cold clinical light, soft contact shadow,
-cinematic key from above, shallow depth of field, volumetric light, cinematic color grade,
-Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9
+Cinematic photorealistic 3D render, extreme close-up of a freshly stamped document in white
+void, a single blocky official rubber-stamp seal whose only text is the word SECURE in bold
+capitals, cold clinical light, soft contact shadow, cinematic key from above, shallow depth of
+field, volumetric light, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic
+lens, shot on ARRI Alexa, 16:9
 ```
 3. **VIDEO PROMPT:**
 ```
-Locked macro, the wet seal settles on the page 0–2s, edges sharpening. One word, guaranteed. No
-figures. Hold palette.
+Locked macro, the wet seal settles on the page 0–2s, edges sharpening. The word SECURE, and
+nothing else. No figures. Hold palette.
 ```
 
 **Chapter handoff →** the seal sets and holds on the stamped word; cut to the red figure who does not
