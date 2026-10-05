@@ -230,8 +230,25 @@ class RenderScenesTests(unittest.TestCase):
         self.assertIn("FAILED: Insufficient credits", err)
         self.assertIn("FAILED (Higgsfield gave no reason)", err)
         self.assertIn("2 renders failed in a row", err)
-        self.assertIn("1 remaining scene(s) were not submitted", err)
+        self.assertIn("1 remaining new scene(s) were not submitted", err)
         self.assertIn("done: 0 rendered, 2 not rendered", err + self._last_out)
+
+    def test_queued_job_is_collected_even_when_new_submissions_fail(self):
+        # ch01_s3 was queued by an interrupted run; ch01_s1 and ch01_s2 then fail.
+        self.renders.write_text(json.dumps({"scenes": {}, "pending": {
+            "ch01_s3": {"request_id": "req-old", "inputs_sha256": self._inputs("ch01_s3")}}}))
+        self._subscribe([
+            (["Queued", "Failed"], {"status": "failed"}),
+            (["Queued", "Failed"], {"status": "failed"}),
+        ])
+        self.sdk.result = lambda rid: {"status": "completed", "video": {"url": "https://cdn/old.mp4"}}
+        self.sdk.status = lambda rid: self.sdk.Completed()
+        code, _, err = self._run("--scene", "ch01_s1", "--scene", "ch01_s2", "--scene", "ch01_s3", "--yes")
+        self.assertEqual(code, 1)
+        saved = json.loads(self.renders.read_text())
+        self.assertEqual(saved["scenes"]["ch01_s3"]["video_url"], "https://cdn/old.mp4")
+        self.assertEqual(saved["pending"], {})
+        self.assertEqual(len(self.calls), 2)
 
     def test_one_failure_does_not_stop_the_batch(self):
         self._subscribe([

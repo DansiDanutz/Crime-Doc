@@ -316,9 +316,12 @@ def run(args, ep: Path, shotlist: dict) -> int:
     import higgsfield_client as sdk
     import higgsfield_client.exceptions  # noqa: F401  (makes sdk.exceptions available)
 
+    # Collect jobs queued by an earlier run first: they are already paid for, so a stop on new
+    # submissions below must never leave one of them uncollected.
+    ordered = resuming + new
     rendered = failed = failed_in_a_row = 0
     try:
-        for position, (scene, arguments, inputs) in enumerate(jobs):
+        for position, (scene, arguments, inputs) in enumerate(ordered):
             if scene.get("image_job_id"):
                 print(f"  {scene['id']}: note: this scene has a keyframe; the preview does not use it")
             request_id = ledger.pending(scene["id"], inputs)
@@ -333,13 +336,15 @@ def run(args, ep: Path, shotlist: dict) -> int:
             else:
                 failed += 1
                 print(f"  {scene['id']}: NOT rendered ({outcome})", file=sys.stderr)
+                if request_id:  # a resumed job: nothing new was submitted, so no stop
+                    continue
                 failed_in_a_row = failed_in_a_row + 1 if outcome.startswith("FAILED") else 0
-                if failed_in_a_row == MAX_FAILED_IN_A_ROW and position + 1 < len(jobs):
+                if failed_in_a_row == MAX_FAILED_IN_A_ROW and position + 1 < len(ordered):
                     raise StopBatch(
                         f"{MAX_FAILED_IN_A_ROW} renders failed in a row, which usually means an account "
                         "problem (credits, plan or rate limit) rather than the prompts. Check the reason "
-                        f"above and your Higgsfield balance, then re-run: the {len(jobs) - position - 1} "
-                        "remaining scene(s) were not submitted, and rendered ones are skipped.")
+                        f"above and your Higgsfield balance, then re-run: the {len(ordered) - position - 1} "
+                        "remaining new scene(s) were not submitted, and rendered ones are skipped.")
     except StopBatch as stop:
         if not str(stop).startswith(f"{MAX_FAILED_IN_A_ROW} renders failed in a row"):
             failed += 1
