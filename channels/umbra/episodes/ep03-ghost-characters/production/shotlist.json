@@ -67,7 +67,6 @@
         "bundespost official",
         "official",
         "post office",
-        "postal",
         "operator"
       ],
       "ref_prompt": "matte black mannequin in 1980s postal-service uniform + peaked cap + posthorn emblem, white void (re-skin of The Detective)",
@@ -793,7 +792,6 @@
           "id": "ch13_s3",
           "duration_s": 4,
           "characters": [
-            "bundespost",
             "investigator"
           ],
           "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin in 1980s technician's kit\nwith a wired headset and a clipboard, standing in a dim machine room of tall grey computer\ncabinets, all status lights steady green, Mode B, shallow depth of field, volumetric light, dust\nparticles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on\nARRI Alexa, 16:9",
@@ -1060,7 +1058,6 @@
           "id": "ch18_s1",
           "duration_s": 4,
           "characters": [
-            "bundespost",
             "investigator"
           ],
           "image_prompt": "Cinematic photorealistic 3D render, a single matte black mannequin in 1980s technician's kit\nwith a clipboard, seated at a long table stacked with file boxes, one open folder in front of it\nwith a blank page, Mode B, shallow depth of field, volumetric light, dust particles, cinematic\ncolor grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9",

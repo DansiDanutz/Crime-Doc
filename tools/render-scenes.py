@@ -1,22 +1,33 @@
 #!/usr/bin/env python3
-"""render-scenes.py — render storyboard scenes with the Higgsfield API (Seedance 2.5).
+"""render-scenes.py — render PREVIEW clips of storyboard scenes with the Higgsfield API.
 
-Reads an episode's production/shotlist.json and renders the chosen scenes as text-to-video
-(the scene's IMAGE PROMPT + VIDEO PROMPT), then records each finished clip in
-production/renders.json so a re-run skips what is already done.
+Renders the chosen scenes from an episode's production/shotlist.json as Seedance 2.5
+text-to-video (the scene's IMAGE PROMPT + VIDEO PROMPT) and records them in
+production/renders.json.
+
+These are previews, not production shots: the API's documented Seedance 2.5 endpoint takes a
+text prompt only, so the clips are not anchored to the locked cast elements or a keyframe.
+Production shots still go through the reference-element path in docs/PRODUCTION_PIPELINE.md,
+which is what fills `image_job_id` / `video_job_id` in the shotlist; this tool never writes them.
 
 Credentials stay local: the SDK reads HF_KEY ("key-id:key-secret") from the environment,
 loaded here from the repo's git-ignored .env.local. Nothing prints or stores the key.
 
-Each render is billable. Nothing is submitted without --scene, --chapter or --all, and
---all also needs --yes. Use --dry-run first to see exactly what would be sent.
+Billing guards:
+  * nothing is submitted without --scene, --chapter or --all;
+  * more than one scene in a run needs --yes; --dry-run shows exactly what would be sent;
+  * a job's request id is saved the moment it is queued, so an interrupted run picks that job
+    back up next time instead of paying for it again;
+  * a scene is skipped only while its render inputs are unchanged; edited scenes re-render;
+  * the first API error (e.g. no credits left) stops the batch.
 
 Usage:
     tools/render-scenes.py umbra ep03-ghost-characters --scene ch01_s1          # the pilot
     tools/render-scenes.py umbra ep03-ghost-characters --chapter ch01 --dry-run
-    tools/render-scenes.py umbra ep03-ghost-characters --all --yes
+    tools/render-scenes.py umbra ep03-ghost-characters --chapter ch01 --yes
 """
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -25,6 +36,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MODEL = "bytedance/seedance-2.5/text-to-video"
 MIN_DURATION_S = 4  # the model's shortest clip; shorter scenes are trimmed in the edit
+KIND = ("preview: prompt-only text-to-video, not anchored to the locked cast or a keyframe; "
+        "production shots come from the reference-element path in docs/PRODUCTION_PIPELINE.md")
 
 
 def episode_dir(channel: str, slug: str) -> Path:
@@ -64,6 +77,12 @@ def arguments_for(scene: dict, shotlist: dict, resolution: str) -> dict:
     }
 
 
+def fingerprint(arguments: dict) -> str:
+    """Identifies the exact request: a scene is up to date only while this is unchanged."""
+    blob = json.dumps({"model": MODEL, "arguments": arguments}, sort_keys=True, ensure_ascii=False)
+    return hashlib.sha256(blob.encode()).hexdigest()
+
+
 def video_url(result: dict) -> str | None:
     video = result.get("video")
     if isinstance(video, dict):
@@ -76,13 +95,65 @@ def video_url(result: dict) -> str | None:
     return None
 
 
-def render_one(sdk, scene_id: str, arguments: dict) -> tuple[str | None, str | None, str]:
-    """Return (request_id, url, outcome); url is set only for a completed render with a video."""
+def classify(sdk, final, result: dict) -> tuple[str | None, str]:
+    """Return (url, outcome); url is set only for a completed render that has a video."""
+    if isinstance(final, sdk.Failed):
+        return None, "FAILED"
+    if isinstance(final, sdk.NSFW):
+        return None, "MODERATED"
+    if isinstance(final, sdk.Cancelled):
+        return None, "CANCELED"
+    if not isinstance(final, sdk.Completed) or result.get("status") != "completed":
+        return None, f"unexpected state {type(final).__name__ if final else None}"
+    url = video_url(result)
+    if not url:
+        return None, "completed without a video URL"
+    return url, "completed"
+
+
+class Ledger:
+    """production/renders.json, written after every change so an interruption loses nothing."""
+
+    def __init__(self, path: Path):
+        self.path = path
+        data = json.loads(path.read_text()) if path.exists() else {}
+        self.data = {"kind": KIND, "model": MODEL, "scenes": data.get("scenes", {}),
+                     "pending": data.get("pending", {})}
+
+    def save(self) -> None:
+        self.path.write_text(json.dumps(self.data, indent=2, ensure_ascii=False) + "\n")
+
+    def done(self, scene_id: str, inputs: str) -> bool:
+        entry = self.data["scenes"].get(scene_id)
+        return bool(entry) and entry.get("inputs_sha256") == inputs
+
+    def pending(self, scene_id: str, inputs: str) -> str | None:
+        entry = self.data["pending"].get(scene_id)
+        return entry["request_id"] if entry and entry.get("inputs_sha256") == inputs else None
+
+    def mark_pending(self, scene_id: str, request_id: str, inputs: str) -> None:
+        self.data["pending"][scene_id] = {"request_id": request_id, "inputs_sha256": inputs}
+        self.save()
+
+    def finish(self, scene_id: str, request_id: str | None, url: str | None, inputs: str, resolution: str) -> None:
+        self.data["pending"].pop(scene_id, None)
+        if url:
+            self.data["scenes"][scene_id] = {"request_id": request_id, "video_url": url,
+                                             "resolution": resolution, "inputs_sha256": inputs}
+        self.save()
+
+
+class StopBatch(Exception):
+    pass
+
+
+def render_one(sdk, ledger: Ledger, scene_id: str, arguments: dict, inputs: str) -> tuple[str | None, str]:
     statuses = []
     request = {}
 
     def on_enqueue(request_id: str) -> None:
         request["id"] = request_id
+        ledger.mark_pending(scene_id, request_id, inputs)  # saved before any waiting
         print(f"  {scene_id}: submitted {request_id}", flush=True)
 
     def on_queue_update(status) -> None:
@@ -95,21 +166,23 @@ def render_one(sdk, scene_id: str, arguments: dict) -> tuple[str | None, str | N
     except sdk.exceptions.CredentialsMissedError:
         raise SystemExit("error: Higgsfield credentials missing (HF_KEY). Nothing was submitted.")
     except sdk.exceptions.HiggsfieldClientError as exc:
-        return request.get("id"), None, f"API error: {exc}"
+        raise StopBatch(f"{scene_id}: API error: {exc}") from exc
+    url, outcome = classify(sdk, statuses[-1] if statuses else None, result)
+    ledger.finish(scene_id, request.get("id"), url, inputs, arguments["resolution"])
+    return url, outcome
 
-    final = statuses[-1] if statuses else None
-    if isinstance(final, sdk.Failed):
-        return request.get("id"), None, "FAILED"
-    if isinstance(final, sdk.NSFW):
-        return request.get("id"), None, "MODERATED"
-    if isinstance(final, sdk.Cancelled):
-        return request.get("id"), None, "CANCELED"
-    if not isinstance(final, sdk.Completed) or result.get("status") != "completed":
-        return request.get("id"), None, f"unexpected state {type(final).__name__ if final else None}"
-    url = video_url(result)
-    if not url:
-        return request.get("id"), None, "completed without a video URL"
-    return request.get("id"), url, "completed"
+
+def resume_one(sdk, ledger: Ledger, scene_id: str, request_id: str, inputs: str, resolution: str) -> tuple[str | None, str]:
+    """Wait on a job an earlier run queued but never recorded, instead of submitting it again."""
+    print(f"  {scene_id}: resuming {request_id} from an earlier run", flush=True)
+    try:
+        result = sdk.result(request_id)  # waits until the job is done
+        final = sdk.status(request_id)
+    except sdk.exceptions.HiggsfieldClientError as exc:
+        raise StopBatch(f"{scene_id}: API error while resuming {request_id}: {exc}") from exc
+    url, outcome = classify(sdk, final, result)
+    ledger.finish(scene_id, request_id, url, inputs, resolution)
+    return url, outcome
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -118,36 +191,43 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("episode")
     ap.add_argument("--scene", action="append", default=[], help="scene id, e.g. ch01_s1 (repeatable)")
     ap.add_argument("--chapter", action="append", default=[], help="chapter id, e.g. ch01 (repeatable)")
-    ap.add_argument("--all", action="store_true", help="every scene in the episode (needs --yes)")
-    ap.add_argument("--yes", action="store_true", help="confirm a full-episode render")
+    ap.add_argument("--all", action="store_true", help="every scene in the episode")
+    ap.add_argument("--yes", action="store_true", help="confirm a billable run of more than one scene")
     ap.add_argument("--resolution", default="720p", choices=["480p", "720p", "1080p"])
-    ap.add_argument("--force", action="store_true", help="re-render scenes already in renders.json")
+    ap.add_argument("--force", action="store_true", help="re-render scenes that are already up to date")
     ap.add_argument("--dry-run", action="store_true", help="print what would be sent; submit nothing")
     args = ap.parse_args(argv)
 
     if not (args.scene or args.chapter or args.all):
         ap.error("choose what to render: --scene, --chapter or --all")
-    if args.all and not args.yes and not args.dry_run:
-        ap.error("--all renders the whole episode (billable); add --yes to confirm, or --dry-run")
 
     ep = episode_dir(args.channel, args.episode)
     shotlist = json.loads((ep / "production" / "shotlist.json").read_text())
-    renders_path = ep / "production" / "renders.json"
-    renders = json.loads(renders_path.read_text()) if renders_path.exists() else {"model": MODEL, "scenes": {}}
+    ledger = Ledger(ep / "production" / "renders.json")
 
-    scenes = select_scenes(shotlist, args.scene, args.chapter, args.all)
-    todo = [s for s in scenes if args.force or s["id"] not in renders["scenes"]]
-    skipped = len(scenes) - len(todo)
-    seconds = sum(max(MIN_DURATION_S, int(s["duration_s"])) for s in todo)
-    print(f"{len(todo)} scene(s) to render, {seconds} s of video at {args.resolution}"
-          + (f" ({skipped} already rendered, skipped)" if skipped else ""))
+    jobs = []
+    for scene in select_scenes(shotlist, args.scene, args.chapter, args.all):
+        arguments = arguments_for(scene, shotlist, args.resolution)
+        inputs = fingerprint(arguments)
+        if args.force or not ledger.done(scene["id"], inputs):
+            jobs.append((scene, arguments, inputs))
+    resuming = [j for j in jobs if ledger.pending(j[0]["id"], j[2])]
+    new = [j for j in jobs if not ledger.pending(j[0]["id"], j[2])]
+    seconds = sum(a["duration"] for _, a, _ in new)
+    print(f"{len(new)} new render(s), {seconds} s of video at {args.resolution}"
+          + (f"; {len(resuming)} queued earlier, to be resumed" if resuming else "")
+          + "  [previews: prompt-only, not cast-locked]")
 
     if args.dry_run:
-        for scene in todo:
-            print(f"\n[{scene['id']}] {json.dumps(arguments_for(scene, shotlist, args.resolution), indent=2)}")
+        for scene, arguments, _ in new:
+            print(f"\n[{scene['id']}] {json.dumps(arguments, indent=2)}")
         return 0
-    if not todo:
+    if not jobs:
         return 0
+    if len(new) > 1 and not args.yes:
+        print(f"error: {len(new)} billable renders; re-run with --yes to confirm "
+              "(or --dry-run to see them). Nothing was submitted.", file=sys.stderr)
+        return 2
 
     from dotenv import load_dotenv  # imported late so --dry-run works without the SDK installed
 
@@ -159,21 +239,29 @@ def main(argv: list[str] | None = None) -> int:
     import higgsfield_client as sdk
     import higgsfield_client.exceptions  # noqa: F401  (makes sdk.exceptions available)
 
-    failures = 0
-    for scene in todo:
-        request_id, url, outcome = render_one(sdk, scene["id"], arguments_for(scene, shotlist, args.resolution))
-        if url:
-            renders["scenes"][scene["id"]] = {"request_id": request_id, "video_url": url,
-                                              "resolution": args.resolution}
-            renders_path.write_text(json.dumps(renders, indent=2, ensure_ascii=False) + "\n")
-            print(f"  {scene['id']}: {url}")
-        else:
-            failures += 1
-            print(f"  {scene['id']}: NOT rendered ({outcome})", file=sys.stderr)
+    rendered = failed = 0
+    try:
+        for scene, arguments, inputs in jobs:
+            if scene.get("image_job_id"):
+                print(f"  {scene['id']}: note: this scene has a keyframe; the preview does not use it")
+            request_id = ledger.pending(scene["id"], inputs)
+            if request_id:
+                url, outcome = resume_one(sdk, ledger, scene["id"], request_id, inputs, arguments["resolution"])
+            else:
+                url, outcome = render_one(sdk, ledger, scene["id"], arguments, inputs)
+            if url:
+                rendered += 1
+                print(f"  {scene['id']}: {url}")
+            else:
+                failed += 1
+                print(f"  {scene['id']}: NOT rendered ({outcome})", file=sys.stderr)
+    except StopBatch as stop:
+        failed += 1
+        print(f"  {stop}\nstopped: no further scenes were submitted.", file=sys.stderr)
 
-    done = len(todo) - failures
-    print(f"done: {done} rendered, {failures} not rendered; results in {renders_path.relative_to(ROOT)}")
-    return 0 if failures == 0 else 1
+    print(f"done: {rendered} rendered, {failed} not rendered; "
+          f"results in {ledger.path.relative_to(ROOT)}")
+    return 0 if failed == 0 and rendered == len(jobs) else 1
 
 
 if __name__ == "__main__":

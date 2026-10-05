@@ -25,6 +25,14 @@ class ToolRegressionTests(unittest.TestCase):
             tool.resolve_characters("Ada Lovelace, Unknown Person", manifest)
         self.assertEqual(tool.resolve_characters("Civilians / crowd only", []), [])
 
+    def test_ep03_investigator_scenes_list_only_the_investigator(self):
+        # "Postal Investigator" once also matched the Bundespost Official through a "postal" alias.
+        import json
+        shotlist = json.loads((ROOT / "channels/umbra/episodes/ep03-ghost-characters/production/shotlist.json").read_text())
+        scenes = {sc["id"]: sc for ch in shotlist["chapters"] for sc in ch["scenes"]}
+        for scene_id in ("ch13_s3", "ch18_s1"):
+            self.assertEqual(scenes[scene_id]["characters"], ["investigator"], scene_id)
+
     def test_yaml_reader_decodes_quotes_and_comments(self):
         tool = load_tool("export-episode")
         with tempfile.TemporaryDirectory() as directory:
