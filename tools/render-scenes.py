@@ -138,7 +138,11 @@ class Ledger:
 
     def done(self, scene_id: str, inputs: str) -> bool:
         entry = self.data["scenes"].get(scene_id)
-        return bool(entry) and entry.get("inputs_sha256") == inputs
+        if not entry:
+            return False
+        # Clips recorded before fingerprints existed carry none: keep them rather than pay to
+        # render them again (re-render one deliberately with --force).
+        return entry.get("inputs_sha256", inputs) == inputs
 
     def pending(self, scene_id: str, inputs: str) -> str | None:
         entry = self.data["pending"].get(scene_id)

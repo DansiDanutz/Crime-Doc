@@ -119,6 +119,16 @@ class RenderScenesTests(unittest.TestCase):
         self.assertEqual(scenes["ch01_s1"]["video_url"], "x")
         self.assertEqual(scenes["ch01_s2"]["video_url"], "https://cdn/new.mp4")
 
+    def test_clip_recorded_by_the_first_version_is_not_rendered_again(self):
+        # renders.json as written by the first release: no inputs fingerprint, no pending map.
+        self.renders.write_text(json.dumps({"model": "bytedance/seedance-2.5/text-to-video", "scenes": {
+            "ch01_s1": {"request_id": "44118331", "video_url": "https://cdn/pilot.mp4", "resolution": "720p"}}}))
+        self._subscribe([])
+        code, out, _ = self._run("--scene", "ch01_s1")
+        self.assertEqual(code, 0)
+        self.assertEqual(self.calls, [])
+        self.assertIn("0 new render(s)", out)
+
     def test_job_queued_by_an_interrupted_run_is_resumed_not_resubmitted(self):
         self.renders.write_text(json.dumps({"scenes": {}, "pending": {
             "ch01_s1": {"request_id": "req-old", "inputs_sha256": self._inputs("ch01_s1")}}}))
