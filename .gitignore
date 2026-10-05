@@ -9,6 +9,8 @@
 /renders/
 **/renders/
 **/output/
+**/production/renders.lock
+**/production/.renders.*.tmp
 
 # Python bytecode / caches
 __pycache__/
@@ -21,6 +23,11 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Python virtual environments
+.venv/
+venv/
+
 # Local secrets / env
 .env
 .env.*
+!.env.example

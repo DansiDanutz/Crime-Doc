@@ -44,6 +44,13 @@ For each scene in `shotlist.json.chapters[].scenes[]`:
   `prompt: scene.video_prompt`, `duration: scene.duration_s`, `aspect_ratio:"16:9"`.
 - Record the video job id into `scene.video_job_id`.
 
+### Preview clips from the command line (optional)
+`tools/render-scenes.py <channel> <slug> --scene <id>` renders a scene with the Higgsfield API
+(Seedance 2.5 text-to-video, using the git-ignored `.env.local` key). These are **previews**:
+the API endpoint takes a text prompt only, so they are not anchored to the cast elements or a
+keyframe. They are recorded in `production/renders.json`, never in `image_job_id` /
+`video_job_id`. A run of more than one scene needs `--yes`; `--dry-run` shows what would be sent.
+
 ### 4. Thumbnails
 - `generate_image`, `model: nano_banana_pro`, each prompt from `05-thumbnails.md`,
   `count: 4`, `aspect_ratio:"16:9"`.
