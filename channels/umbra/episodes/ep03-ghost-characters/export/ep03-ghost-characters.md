@@ -2038,7 +2038,7 @@ Final cut: `production/output/ep03-ghost-characters-roughcut.mp4`. It runs 5:12:
 then the 12 s channel outro. The narration ends at 5:09.
 
 ## Title (pick one)
-1. **The Password That Was Never Proved** *(recommended: carries the episode's open question)*
+1. **The Leak That Was Never Proved** *(recommended: carries the open question. The password was real; how it reached the club never was established.)*
 2. Two Hackers Took 134,000 Marks From a Bank in One Night. Then They Gave It Back.
 3. Ghost Characters: The 1984 Hack of West Germany's "Secure" Network
 
@@ -2083,8 +2083,8 @@ on Nano Banana Pro at 2k, 16:9.
 - [ ] Watch the full cut once with headphones: names, numbers, "U-S-D seventy thousand"
 - [ ] Music / SFX bed (optional; per-chapter notes in `04-scenes.md`)
 - [ ] Thumbnail generated and chosen
-- [ ] Visibility, category (Education or Film & Animation), "altered or synthetic content"
-      disclosure set to **yes**: the visuals and the voice are AI-generated
+- [ ] Set the "altered or synthetic content" disclosure to **yes** (the visuals and the voice are AI-generated)
+- [ ] Visibility and category (Education or Film & Animation)
 
 
 ---
