@@ -388,7 +388,11 @@ def main(argv: list[str] | None = None) -> int:
     with episode_store as es, channel_store as cs:
         todo = [c for c in cues if not (cs if c.get("channel") else es).current(c, vo)]
         if todo:
-            paid = [c for c in todo if not (c["kind"] == "music" and engine == "ace-step")]
+            # ACE-Step music is free; a music cue that already has a cached fallback loop can finish
+            # on that loop at no cost (if the Music API is still unavailable, or out of credits), so
+            # neither counts toward what the run must be able to pay for.
+            paid = [c for c in todo if not (c["kind"] == "music" and (
+                engine == "ace-step" or (cs if c.get("channel") else es).current(c, vo, "loop")))]
             estimate = int(sum(max(API_MUSIC_MIN_S, c["dur"]) if c["kind"] == "music" else c["dur"] for c in paid)
                            * EST_CREDITS_PER_S)
             left = vo.characters_left(key)

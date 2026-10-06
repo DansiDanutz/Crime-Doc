@@ -122,20 +122,44 @@ def server_start(wait_s: float = 900) -> None:
     if not ace_installed():
         raise SoundError(f"ACE-Step is not installed at {ACE_HOME}; run the skill's install.sh")
     STATE.mkdir(parents=True, exist_ok=True)
+    pid_file = STATE / "ace-step-api.pid"
     log = open(STATE / "ace-step-api.log", "ab")
     proc = subprocess.Popen(["uv", "run", "acestep-api"], cwd=ACE_HOME, stdout=log, stderr=log,
                             start_new_session=True)
-    (STATE / "ace-step-api.pid").write_text(str(proc.pid))
+    pid_file.write_text(str(proc.pid))
     print(f"starting ACE-Step (log: {STATE / 'ace-step-api.log'}); the first start downloads the models…",
           file=sys.stderr)
     deadline = time.time() + wait_s
-    while time.time() < deadline:
-        if proc.poll() is not None:
-            raise SoundError(f"the ACE-Step server exited (code {proc.returncode}); see {STATE / 'ace-step-api.log'}")
-        if ace_running():
-            return
-        time.sleep(3)
-    raise SoundError(f"ACE-Step did not come up within {wait_s:.0f} s; see {STATE / 'ace-step-api.log'}")
+    try:
+        while time.time() < deadline:
+            if proc.poll() is not None:
+                raise SoundError(f"the ACE-Step server exited (code {proc.returncode}); see {STATE / 'ace-step-api.log'}")
+            if ace_running():
+                return
+            time.sleep(3)
+        raise SoundError(f"ACE-Step did not come up within {wait_s:.0f} s; see {STATE / 'ace-step-api.log'}")
+    except BaseException:
+        # A start that failed leaves nothing behind: no server, and no PID file that could later
+        # point at an unrelated process.
+        if proc.poll() is None:
+            try:
+                os.killpg(proc.pid, signal.SIGTERM)
+            except (ProcessLookupError, PermissionError):
+                pass
+        pid_file.unlink(missing_ok=True)
+        raise
+    finally:
+        log.close()
+
+
+def _is_ace_server(pid: int) -> bool:
+    """True only if `pid` is alive and its command line is the ACE-Step API server, so a stale or
+    reused PID never gets signalled."""
+    try:
+        out = subprocess.run(["ps", "-o", "command=", "-p", str(pid)], capture_output=True, text=True).stdout
+    except OSError:
+        return False
+    return "acestep-api" in out or "acestep.api_server" in out
 
 
 def server_stop() -> bool:
@@ -143,10 +167,16 @@ def server_stop() -> bool:
     if not pid_file.exists():
         return False
     try:
-        os.killpg(int(pid_file.read_text()), signal.SIGTERM)
-    except (ProcessLookupError, ValueError, PermissionError):
-        pass
+        pid = int(pid_file.read_text().strip())
+    except ValueError:
+        pid = 0
     pid_file.unlink(missing_ok=True)
+    if pid <= 1 or not _is_ace_server(pid):
+        return False  # stale record: the server is gone and the PID may now belong to something else
+    try:
+        os.killpg(pid, signal.SIGTERM)
+    except (ProcessLookupError, PermissionError):
+        return False
     return True
 
 

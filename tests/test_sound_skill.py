@@ -156,11 +156,99 @@ class SkillClientTests(unittest.TestCase):
         with self.assertRaisesRegex(sound.SoundError, "0.5-22"):
             sound.sfx("x", 30, self.dir / "a.mp3")
 
+    def test_a_failed_start_leaves_no_pid_and_stop_never_signals_a_stranger(self):
+        import subprocess, signal
+        state = self.dir / "state"
+        with mock.patch.object(sound, "STATE", state), mock.patch.object(sound, "ace_running", return_value=False), \
+                mock.patch.object(sound, "ace_installed", return_value=True), \
+                mock.patch.object(sound.subprocess, "Popen",
+                                  return_value=mock.Mock(pid=999999, poll=mock.Mock(return_value=1), returncode=1)), \
+                contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaisesRegex(sound.SoundError, "exited"):
+                sound.server_start()
+            self.assertFalse((state / "ace-step-api.pid").exists())
+        # a stale PID file pointing at some other live process: stop must not signal it
+        other = subprocess.Popen(["sleep", "30"], start_new_session=True)
+        self.addCleanup(lambda: (other.poll() is None) and other.kill())
+        state.mkdir(parents=True, exist_ok=True)
+        (state / "ace-step-api.pid").write_text(str(other.pid))
+        with mock.patch.object(sound, "STATE", state):
+            self.assertFalse(sound.server_stop())
+        self.assertIsNone(other.poll())  # still running
+        self.assertFalse((state / "ace-step-api.pid").exists())
+        with mock.patch.object(sound, "STATE", state), mock.patch.object(sound, "_is_ace_server", return_value=True), \
+                mock.patch.object(sound.os, "killpg") as killpg:
+            (state / "ace-step-api.pid").write_text("4242")
+            self.assertTrue(sound.server_stop())
+            killpg.assert_called_once_with(4242, signal.SIGTERM)
+
     def test_server_start_needs_an_install(self):
         with mock.patch.object(sound, "ace_running", return_value=False), \
                 mock.patch.object(sound, "ace_installed", return_value=False):
             with self.assertRaisesRegex(sound.SoundError, "not installed"):
                 sound.server_start()
+
+
+class InstallerTests(unittest.TestCase):
+    """install.sh with fake git/uv/curl on PATH: no piped downloads, a pinned and verified commit,
+    and locked dependencies."""
+
+    def run_install(self, head=None, with_uv=True, commit=None):
+        import subprocess
+        d = Path(self.tmp.name)
+        bin_dir, log = d / "bin", d / "calls.log"
+        bin_dir.mkdir(exist_ok=True)
+        pinned = commit or "ca1e85fe9430179831e6bc6be790c332190a3866"
+        fake = {
+            "git": f"""#!/bin/sh
+echo "git $*" >> {log}
+case "$*" in
+  *"clone"*) eval last=\\${{$#}}; mkdir -p "$last/.git"; touch "$last/uv.lock";;
+  *"rev-parse HEAD"*) echo "{head or pinned}";;
+esac
+exit 0
+""",
+            "curl": f"#!/bin/sh\necho \"curl $*\" >> {log}\nexit 0\n",
+            "uv": f"#!/bin/sh\necho \"uv $*\" >> {log}\nexit 0\n",
+        }
+        for name, body in fake.items():
+            if name == "uv" and not with_uv:
+                continue
+            (bin_dir / name).write_text(body)
+            (bin_dir / name).chmod(0o755)
+        env = {"PATH": f"{bin_dir}:/usr/bin:/bin", "HOME": str(d / "home"),
+               "ACE_STEP_HOME": str(d / "ace"), **({"ACE_STEP_COMMIT": commit} if commit else {})}
+        r = subprocess.run(["bash", str(ROOT / "skills/sound/install.sh")], env=env, capture_output=True, text=True)
+        return r, (log.read_text() if log.exists() else "")
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+
+    def test_installs_the_pinned_commit_with_locked_dependencies(self):
+        r, calls = self.run_install()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("checkout --quiet --force ca1e85fe9430179831e6bc6be790c332190a3866", calls)
+        self.assertIn("uv sync --frozen", calls)
+        self.assertNotIn("curl", calls)
+        self.assertTrue((Path(self.tmp.name) / "home/.claude/skills/sound/scripts/sound.py").exists())
+
+    def test_refuses_a_checkout_that_is_not_the_pinned_commit(self):
+        r, calls = self.run_install(head="0" * 40)
+        self.assertEqual(r.returncode, 2)
+        self.assertIn("not the pinned commit", r.stderr)
+        self.assertNotIn("uv sync", calls)
+
+    def test_without_uv_it_stops_and_never_downloads_an_installer(self):
+        r, calls = self.run_install(with_uv=False)
+        self.assertEqual(r.returncode, 2)
+        self.assertIn("brew install uv", r.stderr)
+        self.assertNotIn("curl", calls)
+
+    def test_a_commit_must_be_a_full_hash(self):
+        r, _ = self.run_install(commit="main")
+        self.assertEqual(r.returncode, 2)
+        self.assertIn("full 40-character", r.stderr)
 
 
 class SoundtrackWithAceStepTests(unittest.TestCase):

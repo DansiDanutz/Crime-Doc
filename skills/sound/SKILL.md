@@ -52,7 +52,10 @@ retry blindly.
   `loudnorm=I=-14:TP=-1.5` for YouTube.
 
 ## Install or update (on the Mac)
-Run `install.sh` from this skill's source folder (`skills/sound/` in the Crime-Doc repo). It
-installs `uv` if it's missing, clones ACE-Step 1.5 into `~/.local/share/ace-step/ACE-Step-1.5`,
-runs `uv sync`, and copies this skill to `~/.claude/skills/sound`. Running it again updates
-ACE-Step and the skill.
+You need `uv` from Homebrew first (`brew install uv`). Then run `install.sh` from this skill's source
+folder, `skills/sound/` in the Crime-Doc repo:
+- It checks out ACE-Step 1.5 at a **pinned, verified commit** in `~/.local/share/ace-step/ACE-Step-1.5`.
+- It installs only ACE-Step's **locked** dependencies (`uv sync --frozen`).
+- It copies this skill to `~/.claude/skills/sound`.
+
+To move to a newer ACE-Step, review it first, then change `ACE_STEP_COMMIT` in `install.sh`.

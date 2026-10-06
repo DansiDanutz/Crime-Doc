@@ -99,9 +99,9 @@ Recordings are content-addressed (kind, prompt and length) and kept only after t
 - **Music:** ACE-Step 1.5, local, free, 10 s to 10 min, instrumental or with lyrics.
 - **Sound effects:** ElevenLabs.
 
-Install it on the Mac with `skills/sound/install.sh`. It clones ACE-Step into
-`~/.local/share/ace-step/ACE-Step-1.5`, runs `uv sync`, and copies the skill to
-`~/.claude/skills/sound`. The skill's `sound.py` starts the ACE-Step API server on first use; that
+Install it on the Mac with `skills/sound/install.sh` (after `brew install uv`). It checks out
+ACE-Step at a pinned, verified commit in `~/.local/share/ace-step/ACE-Step-1.5`, installs only its
+locked dependencies (`uv sync --frozen`), and copies the skill to `~/.claude/skills/sound`. The skill's `sound.py` starts the ACE-Step API server on first use; that
 first start downloads the models, several GB. `soundtrack.py` uses the same client.
 
 ### 6. Cards
@@ -133,6 +133,21 @@ with REUSE scenes taking their source clip) into one cut, each clip trimmed to i
 - **Safety.** It refuses to cut while scenes have no clip unless `--allow-gaps` is passed. A clip
   shorter than its scene is held on its last frame, and the finished cut is checked against the
   storyboard length before it is written.
+
+### 8. Archive and free space (project on hold)
+`tools/archive-to-drive.sh` follows the Mac Studio Recovery Archive plan on Google Drive. It uses
+rclone and auto-detects the Drive remote.
+- **What it uploads,** to `01 — Project Archives/<date>__Crime-Doc__<commit>/`:
+  - the tracked source (`git archive`);
+  - the full git history as a bundle with every branch;
+  - the generated media git doesn't hold: clips, the render ledger, the final video, and the voice
+    and sound takes;
+  - a manifest with SHA-256s and restore steps, also filed in `Manifests and Restore Instructions`.
+- **What it leaves out:** credentials (`.env.local`) and `.venv`.
+- **How it verifies:** `rclone check`, then a fresh download, a SHA-256 match, a test extraction of
+  both tarballs, and a bundle clone back to HEAD.
+- **Freeing space:** `tools/archive-to-drive.sh --free` deletes the local media and `.venv`, but
+  only after a verified archive of exactly the current state. The source, git history and keys stay.
 
 ### 7. Finish (outside this repo)
 Concatenate the scene videos in chapter order, lay the VO + SFX/ambient/music split
