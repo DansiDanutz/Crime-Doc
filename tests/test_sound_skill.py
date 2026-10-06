@@ -193,7 +193,7 @@ class InstallerTests(unittest.TestCase):
     """install.sh with fake git/uv/curl on PATH: no piped downloads, a pinned and verified commit,
     and locked dependencies."""
 
-    def run_install(self, head=None, with_uv=True, commit=None):
+    def run_install(self, head=None, with_uv=True, commit=None, dirty=False, existing=False):
         import subprocess
         d = Path(self.tmp.name)
         bin_dir, log = d / "bin", d / "calls.log"
@@ -205,6 +205,7 @@ echo "git $*" >> {log}
 case "$*" in
   *"clone"*) eval last=\\${{$#}}; mkdir -p "$last/.git"; touch "$last/uv.lock";;
   *"rev-parse HEAD"*) echo "{head or pinned}";;
+  *"status --porcelain"*) [ -n "$FAKE_DIRTY" ] && echo " M acestep/api_server.py";;
 esac
 exit 0
 """,
@@ -216,8 +217,10 @@ exit 0
                 continue
             (bin_dir / name).write_text(body)
             (bin_dir / name).chmod(0o755)
-        env = {"PATH": f"{bin_dir}:/usr/bin:/bin", "HOME": str(d / "home"),
-               "ACE_STEP_HOME": str(d / "ace"), **({"ACE_STEP_COMMIT": commit} if commit else {})}
+        if existing:
+            (d / "ace" / ".git").mkdir(parents=True, exist_ok=True)
+        env = {"PATH": f"{bin_dir}:/usr/bin:/bin", "HOME": str(d / "home"), "ACE_STEP_HOME": str(d / "ace"),
+               **({"ACE_STEP_COMMIT": commit} if commit else {}), **({"FAKE_DIRTY": "1"} if dirty else {})}
         r = subprocess.run(["bash", str(ROOT / "skills/sound/install.sh")], env=env, capture_output=True, text=True)
         return r, (log.read_text() if log.exists() else "")
 
@@ -228,7 +231,8 @@ exit 0
     def test_installs_the_pinned_commit_with_locked_dependencies(self):
         r, calls = self.run_install()
         self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertIn("checkout --quiet --force ca1e85fe9430179831e6bc6be790c332190a3866", calls)
+        self.assertIn("checkout --quiet ca1e85fe9430179831e6bc6be790c332190a3866", calls)
+        self.assertNotIn("--force", calls)
         self.assertIn("uv sync --frozen", calls)
         self.assertNotIn("curl", calls)
         self.assertTrue((Path(self.tmp.name) / "home/.claude/skills/sound/scripts/sound.py").exists())
@@ -238,6 +242,13 @@ exit 0
         self.assertEqual(r.returncode, 2)
         self.assertIn("not the pinned commit", r.stderr)
         self.assertNotIn("uv sync", calls)
+
+    def test_local_edits_in_an_existing_checkout_are_never_overwritten(self):
+        r, calls = self.run_install(existing=True, dirty=True)
+        self.assertEqual(r.returncode, 2)
+        self.assertIn("has local changes", r.stderr)
+        self.assertNotIn("checkout", calls)  # refused before anything was switched
+        self.assertNotIn("fetch", calls)
 
     def test_without_uv_it_stops_and_never_downloads_an_installer(self):
         r, calls = self.run_install(with_uv=False)

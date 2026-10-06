@@ -15,6 +15,8 @@
 #   MANIFEST.txt      paths, sizes, SHA-256s, included/excluded, restore steps
 # and a copy of the manifest goes to "Manifests and Restore Instructions" as <name>.manifest.txt.
 #
+# --free deletes only if every media file's contents (SHA-256) and the commit are exactly what was
+# archived; the state is taken before packing and must be unchanged after verification.
 # Verification (all must pass before --free will delete anything):
 #   rclone check (sizes + MD5) of the upload; a fresh download of every file; SHA-256 match;
 #   test extraction of both tarballs into empty folders with file counts matching; the git bundle
@@ -43,10 +45,10 @@ media_paths() {
    done) || true
 }
 
-state_key() {  # what the verified archive covers: commit + the media file list and sizes
+state_key() {  # what an archive covers: the commit + the SHA-256 of every media file's contents
   { git -C "$REPO" rev-parse HEAD
-    (cd "$REPO" && media_paths | while read -r p; do find "$p" -type f ! -name '*.lock' ! -name '.*' -print0 \
-       | xargs -0 ls -ln 2>/dev/null | awk '{print $5, $9}'; done | sort)
+    (cd "$REPO" && media_paths | while read -r p; do
+       find "$p" -type f ! -name '*.lock' ! -name '.*' -print0; done | sort -z | xargs -0 shasum -a 256 2>/dev/null)
   } | shasum -a 256 | awk '{print $1}'
 }
 
@@ -91,6 +93,7 @@ if [ -d "$(dirname "$THUMB")" ] && [ ! -s "$THUMB" ]; then
     || { rm -f "$THUMB.part"; echo "  (could not fetch the EP03 thumbnail; its Higgsfield job id is in the manifest)"; }
 fi
 
+STATE_BEFORE=$(state_key)   # compared again after verification: nothing may change in between
 say "1/5 packing $NAME…"
 git archive --format=tar.gz -o "$STAGE/source.tar.gz" HEAD
 git bundle create -q "$STAGE/history.bundle" --all
@@ -161,7 +164,9 @@ say "5/5 filing the manifest in Manifests and Restore Instructions…"
 cp "$STAGE/MANIFEST.txt" "$WORK/$NAME.manifest.txt"
 rclone copy "$WORK/$NAME.manifest.txt" "$REMOTE" --drive-root-folder-id "$MANIFESTS_ID"
 
-{ echo "name=$NAME"; echo "state=$(state_key)"; echo "verified=$(date -u +%Y-%m-%dT%H:%M:%SZ)"; } > "$WORK/VERIFIED"
+[ "$(state_key)" = "$STATE_BEFORE" ] \
+  || die "files changed while the archive was being made; it was uploaded, but run again before --free"
+{ echo "name=$NAME"; echo "state=$STATE_BEFORE"; echo "verified=$(date -u +%Y-%m-%dT%H:%M:%SZ)"; } > "$WORK/VERIFIED"
 rm -rf -- "$VERIFY"
 say "archived and verified: $NAME"
 sed -n '/^## Files/,/^$/p' "$STAGE/MANIFEST.txt"

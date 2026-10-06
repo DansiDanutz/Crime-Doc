@@ -251,6 +251,9 @@ def record(cue: dict, store: Store, key: str, vo, assemble, ffmpeg: str, state: 
             audio.unlink(missing_ok=True)
         print(f"  {cue['label']}: {seconds:.1f} s (ace-step, local)")
         return
+    if cue["kind"] == "music" and state.get("keep_loops") and store.current(cue, vo, "loop"):
+        print(f"  {cue['label']}: keeping its ambient loop (not enough credits to replace it now)")
+        return
     if cue["kind"] == "music" and not state.get("no_music_api"):
         body = {"prompt": cue["prompt"], "music_length_ms": int(round(max(API_MUSIC_MIN_S, cue["dur"]) * 1000)),
                 "model_id": MUSIC_MODEL}
@@ -388,19 +391,24 @@ def main(argv: list[str] | None = None) -> int:
     with episode_store as es, channel_store as cs:
         todo = [c for c in cues if not (cs if c.get("channel") else es).current(c, vo)]
         if todo:
-            # ACE-Step music is free; a music cue that already has a cached fallback loop can finish
-            # on that loop at no cost (if the Music API is still unavailable, or out of credits), so
-            # neither counts toward what the run must be able to pay for.
-            paid = [c for c in todo if not (c["kind"] == "music" and (
-                engine == "ace-step" or (cs if c.get("channel") else es).current(c, vo, "loop")))]
-            estimate = int(sum(max(API_MUSIC_MIN_S, c["dur"]) if c["kind"] == "music" else c["dur"] for c in paid)
+            def cost(group):
+                return int(sum(max(API_MUSIC_MIN_S, c["dur"]) if c["kind"] == "music" else c["dur"] for c in group)
                            * EST_CREDITS_PER_S)
+            store_of = lambda c: cs if c.get("channel") else es
+            paid = [c for c in todo if not (c["kind"] == "music" and engine == "ace-step")]  # ACE-Step is free
+            looped = [c for c in paid if c["kind"] == "music" and store_of(c).current(c, vo, "loop")]
+            full, minimum = cost(paid), cost([c for c in paid if c not in looped])
             left = vo.characters_left(key)
             if left is not None:
-                print(f"ElevenLabs credits left this period: {left:,}; this run needs about {estimate:,} at most")
-                if left < estimate:
+                print(f"ElevenLabs credits left this period: {left:,}; this run needs about {full:,} at most")
+                if left < minimum:
                     print("error: not enough ElevenLabs credits to finish this run. Nothing was sent.", file=sys.stderr)
                     return 2
+                if left < full:
+                    # Not enough to replace the cached loops with real music: keep them, pay for nothing there.
+                    state["keep_loops"] = True
+                    print(f"  note: keeping the {len(looped)} cached ambient loop(s); about {full:,} credits "
+                          "would replace them with real music")
             print(f"recording {len(todo)} of {len(cues)} cue(s)…")
         else:
             print(f"all {len(cues)} cue(s) already recorded (nothing spent)")

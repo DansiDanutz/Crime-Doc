@@ -25,14 +25,17 @@ die() { printf 'error: %s\n' "$*" >&2; exit 2; }
 command -v git >/dev/null || die "git is required (xcode-select --install)"
 command -v uv >/dev/null || die "uv is required: install it with Homebrew (brew install uv), then run this again"
 
+if [ -d "$ACE_HOME/.git" ] && [ -n "$(git -C "$ACE_HOME" status --porcelain --untracked-files=no)" ]; then
+  die "$ACE_HOME has local changes; commit or stash them first (nothing was changed)"
+fi
 if [ ! -d "$ACE_HOME/.git" ]; then
   say "cloning ACE-Step 1.5 into $ACE_HOME…"
   mkdir -p "$(dirname "$ACE_HOME")"
-  git clone --quiet --no-checkout "$ACE_REPO" "$ACE_HOME"
+  git clone --quiet "$ACE_REPO" "$ACE_HOME"   # writes files only; nothing in it runs before the pin is verified
 fi
 say "checking out the pinned ACE-Step commit ${ACE_STEP_COMMIT:0:12}…"
 git -C "$ACE_HOME" fetch --quiet origin "$ACE_STEP_COMMIT" 2>/dev/null || git -C "$ACE_HOME" fetch --quiet origin
-git -C "$ACE_HOME" -c advice.detachedHead=false checkout --quiet --force "$ACE_STEP_COMMIT"
+git -C "$ACE_HOME" -c advice.detachedHead=false checkout --quiet "$ACE_STEP_COMMIT"
 [ "$(git -C "$ACE_HOME" rev-parse HEAD)" = "$ACE_STEP_COMMIT" ] || die "the ACE-Step checkout is not the pinned commit"
 [ -z "$(git -C "$ACE_HOME" status --porcelain --untracked-files=no)" ] || die "the ACE-Step checkout has local changes"
 [ -f "$ACE_HOME/uv.lock" ] || die "the pinned ACE-Step commit has no uv.lock"

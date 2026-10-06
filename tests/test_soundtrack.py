@@ -163,11 +163,20 @@ class RecordTests(unittest.TestCase):
             self.assertEqual(tool.main(["c", "e"]), 0)  # fallback loops cached for all three music cues
             n = len(self.generated(sent))
             vo_mod = tool.load_tool("voiceover")  # the fixture's module, the one main() uses
-            # 100 credits would not cover three fresh music cues (32 s, about 1,280), but the loops are free
+            # 100 credits can't buy three music cues (32 s, about 1,280): keep the loops rather than spend
             with mock.patch.object(vo_mod, "characters_left", return_value=100), \
                     contextlib.redirect_stderr(io.StringIO()) as err:
                 self.assertEqual(tool.main(["c", "e"]), 0, err.getvalue())
-            self.assertEqual(self.generated(sent)[n:], ["/music"])  # one refused try, then the cached loops
+            self.assertEqual(self.generated(sent)[n:], [])  # the cached loops are kept: no paid music request
+            self.assertIn("keeping the 3 cached ambient loop(s)", out.getvalue())
+
+    def test_with_enough_credits_the_loops_are_upgraded_when_music_returns(self):
+        with self.episode(music_api=False) as (ep, root, sent, out, stems):
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            self.access["music"] = True
+            n = len(self.generated(sent))
+            self.assertEqual(tool.main(["c", "e"]), 0)  # 100,000 credits cover the upgrade
+            self.assertEqual(self.generated(sent)[n:], ["/music"] * 3)
 
     def test_a_run_the_credits_cannot_cover_sends_nothing(self):
         with self.episode(credits=100) as (ep, root, sent, out, stems):
