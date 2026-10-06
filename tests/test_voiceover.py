@@ -15,6 +15,15 @@ spec.loader.exec_module(tool)
 
 
 class VoiceoverTests(unittest.TestCase):
+    def test_load_env_loads_the_local_file_without_overriding_the_shell(self):
+        fake = mock.Mock()
+        with mock.patch.dict("sys.modules", {"dotenv": fake}):
+            tool.load_env()
+        fake.load_dotenv.assert_called_once_with(tool.ENV_FILE, override=False)
+        self.assertEqual(tool.ENV_FILE, ROOT / ".env.local")
+        with mock.patch.dict("sys.modules", {"dotenv": None}), self.assertRaisesRegex(SystemExit, "python-dotenv"):
+            tool.load_env()
+
     def test_respellings_are_whole_words_and_longest_first(self):
         rules = {"Wau": "Vow", "USD": "U-S-D", "USD 70000": "U-S-D seventy thousand"}
         self.assertEqual(tool.spoken_text('They call him Wau. Wauwatosa. "USD 70000." USD', rules),
@@ -45,12 +54,8 @@ class VoiceoverTests(unittest.TestCase):
             self.assertNotEqual(base, tool.fingerprint(*other))
 
     def test_no_key_sends_nothing(self):
-        try:
-            import dotenv  # noqa: F401
-        except ImportError:
-            self.skipTest("python-dotenv not installed (CI installs no packages)")
-        with tempfile.TemporaryDirectory() as d, mock.patch.dict("os.environ", {}, clear=True), \
-                mock.patch.object(tool, "ENV_FILE", Path(d) / ".env.local"), \
+        # load_env is replaced, so the guard is tested without python-dotenv (CI installs no packages)
+        with mock.patch.dict("os.environ", {}, clear=True), mock.patch.object(tool, "load_env"), \
                 mock.patch.object(tool, "request") as req, contextlib.redirect_stdout(io.StringIO()), \
                 contextlib.redirect_stderr(io.StringIO()) as err:
             self.assertEqual(tool.main(["umbra", "ep03-ghost-characters"]), 2)
@@ -67,13 +72,8 @@ class VoiceoverTests(unittest.TestCase):
 
 
 class RecordingTests(unittest.TestCase):
-    """The record path loads .env.local through python-dotenv, which CI does not install."""
-
-    def setUp(self):
-        try:
-            import dotenv  # noqa: F401
-        except ImportError:
-            self.skipTest("python-dotenv not installed (CI installs no packages)")
+    """The record path against a mocked ElevenLabs. load_env is replaced, so these run without
+    python-dotenv (CI installs no packages) and never skip."""
 
     @contextlib.contextmanager
     def fake_episode(self, seconds=2.0):
@@ -100,7 +100,7 @@ class RecordingTests(unittest.TestCase):
                     mock.patch.object(tool, "load_tool", return_value=assemble), \
                     mock.patch.object(assemble, "ffmpeg_binary", return_value="ffmpeg"), \
                     mock.patch.object(assemble, "media_seconds", duration), \
-                    mock.patch.object(tool, "ENV_FILE", root / ".env.local"), \
+                    mock.patch.object(tool, "load_env"), \
                     mock.patch.dict("os.environ", {"ELEVENLABS_API_KEY": "k"}, clear=True), \
                     mock.patch.object(tool, "request", side_effect=fake_request), \
                     contextlib.redirect_stdout(io.StringIO()) as out:

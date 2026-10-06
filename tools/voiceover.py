@@ -60,6 +60,15 @@ def spoken_text(script: str, pronunciation: dict[str, str]) -> str:
     return script
 
 
+def load_env() -> None:
+    """Load the git-ignored .env.local into the environment (values already set win)."""
+    try:
+        from dotenv import load_dotenv  # imported late so --dry-run works without it installed
+    except ImportError:
+        raise SystemExit("error: python-dotenv is missing; run `python -m pip install -r requirements.txt`")
+    load_dotenv(ENV_FILE, override=False)
+
+
 def voice_settings(args) -> dict:
     return {"stability": args.stability, "similarity_boost": args.similarity, "style": args.style,
             "use_speaker_boost": True, "speed": args.speed}
@@ -207,11 +216,7 @@ def main(argv: list[str] | None = None) -> int:
               f"speed {args.speed}. Nothing was sent.")
         return 0
 
-    try:
-        from dotenv import load_dotenv  # imported late so --dry-run works without it installed
-    except ImportError:
-        raise SystemExit("error: python-dotenv is missing; run `python -m pip install -r requirements.txt`")
-    load_dotenv(ENV_FILE, override=False)
+    load_env()
     key = os.getenv("ELEVENLABS_API_KEY")
     if not key:
         print("error: ELEVENLABS_API_KEY is not set. Add ELEVENLABS_API_KEY=<your key> to .env.local "
