@@ -3,8 +3,9 @@
 
 The plan is the episode's production/sound.json:
   music  one bed per section of chapters ({"from": "ch01", "to": "ch02", "prompt", "gain_db"}),
-         recorded with the ElevenLabs Music API; if the account cannot use it, the section falls
-         back to a seamless ambient loop from the sound-effects API, looped to length
+         made locally and free with ACE-Step 1.5 when it is installed (the `sound` skill,
+         skills/sound/), else with the ElevenLabs Music API; if the account cannot use that
+         either, the section falls back to a seamless ambient loop from the sound-effects API
   sfx    one-shot effects ({"chapter", "at" (s into the chapter), "dur", "prompt", "gain_db"}),
          recorded with the ElevenLabs sound-effects API
 The channel outro's sting (the "music" of channels/<name>/outro.json) is recorded once per channel,
@@ -38,7 +39,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_FORMAT = "mp3_44100_128"
 MUSIC_MODEL = "music_v1"
-MUSIC_MIN_S, MUSIC_MAX_S = 10, 300  # what the Music API accepts
+MUSIC_MIN_S, MUSIC_MAX_S = 4, 300  # a section or sting; shorter than the APIs' 10 s is requested at 10 s and trimmed
+API_MUSIC_MIN_S = 10               # the Music API's and ACE-Step's minimum length
+FALLBACK_HTTP = ("HTTP 401", "HTTP 402", "HTTP 403", "HTTP 404")  # no access to music, not a bad request
+EST_CREDITS_PER_S = 40             # a conservative ElevenLabs estimate, used only to refuse runs that can't finish
 SFX_MIN_S, SFX_MAX_S = 0.5, 22      # what the sound-effects API accepts
 LOOP_S = 22                         # length of a fallback ambient loop
 FADE_IN_S, FADE_OUT_S = 1.5, 2.5    # music section edges
@@ -135,6 +139,32 @@ def fingerprint(cue: dict) -> str:
     return hashlib.sha256(blob.encode()).hexdigest()
 
 
+def take_key(cue: dict, engine: str) -> str:
+    """Where a recording is kept: its fingerprint, plus the engine for ACE-Step music, so music from
+    different engines never stands in for each other (ElevenLabs keys stay as they were)."""
+    base = fingerprint(cue)
+    if cue["kind"] == "music" and engine == "ace-step":
+        return hashlib.sha256(f"{base}|ace-step".encode()).hexdigest()
+    return base
+
+
+def sound_skill():
+    """The skill's own client (skills/sound/scripts/sound.py), loaded from this repo."""
+    import importlib.util
+    path = Path(__file__).resolve().parent.parent / "skills" / "sound" / "scripts" / "sound.py"
+    spec = importlib.util.spec_from_file_location("sound_skill", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def music_engine(choice: str) -> str:
+    if choice != "auto":
+        return choice
+    skill = sound_skill()
+    return "ace-step" if (skill.ace_running() or skill.ace_installed()) else "elevenlabs"
+
+
 def plan_digest(cues: list[dict], total: float) -> str:
     """What decides the stems: every cue's recording, place and level, and the cut length."""
     blob = json.dumps({"cues": [[fingerprint(c), round(c["start"], 3), c["gain_db"]] for c in cues],
@@ -169,53 +199,90 @@ class Store:
     def __exit__(self, *exc):
         self.lock.close()
 
-    def path(self, cue: dict) -> Path:
-        return self.takes / f"{cue['kind']}-{fingerprint(cue)[:16]}.mp3"
+    engine = "elevenlabs"  # set per run: the music engine in use
 
-    def current(self, cue: dict, vo) -> bool:
-        entry = self.receipt["takes"].get(fingerprint(cue))
-        path = self.path(cue)
+    def key(self, cue: dict, variant: str = "") -> str:
+        """variant "loop": a fallback ambient loop, kept apart so it never passes for the real music."""
+        base = take_key(cue, self.engine)
+        return hashlib.sha256(f"{base}|{variant}".encode()).hexdigest() if variant else base
+
+    def path(self, cue: dict, variant: str = "") -> Path:
+        return self.takes / f"{cue['kind']}-{self.key(cue, variant)[:16]}.mp3"
+
+    def current(self, cue: dict, vo, variant: str = "") -> bool:
+        entry = self.receipt["takes"].get(self.key(cue, variant))
+        path = self.path(cue, variant)
         return bool(entry) and path.exists() and entry.get("audio_sha256") == vo.file_sha256(path)
 
-    def keep(self, cue: dict, vo, audio: Path, seconds: float, source: str) -> None:
+    def best(self, cue: dict, vo) -> Path | None:
+        """The take to lay: the real recording, else (music only) its fallback loop."""
+        if self.current(cue, vo):
+            return self.path(cue)
+        if cue["kind"] == "music" and self.current(cue, vo, "loop"):
+            return self.path(cue, "loop")
+        return None
+
+    def keep(self, cue: dict, vo, audio: Path, seconds: float, source: str, variant: str = "") -> None:
         digest = vo.file_sha256(audio)
-        audio.replace(self.path(cue))
-        self.receipt["takes"][fingerprint(cue)] = {"audio_sha256": digest, "seconds": round(seconds, 2),
-                                                   "source": source, "prompt": cue["prompt"][:80]}
+        audio.replace(self.path(cue, variant))
+        self.receipt["takes"][self.key(cue, variant)] = {"audio_sha256": digest, "seconds": round(seconds, 2),
+                                                         "source": source, "prompt": cue["prompt"][:80]}
         vo.write_json(self.receipt_path, self.receipt)
 
 
 def record(cue: dict, store: Store, key: str, vo, assemble, ffmpeg: str, state: dict) -> None:
     """Record one cue into the store. Music uses the Music API unless it is unavailable to this
     account, in which case (for this and every later section) a looped ambient effect stands in."""
+    if cue["kind"] == "music" and store.engine == "ace-step":
+        fd, tmp_name = tempfile.mkstemp(dir=store.takes, prefix=".ace.", suffix=".mp3")
+        os.close(fd)
+        audio = Path(tmp_name)
+        try:
+            skill = state.setdefault("skill", sound_skill())
+            try:
+                skill.ace_music(cue["prompt"], max(API_MUSIC_MIN_S, cue["dur"]), audio)
+            except skill.SoundError as err:
+                raise SystemExit(f"error: ACE-Step: {err}")
+            seconds = assemble.media_seconds(ffmpeg, audio)  # must decode before it is kept
+            if seconds <= 0:
+                raise SystemExit("error: ACE-Step returned audio with no length; nothing was kept")
+            store.keep(cue, vo, audio, seconds, "ace-step")
+        finally:
+            audio.unlink(missing_ok=True)
+        print(f"  {cue['label']}: {seconds:.1f} s (ace-step, local)")
+        return
     if cue["kind"] == "music" and not state.get("no_music_api"):
-        body = {"prompt": cue["prompt"], "music_length_ms": int(round(cue["dur"] * 1000)), "model_id": MUSIC_MODEL}
+        body = {"prompt": cue["prompt"], "music_length_ms": int(round(max(API_MUSIC_MIN_S, cue["dur"]) * 1000)),
+                "model_id": MUSIC_MODEL}
         try:
             response = vo.request(f"/music?output_format={OUTPUT_FORMAT}", key, body)
-            source = "music"
+            source, variant = "music", ""
         except SystemExit as err:
-            if "HTTP 4" not in str(err):
-                raise
+            if not any(code in str(err) for code in FALLBACK_HTTP):
+                raise  # a rejected prompt or request (400/422) is an error to fix, not a reason to substitute
             print(f"  note: the Music API is not available ({str(err).split('failed, ')[-1]}); "
                   "using looped ambient beds from the sound-effects API instead")
             state["no_music_api"] = True
             return record(cue, store, key, vo, assemble, ffmpeg, state)
+    elif cue["kind"] == "music" and store.current(cue, vo, "loop"):
+        print(f"  {cue['label']}: reusing its ambient loop (real music once the Music API is available)")
+        return
     elif cue["kind"] == "music":
         body = {"text": f"seamless loopable ambient background bed, {cue['prompt']}"[:450],
                 "duration_seconds": min(LOOP_S, cue["dur"]), "prompt_influence": 0.5}
         response = vo.request(f"/sound-generation?output_format={OUTPUT_FORMAT}", key, body)
-        source = "sfx-loop"
+        source, variant = "sfx-loop", "loop"
     else:
         body = {"text": cue["prompt"], "duration_seconds": cue["dur"], "prompt_influence": 0.5}
         response = vo.request(f"/sound-generation?output_format={OUTPUT_FORMAT}", key, body)
-        source = "sfx"
+        source, variant = "sfx", ""
     with response as stream:
         audio = vo.save_audio(stream, store.takes, cue["kind"])
     try:
         seconds = assemble.media_seconds(ffmpeg, audio)  # must decode before it is kept
         if seconds <= 0:
             raise SystemExit("error: ElevenLabs returned audio with no length; nothing was kept")
-        store.keep(cue, vo, audio, seconds, source)
+        store.keep(cue, vo, audio, seconds, source, variant)
     finally:
         audio.unlink(missing_ok=True)
     print(f"  {cue['label']}: {seconds:.1f} s ({source})")
@@ -281,6 +348,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("channel")
     ap.add_argument("episode")
     ap.add_argument("--dry-run", action="store_true", help="show the plan; no request, no key needed")
+    ap.add_argument("--music-engine", choices=["auto", "ace-step", "elevenlabs"], default="auto",
+                    help="auto (default): ACE-Step when installed (free, local), else ElevenLabs")
     args = ap.parse_args(argv)
 
     assemble, vo = load_tool("assemble-episode"), load_tool("voiceover")
@@ -304,6 +373,8 @@ def main(argv: list[str] | None = None) -> int:
         print("dry run: nothing was sent.")
         return 0
 
+    engine = music_engine(args.music_engine)
+    print(f"music engine: {engine}" + (" (local, free)" if engine == "ace-step" else ""))
     vo.load_env()
     key = os.getenv("ELEVENLABS_API_KEY")
     if not key:
@@ -313,19 +384,28 @@ def main(argv: list[str] | None = None) -> int:
     ffmpeg = assemble.ffmpeg_binary()
     state: dict = {}
     episode_store, channel_store = Store(ep / "production" / "sound"), Store(ep.parent.parent / "sound")
+    episode_store.engine = channel_store.engine = engine
     with episode_store as es, channel_store as cs:
         todo = [c for c in cues if not (cs if c.get("channel") else es).current(c, vo)]
         if todo:
+            paid = [c for c in todo if not (c["kind"] == "music" and engine == "ace-step")]
+            estimate = int(sum(max(API_MUSIC_MIN_S, c["dur"]) if c["kind"] == "music" else c["dur"] for c in paid)
+                           * EST_CREDITS_PER_S)
             left = vo.characters_left(key)
             if left is not None:
-                print(f"ElevenLabs credits left this period: {left:,}")
+                print(f"ElevenLabs credits left this period: {left:,}; this run needs about {estimate:,} at most")
+                if left < estimate:
+                    print("error: not enough ElevenLabs credits to finish this run. Nothing was sent.", file=sys.stderr)
+                    return 2
             print(f"recording {len(todo)} of {len(cues)} cue(s)…")
         else:
             print(f"all {len(cues)} cue(s) already recorded (nothing spent)")
         for cue in todo:
             record(cue, cs if cue.get("channel") else es, key, vo, assemble, ffmpeg, state)
         for cue in cues:
-            cue["path"] = (cs if cue.get("channel") else es).path(cue)
+            cue["path"] = (cs if cue.get("channel") else es).best(cue, vo)
+            if cue["path"] is None:
+                raise SystemExit(f"error: {cue['label']} has no recording; run again")
         if todo:
             left = vo.characters_left(key)
             if left is not None:

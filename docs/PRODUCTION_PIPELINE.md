@@ -88,11 +88,21 @@ its own planned duration is shorter.
 - **`sfx`:** one-shot effects at a time into a chapter, written from the "SFX" and "Ambient" notes.
 
 `tools/soundtrack.py <channel> <slug>` records every cue with ElevenLabs, using the same `ELEVENLABS_API_KEY`:
-- **Music** comes from the Music API. If the account's plan has no Music API, each section falls back to a seamless ambient loop from the sound-effects API, looped to length.
+- **Music** is made locally and free with **ACE-Step 1.5** when it is installed (the `sound` skill, below). Otherwise it comes from the ElevenLabs Music API, and if the account's plan has no Music API, each section falls back to a seamless ambient loop from the sound-effects API, looped to length. Force a choice with `--music-engine ace-step|elevenlabs`.
 - **Effects** come from the sound-effects API.
 - **The outro sting** (`music` in `channels/<name>/outro.json`) is recorded once per channel in `channels/<name>/sound/` and reused, so every ending sounds the same.
 
 Recordings are content-addressed (kind, prompt and length) and kept only after they decode, so a re-run records only what changed. Changing a level or a time rebuilds the stems without spending anything. The output is two stems as long as the cut: `production/sound/<slug>-music.mp3` and `<slug>-sfx.mp3` (git-ignored).
+
+### 5c. The `sound` skill (any project)
+`skills/sound/` is a Claude Code skill for music and sound effects in any project:
+- **Music:** ACE-Step 1.5, local, free, 10 s to 10 min, instrumental or with lyrics.
+- **Sound effects:** ElevenLabs.
+
+Install it on the Mac with `skills/sound/install.sh`. It clones ACE-Step into
+`~/.local/share/ace-step/ACE-Step-1.5`, runs `uv sync`, and copies the skill to
+`~/.claude/skills/sound`. The skill's `sound.py` starts the ACE-Step API server on first use; that
+first start downloads the models, several GB. `soundtrack.py` uses the same client.
 
 ### 6. Cards
 `production/cards.json` lists the on-screen cards: date/place stamps, DNA name tags with a pointer,

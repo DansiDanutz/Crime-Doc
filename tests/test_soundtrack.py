@@ -50,9 +50,12 @@ class PlanTests(unittest.TestCase):
                               ([], "object")):
             with self.subTest(reason=reason), self.assertRaisesRegex(ValueError, reason):
                 tool.plan(sound, SHOT, None)
-        short = {"chapters": [{"id": "ch01", "scenes": [{"duration_s": 5}]}]}
-        with self.assertRaisesRegex(ValueError, "length"):  # the Music API needs at least 10 s
-            tool.plan({"music": [{"from": "ch01", "to": "ch01", "prompt": "x"}]}, short, None)
+        tiny = {"chapters": [{"id": "ch01", "scenes": [{"duration_s": 2}]}]}
+        with self.assertRaisesRegex(ValueError, "length"):
+            tool.plan({"music": [{"from": "ch01", "to": "ch01", "prompt": "x"}]}, tiny, None)
+        short = {"chapters": [{"id": "ch01", "scenes": [{"duration_s": 5}]}]}  # under the APIs' 10 s: allowed,
+        self.assertEqual(tool.plan({"music": [{"from": "ch01", "to": "ch01", "prompt": "x"}]}, short, None)[0]["dur"],
+                         5.0)  # requested at 10 s and trimmed
 
     def test_ep03_plan_is_valid_and_leaves_ch13_silent(self):
         cues, total = tool.load_plan(ROOT / "channels/umbra/episodes/ep03-ghost-characters")
@@ -65,7 +68,7 @@ class PlanTests(unittest.TestCase):
 
 class RecordTests(unittest.TestCase):
     @contextlib.contextmanager
-    def episode(self, music_api=True):
+    def episode(self, music_api=True, credits=100000, music_error="HTTP 403: plan does not include music"):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             ep = root / "channels/c/episodes/e"
@@ -78,14 +81,15 @@ class RecordTests(unittest.TestCase):
             (root / "channels/c/outro.json").write_text(json.dumps({
                 "seconds": 12, "text": "Subscribe.", "card": {"kind": "endcard", "wordmark": "u", "lines": ["X"]},
                 "music": {"prompt": "sting"}}))
-            sent = []
+            sent, access = [], {"music": music_api}
 
             def fake_request(path, key, body=None):
                 sent.append((path.split("?")[0], body))
-                if path.startswith("/music") and not music_api:
-                    raise SystemExit("error: ElevenLabs /music failed, HTTP 403: plan does not include music")
+                if path.startswith("/music") and not access["music"]:
+                    raise SystemExit(f"error: ElevenLabs /music failed, {music_error}")
                 if path.startswith("/user/subscription"):
-                    return contextlib.closing(io.BytesIO(b'{"character_limit": 1000, "character_count": 0}'))
+                    return contextlib.closing(io.BytesIO(json.dumps(
+                        {"character_limit": credits, "character_count": 0}).encode()))
                 return contextlib.closing(io.BytesIO(b"ID3" + json.dumps(body).encode()))
 
             vo = load("voiceover")
@@ -101,6 +105,7 @@ class RecordTests(unittest.TestCase):
                     mock.patch.object(vo, "request", side_effect=fake_request), mock.patch.object(vo, "load_env"), \
                     mock.patch.dict("os.environ", {"ELEVENLABS_API_KEY": "k"}, clear=True), \
                     contextlib.redirect_stdout(io.StringIO()) as out:
+                self.access = access
                 yield ep, root, sent, out, stems
 
     @staticmethod
@@ -131,6 +136,34 @@ class RecordTests(unittest.TestCase):
             self.assertEqual(len(loops), 3)
             receipt = json.loads((ep / "production/sound/receipt.json").read_text())
             self.assertEqual(sorted(t["source"] for t in receipt["takes"].values()), ["sfx", "sfx-loop", "sfx-loop"])
+            # next run: the Music API is asked again (once), the loops are reused, nothing else is paid for
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            self.assertEqual(self.generated(sent)[5:], ["/music"])
+            self.assertIn("reusing its ambient loop", out.getvalue())
+
+    def test_real_music_replaces_the_loops_once_the_music_api_is_available(self):
+        with self.episode(music_api=False) as (ep, root, sent, out, stems):
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            self.access["music"] = True  # the plan now includes music
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            self.assertEqual(self.generated(sent)[5:], ["/music", "/music", "/music"])  # all three re-made as music
+            receipt = json.loads((ep / "production/sound/receipt.json").read_text())
+            sources = sorted(t["source"] for t in receipt["takes"].values())
+            self.assertEqual(sources, ["music", "music", "sfx", "sfx-loop", "sfx-loop"])  # (+ channel sting elsewhere)
+            self.assertEqual(tool.current_stems(ep, "e"), tool.stem_paths(ep, "e")[:2])
+
+    def test_a_rejected_music_prompt_is_an_error_not_a_fallback(self):
+        with self.episode(music_api=False, music_error="HTTP 422: prompt rejected") as (ep, root, sent, out, stems):
+            with self.assertRaisesRegex(SystemExit, "422"):
+                tool.main(["c", "e"])
+            self.assertEqual(self.generated(sent), ["/music"])
+
+    def test_a_run_the_credits_cannot_cover_sends_nothing(self):
+        with self.episode(credits=100) as (ep, root, sent, out, stems):
+            with contextlib.redirect_stderr(io.StringIO()) as err:
+                self.assertEqual(tool.main(["c", "e"]), 2)
+            self.assertIn("not enough ElevenLabs credits", err.getvalue())
+            self.assertEqual(self.generated(sent), [])
 
     def test_a_changed_plan_makes_the_stems_stale(self):
         with self.episode() as (ep, root, sent, out, stems):
