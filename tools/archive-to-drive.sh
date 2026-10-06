@@ -82,6 +82,15 @@ VERIFY="$WORK/verify/$NAME"
 rm -rf -- "$STAGE" "$VERIFY"; mkdir -p "$STAGE" "$VERIFY"
 DIRTY=$(git status --porcelain --untracked-files=no | wc -l | tr -d ' ')
 
+# EP03's thumbnail was generated in the cloud (Higgsfield job 4084030d…), never on this Mac:
+# fetch it into the episode's output folder so the archive holds it next to the video.
+THUMB="$REPO/channels/umbra/episodes/ep03-ghost-characters/production/output/ep03-thumbnail-who.png"
+THUMB_URL="https://d8j0ntlcm91z4.cloudfront.net/user_3CoYJpraTQVSyV508PW6lPWKanC/hf_20261006_133351_4084030d-de68-4db0-911a-3931b57f3e2d.png"
+if [ -d "$(dirname "$THUMB")" ] && [ ! -s "$THUMB" ]; then
+  curl -fsSL --max-filesize 50000000 -o "$THUMB.part" "$THUMB_URL" && mv "$THUMB.part" "$THUMB" \
+    || { rm -f "$THUMB.part"; echo "  (could not fetch the EP03 thumbnail; its Higgsfield job id is in the manifest)"; }
+fi
+
 say "1/5 packing $NAME…"
 git archive --format=tar.gz -o "$STAGE/source.tar.gz" HEAD
 git bundle create -q "$STAGE/history.bundle" --all
