@@ -4,7 +4,7 @@
 
 **Subject:** The Chaos Computer Club's 1984 Bildschirmtext (Btx) hack of Hamburger Sparkasse
 
-**Target:** 5 min (~750 words)  ·  **Status:** assembled  ·  **Ending:** 4 — unanswered (a watched demonstration, a tapped line, someone inside; nobody ever proved it was the page)
+**Target:** 5 min (~750 words)  ·  **Status:** in-production  ·  **Ending:** 4 — unanswered (a watched demonstration, a tapped line, someone inside; nobody ever proved it was the page)
 
 ## Production summary
 - **Chapters:** 20  ·  **Scenes:** 90  ·  **Runtime (storyboarded):** 5:00
