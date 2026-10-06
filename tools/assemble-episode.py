@@ -19,6 +19,7 @@ Usage:
     tools/assemble-episode.py umbra ep03-ghost-characters --vo ~/Desktop/ep03-vo.wav
 """
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -80,6 +81,11 @@ def run(cmd: list[str]) -> None:
         raise SystemExit(f"error: {' '.join(cmd[:3])} … failed:\n{result.stderr[-2000:]}")
 
 
+def cache_path(clips_dir: Path, source: str, url: str) -> Path:
+    """Cache key includes the URL, so a re-rendered scene (new video_url) is downloaded afresh."""
+    return clips_dir / f"{source}-{hashlib.sha1(url.encode()).hexdigest()[:12]}.mp4"
+
+
 def download(url: str, dest: Path) -> None:
     if dest.exists() and dest.stat().st_size > 0:
         return
@@ -123,7 +129,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print("downloading and trimming clips…")
     for seg in segments:
-        source = clips_dir / f"{seg['source']}.mp4"
+        source = cache_path(clips_dir, seg["source"], seg["url"])
         download(seg["url"], source)
         part = parts_dir / f"{seg['id']}.mp4"
         run([ffmpeg, "-y", "-v", "error", "-i", str(source), "-t", str(seg["seconds"]), "-an",

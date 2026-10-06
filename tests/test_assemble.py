@@ -34,6 +34,14 @@ class AssembleTests(unittest.TestCase):
         self.assertEqual(segments, [])
         self.assertEqual(missing, ["ch01_s1", "ch01_s2 (via ch01_s1)"])
 
+    def test_a_rerendered_clip_gets_a_new_cache_file(self):
+        clips = Path("/tmp/clips")
+        old = tool.cache_path(clips, "ch03_s5", "https://cdn/old.mp4")
+        new = tool.cache_path(clips, "ch03_s5", "https://cdn/new.mp4")
+        self.assertNotEqual(old, new)
+        self.assertEqual(old, tool.cache_path(clips, "ch03_s5", "https://cdn/old.mp4"))
+        self.assertTrue(old.name.startswith("ch03_s5-") and old.suffix == ".mp4")
+
     def test_script_text_is_the_narration_only(self):
         md = "# STATE 3 — Script\n\n**Target length:** 5 minutes\n\n---\n\nFirst line.\n\nSecond line.\n\n---\n\n**Word count:** 4\n"
         self.assertEqual(tool.script_text(md), "First line. Second line.")
