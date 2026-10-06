@@ -76,73 +76,198 @@ class RecordingTests(unittest.TestCase):
     python-dotenv (CI installs no packages) and never skip."""
 
     @contextlib.contextmanager
-    def fake_episode(self, seconds=2.0):
-        """A one-scene episode in a temp root, a mocked ElevenLabs, and the sent requests."""
+    def fake_episode(self, take_seconds=2.0):
+        """A two-chapter episode (5 s each) in a temp root, a mocked ElevenLabs, the sent requests.
+        take_seconds: the length every take decodes to, or an exception for a take that won't decode."""
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             ep = root / "channels/c/episodes/e"
             (ep / "production").mkdir(parents=True)
-            (ep / "02-script.md").write_text("# S\n\n---\n\nThey call him Wau.\n\n---\n\nend\n")
-            (ep / "production/shotlist.json").write_text(json.dumps({"chapters": [{"scenes": [{"duration_s": 5}]}]}))
+            (ep / "02-script.md").write_text("# S\n\n---\n\n<!-- ch01 -->\nThey call him Wau.\n\n"
+                                             "<!-- ch02 -->\nHe dials in.\n\n---\n\nend\n")
+            (ep / "production/shotlist.json").write_text(json.dumps({"chapters": [
+                {"id": "ch01", "scenes": [{"duration_s": 5}]}, {"id": "ch02", "scenes": [{"duration_s": 5}]}]}))
             (ep / "production/pronunciation.json").write_text('{"Wau": "Vow"}')
             assemble = tool.load_tool("assemble-episode")
-            sent = []
+            sent, state = [], {"take": take_seconds, "left": 9900, "track": 10.0}
 
             def fake_request(path, key, body=None):
                 sent.append((path, body))
                 payload = {"/voices": b'{"voices": [{"name": "Brian", "voice_id": "brian-id"}]}',
-                           "/user/subscription": b'{"character_limit": 10000, "character_count": 100}'}
-                return contextlib.closing(io.BytesIO(payload.get(path, b"ID3fake-mp3-bytes")))
+                           "/user/subscription": json.dumps({"character_limit": state["left"],
+                                                             "character_count": 0}).encode()}
+                return contextlib.closing(io.BytesIO(payload.get(path, b"ID3" + (body or {}).get("text", "").encode())))
 
-            duration = mock.Mock(return_value=seconds) if not isinstance(seconds, BaseException) \
-                else mock.Mock(side_effect=seconds)
+            def duration(ffmpeg, path):
+                if path.name.startswith(".e-vo"):
+                    return state["track"]  # the built track: the whole cut
+                if isinstance(state["take"], BaseException):
+                    raise state["take"]
+                return state["take"]
+
+            def fake_build(ffmpeg, items, total, dest):
+                dest.write_bytes(b"TRACK" + b"|".join(f"{i['label']}@{i['start']}x{i['tempo']}".encode() for i in items))
+
             with mock.patch.object(assemble, "ROOT", root), mock.patch.object(tool, "ROOT", root), \
-                    mock.patch.object(tool, "load_tool", return_value=assemble), \
                     mock.patch.object(assemble, "ffmpeg_binary", return_value="ffmpeg"), \
-                    mock.patch.object(assemble, "media_seconds", duration), \
+                    mock.patch.object(assemble, "media_seconds", side_effect=duration), \
+                    mock.patch.object(tool, "build_track", side_effect=fake_build), \
                     mock.patch.object(tool, "load_env"), \
                     mock.patch.dict("os.environ", {"ELEVENLABS_API_KEY": "k"}, clear=True), \
                     mock.patch.object(tool, "request", side_effect=fake_request), \
                     contextlib.redirect_stdout(io.StringIO()) as out:
-                yield ep / "production/vo", sent, out, duration
+                real_load = tool.load_tool
+                with mock.patch.object(tool, "load_tool",
+                                       side_effect=lambda n: assemble if n == "assemble-episode" else real_load(n)):
+                    yield ep / "production/vo", sent, out, state
 
     @staticmethod
-    def takes(sent):
-        return sum(p.startswith("/text-to-speech") for p, _ in sent)
+    def tts(sent):
+        return [b for p, b in sent if p.startswith("/text-to-speech")]
 
-    def test_records_once_then_reuses_the_take(self):
+    def test_records_each_chapter_once_with_its_neighbours_then_reuses(self):
         with self.fake_episode() as (vo, sent, out, _):
             self.assertEqual(tool.main(["c", "e"]), 0)
-            tts = [b for p, b in sent if p.startswith("/text-to-speech/brian-id")]
-            self.assertEqual(len(tts), 1)
-            self.assertEqual(tts[0]["text"], "They call him Vow.")
-            self.assertEqual((vo / "e-vo.mp3").read_bytes(), b"ID3fake-mp3-bytes")
+            bodies = self.tts(sent)
+            self.assertEqual([b["text"] for b in bodies], ["They call him Vow.", "He dials in."])
+            self.assertEqual((bodies[0].get("previous_text"), bodies[0]["next_text"]), (None, "He dials in."))
+            self.assertEqual((bodies[1]["previous_text"], bodies[1].get("next_text")), ("They call him Vow.", None))
+            self.assertEqual((vo / "e-vo.mp3").read_bytes(), b"TRACKch01@0.0x1.0|ch02@5.0x1.0")
             receipt = json.loads((vo / "vo.json").read_text())
-            self.assertEqual((receipt["voice_name"], receipt["characters"]), ("Brian", 18))
-            self.assertEqual(set(receipt), {"voice_id", "voice_name", "model", "settings", "characters", "seconds",
-                                            "inputs_sha256", "audio_sha256"})  # no credential is stored
+            self.assertEqual(set(receipt), {"voice_id", "voice_name", "model", "settings", "takes", "track"})
+            self.assertEqual(set(receipt["takes"]), {"ch01", "ch02"})
+            self.assertEqual(set(receipt["takes"]["ch01"]),  # no credential is stored
+                             {"inputs_sha256", "audio_sha256", "seconds", "characters", "file"})
             self.assertEqual(tool.main(["c", "e"]), 0)
-            self.assertEqual(self.takes(sent), 1)
+            self.assertEqual(len(self.tts(sent)), 2)
             self.assertIn("nothing spent", out.getvalue())
             self.assertEqual(tool.main(["c", "e", "--force"]), 0)
-            self.assertEqual(self.takes(sent), 2)
-            self.assertEqual(sorted(f.name for f in vo.iterdir()), ["e-vo.mp3", "vo.json", "vo.lock"])
+            self.assertEqual(len(self.tts(sent)), 4)
+
+    def test_changing_one_chapter_records_it_and_its_neighbours_only(self):
+        with self.fake_episode() as (vo, sent, _, _):
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            script = vo.parent.parent / "02-script.md"
+            script.write_text(script.read_text().replace("He dials in.", "He dials in again."))
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            # ch02 changed; ch01 carries ch02 as its context, so it is re-read too for continuity
+            self.assertEqual([b["text"] for b in self.tts(sent)[2:]], ["They call him Vow.", "He dials in again."])
+
+    def test_a_take_too_long_for_its_window_is_reported_not_laid(self):
+        with self.fake_episode(take_seconds=6.0) as (vo, sent, out, state):
+            with contextlib.redirect_stderr(io.StringIO()) as err:
+                self.assertEqual(tool.main(["c", "e"]), 2)
+            self.assertIn("ch01, ch02 run more than 8%", err.getvalue())
+            self.assertFalse((vo / "e-vo.mp3").exists())
+            state["take"] = 4.7  # 4.7 s in a 4.5 s usable window: tightened ~4%, laid
+            self.assertEqual(tool.main(["c", "e", "--force"]), 0)
+            self.assertIn(b"x1.04", (vo / "e-vo.mp3").read_bytes())
+
+    def test_markers_must_follow_the_storyboard_before_anything_is_sent(self):
+        with self.fake_episode() as (vo, sent, _, _):
+            script = vo.parent.parent / "02-script.md"
+            good = script.read_text()
+            for bad, reason in ((good.replace("<!-- ch01 -->", "<!-- chX -->").replace("<!-- ch02 -->", "<!-- ch01 -->")
+                                 .replace("<!-- chX -->", "<!-- ch02 -->"), "out of order"),
+                                (good.replace("<!-- ch02 -->\nHe dials in.\n", ""), "missing ch02"),
+                                (good.replace("<!-- ch02 -->", "<!-- ch09 -->"), "unknown ch09")):
+                with self.subTest(reason=reason):
+                    script.write_text(bad)
+                    with self.assertRaisesRegex(SystemExit, reason):
+                        tool.main(["c", "e"])
+            self.assertEqual(sent, [])
+
+    def test_a_run_that_changes_the_narration_drops_the_old_track_first(self):
+        with self.fake_episode() as (vo, sent, _, state):
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            self.assertTrue((vo / "e-vo.mp3").exists())
+            state["take"] = 6.0  # the re-recording comes out too long and the run stops
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(tool.main(["c", "e", "--force"]), 2)
+            self.assertFalse((vo / "e-vo.mp3").exists())
+            self.assertNotIn("track", json.loads((vo / "vo.json").read_text()))
+
+    def test_the_assembler_only_takes_a_track_that_matches_its_receipt_and_script(self):
+        assemble = tool.load_tool("assemble-episode")
+        with self.fake_episode() as (vo, sent, _, _):
+            ep = vo.parent.parent
+            self.assertIsNone(assemble.current_vo_track(ep, "e"))  # no voiceover yet: fine, picture only
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            self.assertEqual(assemble.current_vo_track(ep, "e"), vo / "e-vo.mp3")
+            (ep / "02-script.md").write_text((ep / "02-script.md").read_text().replace("dials in", "hangs up"))
+            with self.assertRaisesRegex(SystemExit, "script or the chapter timing changed"):
+                assemble.current_vo_track(ep, "e")
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            (vo / "e-vo.mp3").write_bytes(b"some other track")
+            with self.assertRaisesRegex(SystemExit, "not the track vo.json describes"):
+                assemble.current_vo_track(ep, "e")
+            (vo / "e-vo.mp3").unlink()
+            with self.assertRaisesRegex(SystemExit, "missing or unfinished"):
+                assemble.current_vo_track(ep, "e")
+
+    def test_a_forced_run_without_quota_keeps_the_finished_track(self):
+        assemble = tool.load_tool("assemble-episode")
+        with self.fake_episode() as (vo, sent, _, state):
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            before = (vo / "e-vo.mp3").read_bytes()
+            state["left"] = 5  # not enough characters for a re-read
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(tool.main(["c", "e", "--force"]), 2)
+            self.assertEqual((vo / "e-vo.mp3").read_bytes(), before)
+            self.assertEqual(assemble.current_vo_track(vo.parent.parent, "e"), vo / "e-vo.mp3")
+
+    def test_new_chapter_timing_rebuilds_the_track_without_new_takes(self):
+        assemble = tool.load_tool("assemble-episode")
+        with self.fake_episode() as (vo, sent, _, state):
+            ep = vo.parent.parent
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            shot = json.loads((ep / "production/shotlist.json").read_text())
+            shot["chapters"][0]["scenes"][0]["duration_s"] = 6  # ch02 now starts at 6 s
+            (ep / "production/shotlist.json").write_text(json.dumps(shot))
+            with self.assertRaisesRegex(SystemExit, "chapter timing changed"):
+                assemble.current_vo_track(ep, "e")
+            state["track"] = 11.0
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            self.assertEqual(len(self.tts(sent)), 2)  # the same takes, laid on the new windows
+            self.assertIn(b"ch02@6.0", (vo / "e-vo.mp3").read_bytes())
+            self.assertEqual(assemble.current_vo_track(ep, "e"), vo / "e-vo.mp3")
+
+    def test_the_channel_outro_is_its_own_take_after_the_story(self):
+        assemble = tool.load_tool("assemble-episode")
+        with self.fake_episode() as (vo, sent, _, state):
+            ep = vo.parent.parent
+            (ep.parent.parent / "outro.json").write_text(json.dumps({
+                "seconds": 5, "text": "Subscribe to umbra.",
+                "card": {"kind": "endcard", "wordmark": "umbra", "lines": ["SUBSCRIBE"]}}))
+            state["track"] = 15.0  # 10 s of story + 5 s of outro
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            bodies = self.tts(sent)
+            self.assertEqual([b["text"] for b in bodies], ["They call him Vow.", "He dials in.", "Subscribe to umbra."])
+            self.assertNotIn("next_text", bodies[1])      # the story's last line is read as an ending
+            self.assertNotIn("previous_text", bodies[2])  # and the sign-off as its own read
+            self.assertIn(b"outro@10.0", (vo / "e-vo.mp3").read_bytes())
+            self.assertEqual(assemble.current_vo_track(ep, "e"), vo / "e-vo.mp3")
+            (ep.parent.parent / "outro.json").write_text(json.dumps({
+                "seconds": 5, "text": "Follow umbra.", "card": {"kind": "endcard", "wordmark": "umbra", "lines": ["X"]}}))
+            with self.assertRaisesRegex(SystemExit, "changed"):
+                assemble.current_vo_track(ep, "e")
 
     def test_audio_that_does_not_decode_is_never_kept(self):
-        with self.fake_episode(seconds=SystemExit("error: could not read the duration")) as (vo, sent, _, duration):
+        with self.fake_episode(take_seconds=SystemExit("error: could not read the duration")) as (vo, sent, _, state):
             with self.assertRaises(SystemExit):
                 tool.main(["c", "e"])
-            self.assertEqual(sorted(f.name for f in vo.iterdir()), ["vo.lock"])
-            duration.side_effect, duration.return_value = None, 2.0
+            self.assertEqual(list((vo / "takes").iterdir()), [])
+            self.assertFalse((vo / "e-vo.mp3").exists())
+            state["take"] = 2.0
             self.assertEqual(tool.main(["c", "e"]), 0)  # the next run records again instead of reusing
-            self.assertEqual(self.takes(sent), 2)
+            self.assertEqual(len(self.tts(sent)), 3)
 
     def test_a_take_that_does_not_match_its_receipt_is_recorded_again(self):
         with self.fake_episode() as (vo, sent, _, _):
             self.assertEqual(tool.main(["c", "e"]), 0)
-            (vo / "e-vo.mp3").write_bytes(b"ID3some-other-take")
+            next((vo / "takes").glob("ch02-*.mp3")).write_bytes(b"ID3some-other-take")
             self.assertEqual(tool.main(["c", "e"]), 0)
-            self.assertEqual(self.takes(sent), 2)
+            self.assertEqual([b["text"] for b in self.tts(sent)[2:]], ["He dials in."])
 
     def test_a_second_run_on_the_same_episode_sends_nothing(self):
         with self.fake_episode() as (vo, sent, _, _):
@@ -151,6 +276,40 @@ class RecordingTests(unittest.TestCase):
                 with self.assertRaisesRegex(SystemExit, "already recording"):
                     tool.main(["c", "e"])
             self.assertEqual(sent, [("/voices", None)])
+
+
+def real_ffmpeg():
+    try:
+        return tool.load_tool("assemble-episode").ffmpeg_binary()
+    except SystemExit:
+        return None
+
+
+@unittest.skipUnless(real_ffmpeg(), "needs ffmpeg (pip install -r requirements.txt provides one)")
+class TrackWithFfmpegTests(unittest.TestCase):
+    def test_takes_land_on_their_windows_and_the_track_is_the_cut(self):
+        import subprocess
+        ffmpeg, assemble = real_ffmpeg(), tool.load_tool("assemble-episode")
+        with tempfile.TemporaryDirectory() as d:
+            items = []
+            for i, seconds in enumerate((3.0, 4.8)):  # the second is 4.8 s in a 4.5 s usable window
+                path = Path(d) / f"t{i}.mp3"
+                subprocess.run([ffmpeg, "-y", "-v", "error", "-f", "lavfi", "-i",
+                                f"sine=frequency={400 + 200 * i}:duration={seconds}", "-ac", "1", str(path)], check=True)
+                item = {"path": path, "start": 5.0 * i, "window": 5.0, "lead": tool.LEAD_S}
+                item["tempo"] = tool.fit(assemble.media_seconds(ffmpeg, path), item)
+                items.append(item)
+            self.assertEqual(items[0]["tempo"], 1.0)
+            self.assertAlmostEqual(items[1]["tempo"], 4.8 / 4.5, delta=0.02)
+            track = Path(d) / "track.mp3"
+            tool.build_track(ffmpeg, items, 10.0, track)
+            self.assertAlmostEqual(assemble.media_seconds(ffmpeg, track), 10.0, delta=0.1)
+            log = subprocess.run([ffmpeg, "-hide_banner", "-i", str(track), "-af", "silencedetect=n=-40dB:d=0.1",
+                                  "-f", "null", "-"], capture_output=True, text=True).stderr
+            ends = [float(x.split("silence_end: ")[1].split()[0]) for x in log.splitlines() if "silence_end" in x]
+            self.assertAlmostEqual(ends[0], tool.LEAD_S, delta=0.05)        # ch01 starts after its breath
+            self.assertAlmostEqual(ends[1], 5.0 + tool.LEAD_S, delta=0.05)  # ch02 starts on its own window
+
 
 if __name__ == "__main__":
     unittest.main()
