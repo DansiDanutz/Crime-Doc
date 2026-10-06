@@ -66,16 +66,25 @@ its own planned duration is shorter.
 - `generate_image`, `model: nano_banana_pro`, each prompt from `05-thumbnails.md`,
   `count: 4`, `aspect_ratio:"16:9"`.
 
-### 5. Assemble
+### 5. Voiceover (ElevenLabs, voice Brian)
+`tools/voiceover.py <channel> <slug>` reads the narration of `02-script.md` in one take with the
+ElevenLabs voice **Brian** (`--voice` / `--voice-id` to change it; `eleven_multilingual_v2`), using
+`ELEVENLABS_API_KEY` from `.env.local`. Names the voice tends to misread are respelled for the read
+only in `production/pronunciation.json` (EP03: Wau → "Vow", "USD 70000", Btx). The take goes to
+`production/vo/<slug>-vo.mp3` (git-ignored) with a `vo.json` receipt; re-running with nothing
+changed reuses it and spends no characters. If the read runs past the cut, it prints the `--speed`
+to re-record with. `--dry-run` shows what would be sent without a key.
+
+### 6. Assemble
 `tools/assemble-episode.py <channel> <slug>` cuts the rendered clips (from `production/renders.json`,
 with REUSE scenes taking their source clip) into one rough cut, each clip trimmed to its scene's
 duration, 1280x720 at 24 fps: `production/output/<slug>-roughcut.mp4`. Add `--vo <audio>` to lay a
-voiceover under it, or `--scratch-vo` on macOS for a free `say` read of the script at 2.5 words/s as a
+voiceover under it (the Brian take from step 5), or `--scratch-vo` on macOS for a free `say` read of the script at 2.5 words/s as a
 timing guide. It refuses to cut while scenes have no clip unless `--allow-gaps` is passed. A clip
 shorter than its scene is held on its last frame (and named in the output), and the finished cut is
 checked against the storyboard length before it is written.
 
-### 5b. Finish (outside this repo)
+### 7. Finish (outside this repo)
 Concatenate the scene videos in chapter order, lay the VO + SFX/ambient/music split
 (per-chapter notes in `04-scenes.md`) in an editor. Keep rendered binaries out of git
 (see `.gitignore`); the prompts + shotlist are the reproducible source.
