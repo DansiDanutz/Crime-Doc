@@ -32,6 +32,17 @@ it. Named signature characters + full generation prompts in `cast/CAST.md`.
 ## Episode cadence
 ~5–10 min. One subject per episode. Cold open on a timestamp. Always end unresolved.
 
+## Outro (every episode, the same)
+After the story's last line, a fixed outro of 12 s. It lives in `channels/umbra/outro.json`,
+not in any script, so it never changes between episodes:
+- **Narration** (Brian, recorded as its own take): *"If you want more stories like this one, subscribe
+  to umbra and follow us. And leave your ideas in the comments: which case should we open next?"*
+- **End card:** the lowercase `umbra.` wordmark with a red period, "SUBSCRIBE · FOLLOW", "WHICH CASE
+  SHOULD WE OPEN NEXT?", and "TELL US IN THE COMMENTS".
+
+The story still ends unresolved on its own last line (DNA §4). The outro is a sign-off after it,
+not part of the ending.
+
 ## Topic backlog (DNA §10 territory)
 - ✅ EP01 — Stanislav Petrov / Serpukhov-15 (1983 nuclear false alarm)
 - ◻ Operation Mincemeat (the corpse that fooled Hitler)

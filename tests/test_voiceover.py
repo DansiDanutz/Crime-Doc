@@ -232,6 +232,26 @@ class RecordingTests(unittest.TestCase):
             self.assertIn(b"ch02@6.0", (vo / "e-vo.mp3").read_bytes())
             self.assertEqual(assemble.current_vo_track(ep, "e"), vo / "e-vo.mp3")
 
+    def test_the_channel_outro_is_its_own_take_after_the_story(self):
+        assemble = tool.load_tool("assemble-episode")
+        with self.fake_episode() as (vo, sent, _, state):
+            ep = vo.parent.parent
+            (ep.parent.parent / "outro.json").write_text(json.dumps({
+                "seconds": 5, "text": "Subscribe to umbra.",
+                "card": {"kind": "endcard", "wordmark": "umbra", "lines": ["SUBSCRIBE"]}}))
+            state["track"] = 15.0  # 10 s of story + 5 s of outro
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            bodies = self.tts(sent)
+            self.assertEqual([b["text"] for b in bodies], ["They call him Vow.", "He dials in.", "Subscribe to umbra."])
+            self.assertNotIn("next_text", bodies[1])      # the story's last line is read as an ending
+            self.assertNotIn("previous_text", bodies[2])  # and the sign-off as its own read
+            self.assertIn(b"outro@10.0", (vo / "e-vo.mp3").read_bytes())
+            self.assertEqual(assemble.current_vo_track(ep, "e"), vo / "e-vo.mp3")
+            (ep.parent.parent / "outro.json").write_text(json.dumps({
+                "seconds": 5, "text": "Follow umbra.", "card": {"kind": "endcard", "wordmark": "umbra", "lines": ["X"]}}))
+            with self.assertRaisesRegex(SystemExit, "changed"):
+                assemble.current_vo_track(ep, "e")
+
     def test_audio_that_does_not_decode_is_never_kept(self):
         with self.fake_episode(take_seconds=SystemExit("error: could not read the duration")) as (vo, sent, _, state):
             with self.assertRaises(SystemExit):

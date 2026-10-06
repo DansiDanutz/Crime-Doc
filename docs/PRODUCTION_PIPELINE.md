@@ -91,6 +91,13 @@ checks them; `--sheet x.png` draws every card on one contact sheet. The cards ar
 in the umbra. look (white on near-black, one red accent) and faded in over the picture by the
 assembler.
 
+### 6a. The channel outro (every episode, the same)
+`channels/<name>/outro.json` holds the fixed sign-off that follows every story's last line: the
+narrator's text, its length, and the end card (`kind: endcard`). `voiceover.py` records it as one
+more take, with a 0.8 s pause after the story and no story context, so the last line still lands
+as an ending. `assemble-episode.py` appends the end card after the storyboard. A 5:00 storyboard
+plus umbra.'s 12 s outro makes a 5:12 video. Change it in that one file and every episode follows.
+
 ### 6b. Assemble
 `tools/assemble-episode.py <channel> <slug>` cuts the rendered clips (from `production/renders.json`,
 with REUSE scenes taking their source clip) into one cut, each clip trimmed to its scene's duration,

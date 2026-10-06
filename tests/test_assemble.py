@@ -120,6 +120,27 @@ def real_ffmpeg():
 
 @unittest.skipUnless(real_ffmpeg(), "needs ffmpeg (CI has none)")
 class TrimWithFfmpegTests(unittest.TestCase):
+    def test_the_outro_end_card_is_appended_after_the_story(self):
+        ffmpeg = real_ffmpeg()
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(tool, "ROOT", Path(d)):
+            root = Path(d)
+            ep = root / "channels/c/episodes/e"
+            (ep / "production").mkdir(parents=True)
+            clip = root / "clip.mp4"
+            subprocess.run([ffmpeg, "-y", "-v", "error", "-f", "lavfi", "-i", "testsrc=size=640x360:rate=24:duration=4",
+                            "-pix_fmt", "yuv420p", str(clip)], check=True)
+            (ep / "production/shotlist.json").write_text(json.dumps(shotlist(("ch01_s1", 2, None), ("ch01_s2", 1, None))))
+            (ep / "production/renders.json").write_text(json.dumps(
+                {"scenes": {"ch01_s1": {"video_url": clip.as_uri()}, "ch01_s2": {"video_url": clip.as_uri()}}}))
+            (root / "channels/c/outro.json").write_text(json.dumps(
+                {"seconds": 4, "text": "Subscribe.", "card": {"kind": "endcard", "wordmark": "umbra", "lines": ["SUBSCRIBE"]}}))
+            with contextlib.redirect_stdout(io.StringIO()) as out:
+                self.assertEqual(tool.main(["c", "e", "--no-vo"]), 0)
+            self.assertIn("adding the channel outro", out.getvalue())
+            cut = ep / "production/output/e-roughcut.mp4"
+            self.assertAlmostEqual(tool.media_seconds(ffmpeg, cut), 7.0, delta=0.1)  # 3 s story + 4 s outro
+
+
     def test_a_short_clip_is_held_to_its_scene_length(self):
         ffmpeg = real_ffmpeg()
         with tempfile.TemporaryDirectory() as d:

@@ -6,6 +6,9 @@ clip each scene rendered). A scene marked REUSE takes the clip of the scene it n
 is trimmed to its scene's planned duration, scaled to 1280x720 at 24 fps, and joined in order,
 so the cut runs exactly as long as the storyboard (EP03: 5:00).
 
+Every episode ends with the channel's fixed outro (channels/<name>/outro.json): an end card
+appended after the storyboard, under the narrator's sign-off.
+
 The cards of production/cards.json (date stamps, name tags, figures, questions; see
 tools/cards.py) fade in over the picture; --no-cards leaves them out.
 
@@ -25,6 +28,7 @@ Usage:
 import argparse
 import hashlib
 import json
+import math
 import re
 import shutil
 import subprocess
@@ -110,11 +114,33 @@ def chapter_windows(shotlist: dict) -> list[tuple[str, int, int]]:
     return windows
 
 
-def narration_digest(script_md: str, pronunciation: dict, shotlist: dict) -> str:
+OUTRO_MIN_S, OUTRO_MAX_S = 4, 20
+
+
+def load_outro(ep: Path) -> dict | None:
+    """The channel's fixed outro (channels/<name>/outro.json), played after every episode's story:
+    {"seconds", "text" (read by the narrator), "card" (the end card)}. None if the channel has none."""
+    path = ep.parent.parent / "outro.json"
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text())
+    seconds, text, card = data.get("seconds"), " ".join(str(data.get("text") or "").split()), data.get("card")
+    if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) \
+            or not OUTRO_MIN_S <= seconds <= OUTRO_MAX_S:
+        raise ValueError(f"outro.json: seconds must be a number from {OUTRO_MIN_S} to {OUTRO_MAX_S}")
+    if not text or len(text) > 400:
+        raise ValueError("outro.json: text must be 1-400 characters")
+    if not isinstance(card, dict) or card.get("kind") != "endcard" or not card.get("wordmark"):
+        raise ValueError('outro.json: card must be {"kind": "endcard", "wordmark": ..., "lines": [...]}')
+    return {"seconds": float(seconds), "text": text, "card": card}
+
+
+def narration_digest(script_md: str, pronunciation: dict, shotlist: dict, outro: dict | None = None) -> str:
     """Fingerprint of what the voiceover should say and where: every chapter's words, the
-    respellings, and the chapter windows the takes are laid on."""
+    respellings, the chapter windows the takes are laid on, and the channel outro."""
     blob = json.dumps({"segments": narration_segments(script_md), "pronunciation": pronunciation,
-                       "windows": chapter_windows(shotlist)}, sort_keys=True)
+                       "windows": chapter_windows(shotlist),
+                       "outro": [outro["text"], outro["seconds"]] if outro else None}, sort_keys=True)
     return hashlib.sha256(blob.encode()).hexdigest()
 
 
@@ -146,7 +172,8 @@ def current_vo_track(ep: Path, slug: str) -> Path | None:
     pron_path = ep / "production" / "pronunciation.json"
     pronunciation = json.loads(pron_path.read_text()) if pron_path.exists() else {}
     shotlist = json.loads((ep / "production" / "shotlist.json").read_text())
-    if built.get("narration_sha256") != narration_digest((ep / "02-script.md").read_text(), pronunciation, shotlist):
+    if built.get("narration_sha256") != narration_digest((ep / "02-script.md").read_text(), pronunciation, shotlist,
+                                                         load_outro(ep)):
         raise SystemExit(f"error: the script or the chapter timing changed since the voiceover track was built; {hint}")
     return track
 
@@ -256,6 +283,11 @@ def main(argv: list[str] | None = None) -> int:
               file=sys.stderr)
         return 2
 
+    try:
+        outro = None if missing else load_outro(ep)
+    except ValueError as err:
+        print(f"error: {err}", file=sys.stderr)
+        return 2
     default_vo = None if (args.vo or args.scratch_vo or args.no_vo) else current_vo_track(ep, args.episode)
     cards_tool = load_tool("cards")
     try:
@@ -304,6 +336,22 @@ def main(argv: list[str] | None = None) -> int:
                  "-map", f"[{label}]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
                  "-pix_fmt", "yuv420p", "-t", str(total), str(carded)])
             picture = carded
+
+        if outro:
+            print(f"adding the channel outro ({outro['seconds']:g} s end card)…")
+            card_png = parts_dir / "endcard.png"
+            cards_tool.render(outro["card"]).save(card_png)
+            tail = parts_dir / "outro.mp4"
+            run([ffmpeg, "-y", "-v", "error", "-loop", "1", "-framerate", str(FPS), "-t", f"{outro['seconds']:g}",
+                 "-i", str(card_png), "-vf", "format=yuv420p,fade=in:st=0:d=0.6", "-r", str(FPS),
+                 "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", str(tail)])
+            joined_list = parts_dir / "with-outro.txt"
+            joined_list.write_text(concat_line(picture) + concat_line(tail))
+            joined = parts_dir / "picture-outro.mp4"
+            run([ffmpeg, "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(joined_list),
+                 "-c", "copy", str(joined)])
+            picture = joined
+            total += outro["seconds"]
 
         vo = args.vo
         if not (vo or args.scratch_vo or args.no_vo):

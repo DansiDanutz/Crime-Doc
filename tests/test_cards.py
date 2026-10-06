@@ -59,7 +59,8 @@ class CardPlanTests(unittest.TestCase):
                    "act": {"part": "PART I", "title": "THE PROMISE"},
                    "flag": {"label": "KEEP IN MIND", "text": "ONLY THE CLUB SAYS IT"},
                    "file": {"header": "REPORT 1985", "rows": ["BUG | CONFIRMED", "ON SCREEN | NOT ESTABLISHED"]},
-                   "list": {"rows": ["ONE?", "TWO?", "THREE?"]}}
+                   "list": {"rows": ["ONE?", "TWO?", "THREE?"]},
+                   "endcard": {"wordmark": "umbra", "lines": ["SUBSCRIBE · FOLLOW", "WHICH CASE NEXT?", "COMMENT"]}}
         self.assertEqual(set(samples), set(cards.KINDS))
         for kind, fields in samples.items():
             with self.subTest(kind=kind):
@@ -67,7 +68,8 @@ class CardPlanTests(unittest.TestCase):
                 self.assertEqual((img.size, img.mode), ((1280, 720), "RGBA"))
                 alpha = img.getchannel("A")
                 self.assertGreater(alpha.getbbox()[2] - alpha.getbbox()[0], 100)  # something was drawn
-                self.assertEqual(alpha.getpixel((640, 2)) if kind != "act" else 0, 0)  # the rest stays clear
+                if kind not in ("act", "endcard"):  # full-frame kinds cover everything on purpose
+                    self.assertEqual(alpha.getpixel((640, 2)), 0)  # the rest stays clear
 
 
 class Ep03Tests(unittest.TestCase):
@@ -104,6 +106,29 @@ class Ep03Tests(unittest.TestCase):
         last = re.split(r"(?<=[.?!])\s+", self.segments[-1][1])[-1]
         self.assertLessEqual(len(last.split()), 12)
         self.assertTrue(last.endswith("page."))
+
+    def test_the_umbra_outro_is_the_same_fixed_sign_off(self):
+        outro = assemble.load_outro(EP)
+        self.assertEqual(outro["seconds"], 12)
+        self.assertTrue(outro["text"].startswith("If you want more stories like this one, subscribe to umbra"))
+        self.assertIn("comments", outro["text"])
+        self.assertNotIn("subscribe", " ".join(t for _, t in self.segments).lower())  # never inside the story
+        self.assertLessEqual(len(outro["text"].split()) / 2.5, outro["seconds"] - 0.8)
+
+    def test_outro_config_is_validated(self):
+        import tempfile
+        good = {"seconds": 11, "text": "Subscribe.", "card": {"kind": "endcard", "wordmark": "umbra", "lines": ["X"]}}
+        with tempfile.TemporaryDirectory() as d:
+            ep = Path(d) / "chan/episodes/e"
+            ep.mkdir(parents=True)
+            self.assertIsNone(assemble.load_outro(ep))
+            for change, reason in (({"seconds": float("nan")}, "seconds"), ({"seconds": True}, "seconds"),
+                                   ({"seconds": 60}, "seconds"), ({"text": " "}, "text"),
+                                   ({"card": {"kind": "stamp"}}, "card")):
+                with self.subTest(reason=reason):
+                    (ep.parent.parent / "outro.json").write_text(json.dumps({**good, **change}))
+                    with self.assertRaisesRegex(ValueError, reason):
+                        assemble.load_outro(ep)
 
     def test_the_reader_export_hides_the_chapter_markers(self):
         html = (EP / "export/ep03-ghost-characters.html").read_text()

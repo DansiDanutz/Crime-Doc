@@ -15,6 +15,7 @@ Kinds:
   flag      small "keep this in mind" note, top right  {"label": "KEEP IN MIND", "text": "..."}
   file      summary of a document's findings           {"header": "...", "rows": ["FINDING | RESULT"]}
   list      a short numbered list                      {"rows": ["A WATCHED DEMONSTRATION?", ...]}
+  endcard   the channel outro's full-frame end card    {"wordmark": "umbra", "lines": ["SUBSCRIBE · FOLLOW", ...]}
 
 Usage:
     tools/cards.py umbra ep03-ghost-characters                # check cards.json
@@ -35,6 +36,7 @@ GREY = (176, 176, 172)
 KINDS = {
     "stamp": ("lines",), "tag": ("text",), "figure": ("value", "label"), "question": ("text",),
     "act": ("part", "title"), "flag": ("label", "text"), "file": ("header", "rows"), "list": ("rows",),
+    "endcard": ("wordmark", "lines"),
 }
 MIN_S, MAX_S = 1.5, 8.0
 MAX_LINE = 48  # characters; a card is read in a glance, not studied
@@ -293,6 +295,33 @@ def render(card: dict):
             y = y0 + 30 + 76 * j
             tracked(draw, (x0, y + 10), f"{j + 1:02d}", idx, RED, 2)
             draw.text((x0 + 90, y), s, font=row, fill=PAPER)
+    elif kind == "endcard":
+        mark, first, ask, small = font("bold", 132), font("mono", 26), font("bold", 42), font("mono", 22)
+        panel(img, (0, 0, W, H), INK + (255,))
+        glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ImageDraw.Draw(glow).ellipse((W // 2 - 360, 150, W // 2 + 360, 420), fill=RED + (46,))
+        img.alpha_composite(glow.filter(_pil()[2].GaussianBlur(90)))
+        word, dot = card["wordmark"].rstrip("."), "."
+        ww, dw = text_w(draw, word, mark), text_w(draw, dot, mark)
+        x0 = (W - ww - dw) // 2
+        draw.text((x0, 168), word, font=mark, fill=PAPER)
+        draw.text((x0 + ww, 168), dot, font=mark, fill=RED)  # the red period of the wordmark
+        draw.rectangle((W // 2 - 70, 336, W // 2 + 70, 340), fill=RED)
+        lines = card["lines"]
+        y = 392
+        for j, s in enumerate(lines):
+            f = first if j == 0 else (ask if j == 1 else small)
+            if j == 0:  # the first line sits in a red box, like a button
+                tw = text_w(draw, s, f, 4)
+                draw.rectangle(((W - tw) // 2 - 26, y - 12, (W + tw) // 2 + 26, y + 44), fill=RED)
+                tracked(draw, ((W - tw) // 2, y), s, f, PAPER, 4)
+                y += 86
+            elif j == 1:
+                draw.text(((W - text_w(draw, s, f)) // 2, y), s, font=f, fill=PAPER)
+                y += 62
+            else:
+                tracked(draw, ((W - text_w(draw, s, f, 3)) // 2, y), s, f, GREY, 3)
+                y += 40
     return img
 
 

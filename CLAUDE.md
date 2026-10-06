@@ -28,6 +28,8 @@ conformant to the DNA.
 - Cold open = exact date + location + one physical action, then ONE anchor line.
 - Pacing = 2.5 words/sec → `words = minutes × 150`.
 - Endings must be unresolved/unsettling; last line ≤12 words landing on a noun/name/date.
+- After that last line, every episode plays the same fixed channel outro (subscribe / follow /
+  comment ideas), defined in `channels/<name>/outro.json` (DNA §9 exception). Never write it into a script.
 - Mannequin color code is inviolable. No facial features. No gore. No horror lighting.
 
 ## Production engine (generation MCP)

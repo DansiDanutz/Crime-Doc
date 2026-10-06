@@ -92,7 +92,13 @@ anamorphic lens, shot on ARRI Alexa, [ASPECT RATIO]
 ## 9. Sponsors — PERMANENTLY EXCLUDED
 Super Luminal, 80,000 Hours, Shopify, Brilliant, NordVPN, Incogni, Nebula and any
 advertiser read are **never** modeled, never reproduced, never written. No "thanks
-for watching", no CTAs, no product framing.
+for watching", no CTAs inside the story, no product framing.
+
+**Exception, owner decision 2026-10-06: the channel outro.** After the story's last line,
+every episode ends with the same fixed outro: subscribe, follow, and leave ideas in the
+comments. It is defined once per channel in `channels/<name>/outro.json`, read by the narrator
+over a branded end card, and never written into the script. The story's own ending rules in §4
+still apply to the last line *before* it.
 
 ## 10. Topic territory
 Assassinations & attacks, dark-web & hacking, intelligence, cults, aviation/disasters,

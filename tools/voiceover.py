@@ -6,7 +6,8 @@ chapter is one take (sent with the lines around it, so the delivery stays contin
 placed at the start of its own window in the cut. The finished track therefore runs the full
 length of the picture and every line lands on its own shots. A take that runs a little long for
 its window is tightened (up to 8%, pitch kept); one that would need more is reported so its line
-can be shortened. A script without markers is read in one take from the top.
+can be shortened. A script without markers is read in one take from the top. The channel's fixed outro
+(channels/<name>/outro.json) is one more take, laid after the story.
 
 Words the voice tends to misread can be respelled for the read only, in the episode's
 production/pronunciation.json ({"Wau": "Vow"}); the script itself is never changed.
@@ -49,6 +50,7 @@ OUTPUT_FORMAT = "mp3_44100_128"
 WORDS_PER_SECOND = 2.5  # the channel pace
 MAX_AUDIO_BYTES = 50 * 1024 * 1024  # a 5-minute 128 kbps take is ~5 MB
 LEAD_S, TAIL_S = 0.35, 0.15  # breath before a chapter's first word / after its last
+OUTRO_LEAD_S = 0.8  # a beat of silence between the story's last line and the channel outro
 MAX_TEMPO = 1.08  # tighten a long take by at most 8%; past that, shorten the line
 
 
@@ -281,8 +283,20 @@ def main(argv: list[str] | None = None) -> int:
     pronunciation = json.loads(pron_path.read_text()) if pron_path.exists() else {}
     shotlist = json.loads((ep / "production" / "shotlist.json").read_text())
     windows = cards.chapter_windows(shotlist)
-    cut_seconds = sum(length for _, length in windows.values())
-    items = segment_plan(segments, windows, cut_seconds, pronunciation)
+    story_seconds = sum(length for _, length in windows.values())
+    try:
+        outro = assemble.load_outro(ep)
+    except ValueError as err:
+        raise SystemExit(f"error: {err}")
+    items = segment_plan(segments, windows, story_seconds, pronunciation)
+    cut_seconds = story_seconds
+    if outro:
+        # The channel sign-off: its own take after the story, read without the story as context so
+        # the last line still lands as an ending.
+        items.append({"label": "outro", "words": len(outro["text"].split()),
+                      "text": spoken_text(outro["text"], pronunciation), "previous": "", "next": "",
+                      "start": float(story_seconds), "window": outro["seconds"], "lead": OUTRO_LEAD_S})
+        cut_seconds += outro["seconds"]
     words = sum(i["words"] for i in items)
     print(f"{words} words in {len(items)} take(s), {sum(len(i['text']) for i in items)} characters; "
           f"the cut is {cut_seconds:g} s")
@@ -333,7 +347,7 @@ def main(argv: list[str] | None = None) -> int:
         else:
             print(f"all {len(items)} take(s) already recorded with {receipt.get('voice_name')} (nothing spent)")
 
-        narration = assemble.narration_digest(script_md, pronunciation, shotlist)
+        narration = assemble.narration_digest(script_md, pronunciation, shotlist, outro)
         built = receipt.get("track") if isinstance(receipt.get("track"), dict) else {}
         if todo or built.get("takes") != [i["inputs"] for i in items] or built.get("narration_sha256") != narration:
             # This run changes the narration or its timing, and the quota check has passed: the old
