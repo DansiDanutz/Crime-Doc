@@ -10,6 +10,8 @@
 **/renders/
 **/output/
 **/production/renders.lock
+**/production/clips/
+**/production/vo/
 **/production/.renders.*.tmp
 
 # Python bytecode / caches
