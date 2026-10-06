@@ -1,4 +1,4 @@
-# STATE 6 — Thumbnail prompts (5 variants)
+# STATE 6 — Thumbnail prompts (6 variants)
 
 > Red Hacker, black institution (Bundespost/bank), white public. Stark contrast, label tags +
 > triangular pointers, minimal bold text. Emotion: exposure / the false promise. Generate in
@@ -22,9 +22,9 @@ triangular pointer at the screen; a BLACK rectangular tag reading "PASSWORD" wit
 pointer at the glowing leaked line. Bold ALL-CAPS sans-serif, white text.
 ```
 
-## Variant 2 — "135,000 Marks"
+## Variant 2 — "134,000 Marks"
 - **Concept:** money flowing out of a black bank vault toward a small red figure — one directional line, stark.
-- **Text overlay:** RED tag "ONE NIGHT" (at red figure) · BLACK tag "135,000 DM" (at the vault)
+- **Text overlay:** RED tag "ONE NIGHT" (at red figure) · BLACK tag "134,000 DM" (at the vault)
 - **Emotion trigger:** the scale of what one home computer moved.
 - **Composition note:** black vault left, glowing money stream crossing to a small red mannequin at a desk right, heavy negative space.
 - **Prompt:**
@@ -36,7 +36,7 @@ glow, stark high-contrast lighting, key from above, deep shadows, bold red / pur
 black palette, shallow depth of field, volumetric light, cinematic color grade, Unreal Engine 5,
 octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9. Overlaid graphic tags: a RED
 rectangular tag reading "ONE NIGHT" with a triangular pointer at the red mannequin; a BLACK
-rectangular tag reading "135,000 DM" with a triangular pointer at the vault. Bold ALL-CAPS
+rectangular tag reading "134,000 DM" with a triangular pointer at the vault. Bold ALL-CAPS
 sans-serif, white text.
 ```
 
@@ -92,7 +92,27 @@ cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, shot
 reading "SECURE" with a triangular pointer at the stamp. Bold ALL-CAPS sans-serif, white text.
 ```
 
+## Variant 6 — "Who?" (the mystery cut)
+- **Concept:** the episode's open question as one image. The red hacker reads a CRT where the bank's password glows in the clear, while three black figures stand half-lit in the dark behind him. Any of them could be the real source.
+- **Text overlay:** BLACK tag "PASSWORD" (at the glowing line) · RED tag "WHO?" (at the three figures)
+- **Emotion trigger:** suspicion; the viewer must watch to learn where it came from. This matches the script's spine: "Nobody ever proved it was the page."
+- **Composition note:** red figure lower-left lit by the CRT, screen centre-left, three black mannequins in deep shadow upper-right, heavy negative space between them.
+- **Prompt:**
+```
+Cinematic photorealistic 3D render thumbnail, a matte red featureless mannequin (eggshell head,
+1980s cardigan) lower-left lit only by a boxy CRT monitor, one line of blocky videotex characters
+glowing brighter than the rest on the screen, behind him in the upper-right three matte black
+featureless mannequins standing half-lit in deep shadow, watching, dim 1980s room, stark
+high-contrast lighting, key from above, deep shadows, bold red / pure white / deep black palette
+with cool CRT-green glow, shallow depth of field, volumetric light, cinematic color grade, Unreal
+Engine 5, octane render, 8K, anamorphic lens, shot on ARRI Alexa, 16:9. Overlaid graphic tags: a
+BLACK rectangular tag reading "PASSWORD" with a triangular pointer at the glowing line; a RED
+rectangular tag reading "WHO?" with a triangular pointer at the three black figures. Bold
+ALL-CAPS sans-serif, white text.
+```
+
 ---
 
-Pick a variant (or ask for tweaks). V1 "Ghost Characters" is the title frame and strongest
-default; V5 "Secure" sells the institutional-betrayal hook.
+Pick a variant (or ask for tweaks). With script v2, **V6 "Who?"** carries the episode's open
+question and is the strongest default; V1 "Ghost Characters" is the title frame; V5 "Secure"
+sells the institutional-betrayal hook. Each image costs 2 Higgsfield credits on Nano Banana Pro.

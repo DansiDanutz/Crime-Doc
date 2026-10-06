@@ -12,6 +12,8 @@
 **/production/renders.lock
 **/production/clips/
 **/production/vo/
+**/production/sound/
+channels/*/sound/
 **/production/.renders.*.tmp
 
 # Python bytecode / caches

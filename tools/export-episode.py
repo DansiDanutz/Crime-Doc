@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SECTIONS = ["01-idea.md", "02-script.md", "03-characters.md", "04-scenes.md", "05-thumbnails.md"]
+SECTIONS = ["01-idea.md", "02-script.md", "03-characters.md", "04-scenes.md", "05-thumbnails.md", "06-upload.md"]
 
 
 def read_yaml_lite(path: Path) -> dict:

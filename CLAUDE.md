@@ -39,6 +39,8 @@ See `docs/PRODUCTION_PIPELINE.md` for exact tool calls. Summary:
 - **Scene keyframe** → `generate_image` referencing the character elements.
 - **Scene motion** → `generate_video` (`seedance_2_0`, `start_image` = keyframe job id).
 - **Thumbnails** → `generate_image` (`nano_banana_pro`, best text rendering).
+- **Music / sound effects** → the `sound` skill (`skills/sound/`, installed to `~/.claude/skills/sound`):
+  music locally with ACE-Step 1.5 (free), effects with ElevenLabs; per episode via `tools/soundtrack.py`.
 - Always preflight cost with `get_cost: true` before large batches; confirm with the user
   before spending credits on a full episode.
 

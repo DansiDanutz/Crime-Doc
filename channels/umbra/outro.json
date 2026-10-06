@@ -1,10 +1,18 @@
 {
-  "_doc": "The fixed channel outro, the same at the end of every umbra. episode (owner decision 2026-10-06). It plays after the story's last line: Brian reads 'text' over the end card. tools/voiceover.py records it as its own take; tools/assemble-episode.py appends the card after the storyboard.",
+  "_doc": "The fixed channel outro, the same at the end of every umbra. episode (owner decision 2026-10-06). It plays after the story's last line: Brian reads 'text' over the end card. tools/voiceover.py records it as its own take; tools/assemble-episode.py appends the card after the storyboard. 'music' is the outro sting, recorded once per channel by tools/soundtrack.py and reused by every episode.",
   "seconds": 12,
   "text": "If you want more stories like this one, subscribe to umbra and follow us. And leave your ideas in the comments: which case should we open next?",
   "card": {
     "kind": "endcard",
     "wordmark": "umbra",
-    "lines": ["SUBSCRIBE  ·  FOLLOW", "WHICH CASE SHOULD WE OPEN NEXT?", "TELL US IN THE COMMENTS"]
+    "lines": [
+      "SUBSCRIBE  ·  FOLLOW",
+      "WHICH CASE SHOULD WE OPEN NEXT?",
+      "TELL US IN THE COMMENTS"
+    ]
+  },
+  "music": {
+    "gain_db": -2,
+    "prompt": "A short, dark cinematic sign-off sting for a documentary channel: a cold low analog synth chord that swells once, then settles onto a single held low note and fades. Minimal, restrained, no drums, no vocals."
   }
 }

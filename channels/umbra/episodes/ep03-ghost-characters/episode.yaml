@@ -2,15 +2,15 @@ slug: ep03-ghost-characters
 channel: umbra
 title: "Ghost Characters"
 subject: "The Chaos Computer Club's 1984 Bildschirmtext (Btx) hack of Hamburger Sparkasse"
-status: scripted
+status: in-production
 duration_minutes: 5
 target_words: 750
 created: "2026-09-29"
-ending_type: "2 — implicating turn (every system since is sold as 'secure'; no one ever proved the password came from the page)"
-states_done: [idea, script, characters, thumbnails]
+ending_type: "4 — unanswered (a watched demonstration, a tapped line, someone inside; nobody ever proved it was the page)"
+states_done: [idea, script, characters, scenes, thumbnails, assembled, upload]
 cast:
   main_subject: "The Hacker — Wau Holland / CCC (re-skin of Vesper, red)"
   secondary_subjects: ["Btx User (public, white)", "The Journalist (white + press signifier)"]
   police: "The Bundespost + The Banker (black institution)"
   special_police: "The Postal Investigator (black + technical) — institutional responder"
-notes: "04-scenes.md holds the full 20-chapter map with chapters 01-03 built out as the worked pattern; expand 04-20 the same way."
+notes: "Script v2 (mystery cut), 27 cards, chapter-timed Brian narration and the channel outro; final cut 5:12. Upload package in 06-upload.md."

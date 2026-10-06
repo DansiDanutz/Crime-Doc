@@ -82,6 +82,28 @@ its own planned duration is shorter.
   only chapters whose words or neighbours changed; `--force` re-records all of them, and
   `--dry-run` shows the per-chapter plan without a key.
 
+### 5b. Music and sound effects (ElevenLabs)
+`production/sound.json` is the episode's soundtrack plan:
+- **`music`:** one bed per section of chapters (`from`/`to`). Each bed is written from the "Music" notes in `04-scenes.md`. A chapter can be left without music on purpose; EP03's ch13 is silent ("music drops out").
+- **`sfx`:** one-shot effects at a time into a chapter, written from the "SFX" and "Ambient" notes.
+
+`tools/soundtrack.py <channel> <slug>` records every cue with ElevenLabs, using the same `ELEVENLABS_API_KEY`:
+- **Music** is made locally and free with **ACE-Step 1.5** when it is installed (the `sound` skill, below). Otherwise it comes from the ElevenLabs Music API, and if the account's plan has no Music API, each section falls back to a seamless ambient loop from the sound-effects API, looped to length. Force a choice with `--music-engine ace-step|elevenlabs`.
+- **Effects** come from the sound-effects API.
+- **The outro sting** (`music` in `channels/<name>/outro.json`) is recorded once per channel in `channels/<name>/sound/` and reused, so every ending sounds the same.
+
+Recordings are content-addressed (kind, prompt and length) and kept only after they decode, so a re-run records only what changed. Changing a level or a time rebuilds the stems without spending anything. The output is two stems as long as the cut: `production/sound/<slug>-music.mp3` and `<slug>-sfx.mp3` (git-ignored).
+
+### 5c. The `sound` skill (any project)
+`skills/sound/` is a Claude Code skill for music and sound effects in any project:
+- **Music:** ACE-Step 1.5, local, free, 10 s to 10 min, instrumental or with lyrics.
+- **Sound effects:** ElevenLabs.
+
+Install it on the Mac with `skills/sound/install.sh` (after `brew install uv`). It checks out
+ACE-Step at a pinned, verified commit in `~/.local/share/ace-step/ACE-Step-1.5`, installs only its
+locked dependencies (`uv sync --frozen`), and copies the skill to `~/.claude/skills/sound`. The skill's `sound.py` starts the ACE-Step API server on first use; that
+first start downloads the models, several GB. `soundtrack.py` uses the same client.
+
 ### 6. Cards
 `production/cards.json` lists the on-screen cards: date/place stamps, DNA name tags with a pointer,
 big figures, the questions put to the viewer, act titles, a "keep in mind" flag, a summary of a
@@ -103,11 +125,29 @@ plus umbra.'s 12 s outro makes a 5:12 video. Change it in that one file and ever
 with REUSE scenes taking their source clip) into one cut, each clip trimmed to its scene's duration,
 1280x720 at 24 fps: `production/output/<slug>-roughcut.mp4`.
 - **Cards.** It lays the cards over the picture (`--no-cards` leaves them out).
+- **Sound.** It mixes the step 5b stems under the narration: the music dips whenever the narrator
+  speaks (sidechain ducking), and the whole mix is loudness-normalised to YouTube's -14 LUFS
+  (`--no-sound` leaves them out; stale stems are refused).
 - **Voice.** It lays the step 5 track under it automatically. Alternatives are `--vo <audio>` for any
   other track, `--scratch-vo` on macOS for a free `say` read as a timing guide, and `--no-vo`.
 - **Safety.** It refuses to cut while scenes have no clip unless `--allow-gaps` is passed. A clip
   shorter than its scene is held on its last frame, and the finished cut is checked against the
   storyboard length before it is written.
+
+### 8. Archive and free space (project on hold)
+`tools/archive-to-drive.sh` follows the Mac Studio Recovery Archive plan on Google Drive. It uses
+rclone and auto-detects the Drive remote.
+- **What it uploads,** to `01 — Project Archives/<date>__Crime-Doc__<commit>/`:
+  - the tracked source (`git archive`);
+  - the full git history as a bundle with every branch;
+  - the generated media git doesn't hold: clips, the render ledger, the final video, and the voice
+    and sound takes;
+  - a manifest with SHA-256s and restore steps, also filed in `Manifests and Restore Instructions`.
+- **What it leaves out:** credentials (`.env.local`) and `.venv`.
+- **How it verifies:** `rclone check`, then a fresh download, a SHA-256 match, a test extraction of
+  both tarballs, and a bundle clone back to HEAD.
+- **Freeing space:** `tools/archive-to-drive.sh --free` deletes the local media and `.venv`, but
+  only after a verified archive of exactly the current state. The source, git history and keys stay.
 
 ### 7. Finish (outside this repo)
 Concatenate the scene videos in chapter order, lay the VO + SFX/ambient/music split

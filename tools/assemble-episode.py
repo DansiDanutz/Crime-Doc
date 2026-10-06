@@ -12,6 +12,9 @@ appended after the storyboard, under the narrator's sign-off.
 The cards of production/cards.json (date stamps, name tags, figures, questions; see
 tools/cards.py) fade in over the picture; --no-cards leaves them out.
 
+The music and sound effects of production/sound.json (built by tools/soundtrack.py) are mixed
+under the narration, the music dipping whenever the narrator speaks; --no-sound leaves them out.
+
 A voiceover is laid under the picture:
   (default)        the track tools/voiceover.py wrote to production/vo/<slug>-vo.mp3, if any
   --vo FILE        any audio file (your own read, a TTS export, ...)
@@ -144,7 +147,15 @@ def load_outro(ep: Path) -> dict | None:
     if not isinstance(lines, list) or not 1 <= len(lines) <= 3 \
             or not all(isinstance(x, str) and 1 <= len(x.strip()) <= 48 for x in lines):
         raise ValueError("outro.json: card.lines must be 1-3 lines of 1-48 characters")
-    return {"seconds": float(seconds), "text": text, "card": card}
+    music = data.get("music")
+    if music is not None:
+        prompt, gain = (music.get("prompt"), music.get("gain_db", 0)) if isinstance(music, dict) else (None, None)
+        if not isinstance(prompt, str) or not 1 <= len(prompt.strip()) <= 450:
+            raise ValueError("outro.json: music.prompt must be 1-450 characters")
+        if isinstance(gain, bool) or not isinstance(gain, (int, float)) or not math.isfinite(gain) or not -40 <= gain <= 6:
+            raise ValueError("outro.json: music.gain_db must be a number from -40 to 6")
+        music = {"prompt": " ".join(prompt.split()), "gain_db": float(gain)}
+    return {"seconds": float(seconds), "text": text, "card": card, "music": music}
 
 
 def narration_digest(script_md: str, pronunciation: dict, shotlist: dict, outro: dict | None = None) -> str:
@@ -188,6 +199,26 @@ def current_vo_track(ep: Path, slug: str) -> Path | None:
                                                          load_outro(ep)):
         raise SystemExit(f"error: the script or the chapter timing changed since the voiceover track was built; {hint}")
     return track
+
+
+LOUDNESS = "loudnorm=I=-14:TP=-1.5:LRA=11"  # YouTube plays back at about -14 LUFS
+
+
+def sound_mix_graph(with_vo: bool, total: float) -> tuple[str, str]:
+    """ffmpeg graph for the final audio. Inputs: 1 = narration (if any), then the music and sfx
+    stems. The music is ducked by the narration (sidechain), everything is summed, the result is
+    loudness-normalised and resampled to 48 kHz."""
+    stereo = "aformat=sample_rates=48000:channel_layouts=stereo"
+    m, x = (2, 3) if with_vo else (1, 2)
+    parts = [f"[{m}:a]{stereo}[mus]", f"[{x}:a]{stereo}[fx]"]
+    if with_vo:
+        parts.append(f"[1:a]{stereo},asplit=2[vo][key]")
+        parts.append("[mus][key]sidechaincompress=threshold=0.02:ratio=10:attack=20:release=600[bed]")
+        parts.append("[vo][bed][fx]amix=inputs=3:normalize=0:duration=longest")
+    else:
+        parts.append("[mus][fx]amix=inputs=2:normalize=0:duration=longest")
+    parts[-1] += f",atrim=0:{total:.3f},{LOUDNESS},aresample=48000[aout]"
+    return ";".join(parts), "aout"
 
 
 def ffmpeg_binary() -> str:
@@ -273,6 +304,7 @@ def main(argv: list[str] | None = None) -> int:
                     "(default: the voiceover.py track in production/vo/, if there is one)")
     ap.add_argument("--no-vo", action="store_true", help="picture only, even if a voiceover track exists")
     ap.add_argument("--no-cards", action="store_true", help="leave out the on-screen cards of production/cards.json")
+    ap.add_argument("--no-sound", action="store_true", help="leave out the music and sound effects (production/sound.json)")
     ap.add_argument("--scratch-vo", action="store_true", help="macOS: make a free `say` voiceover from the script")
     ap.add_argument("--voice", default="Daniel", help="macOS `say` voice for --scratch-vo (default: Daniel)")
     ap.add_argument("--out", type=Path, help="output file (default: production/output/<slug>-roughcut.mp4)")
@@ -301,6 +333,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"error: {err}", file=sys.stderr)
         return 2
     default_vo = None if (args.vo or args.scratch_vo or args.no_vo) else current_vo_track(ep, args.episode)
+    try:
+        stems = None if (args.no_sound or missing) else load_tool("soundtrack").current_stems(ep, args.episode)
+    except ValueError as err:
+        print(f"error: {err}", file=sys.stderr)
+        return 2
     cards_tool = load_tool("cards")
     try:
         cards = [] if args.no_cards else cards_tool.load(ep, shotlist)
@@ -380,7 +417,14 @@ def main(argv: list[str] | None = None) -> int:
             print(f"scratch voiceover written with macOS voice {args.voice}")
 
         staged = parts_dir / ("final" + out.suffix)
-        if vo:
+        if stems:
+            print("mixing music and sound effects under the narration…")
+            graph, label = sound_mix_graph(bool(vo), total)
+            audio_inputs = (["-i", str(vo)] if vo else []) + ["-i", str(stems[0]), "-i", str(stems[1])]
+            run([ffmpeg, "-y", "-v", "error", "-i", str(picture), *audio_inputs, "-filter_complex", graph,
+                 "-map", "0:v", "-map", f"[{label}]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+                 "-t", str(total), str(staged)])
+        elif vo:
             run([ffmpeg, "-y", "-v", "error", "-i", str(picture), "-i", str(vo), "-map", "0:v", "-map", "1:a",
                  "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-t", str(total), str(staged)])
         else:

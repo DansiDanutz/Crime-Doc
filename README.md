@@ -1,5 +1,10 @@
 # umbra. — AI Documentary Production System
 
+> **Status: ON HOLD (2026-10-06).** EP03 "Ghost Characters" is finished (5:12) but unpublished; the
+> owner liked the production quality but not the story. To resume: pick a new story (STATE 2), set
+> the real channel name ("umbra." is a working name) in `channels/umbra/` and `outro.json`, and
+> reuse the whole pipeline. The archive and restore steps are in `docs/PRODUCTION_PIPELINE.md` §8.
+
 A production environment for making Fern/Hoog-style "armchair documentary" videos:
 deadpan true-crime / intelligence / systems-gone-wrong narration over a **mannequin-world**
 visual language (glossy-white / matte-red / matte-black figures), rendered and animated
