@@ -82,6 +82,18 @@ its own planned duration is shorter.
   only chapters whose words or neighbours changed; `--force` re-records all of them, and
   `--dry-run` shows the per-chapter plan without a key.
 
+### 5b. Music and sound effects (ElevenLabs)
+`production/sound.json` is the episode's soundtrack plan:
+- **`music`:** one bed per section of chapters (`from`/`to`). Each bed is written from the "Music" notes in `04-scenes.md`. A chapter can be left without music on purpose; EP03's ch13 is silent ("music drops out").
+- **`sfx`:** one-shot effects at a time into a chapter, written from the "SFX" and "Ambient" notes.
+
+`tools/soundtrack.py <channel> <slug>` records every cue with ElevenLabs, using the same `ELEVENLABS_API_KEY`:
+- **Music** comes from the Music API. If the account's plan has no Music API, each section falls back to a seamless ambient loop from the sound-effects API, looped to length.
+- **Effects** come from the sound-effects API.
+- **The outro sting** (`music` in `channels/<name>/outro.json`) is recorded once per channel in `channels/<name>/sound/` and reused, so every ending sounds the same.
+
+Recordings are content-addressed (kind, prompt and length) and kept only after they decode, so a re-run records only what changed. Changing a level or a time rebuilds the stems without spending anything. The output is two stems as long as the cut: `production/sound/<slug>-music.mp3` and `<slug>-sfx.mp3` (git-ignored).
+
 ### 6. Cards
 `production/cards.json` lists the on-screen cards: date/place stamps, DNA name tags with a pointer,
 big figures, the questions put to the viewer, act titles, a "keep in mind" flag, a summary of a
@@ -103,6 +115,9 @@ plus umbra.'s 12 s outro makes a 5:12 video. Change it in that one file and ever
 with REUSE scenes taking their source clip) into one cut, each clip trimmed to its scene's duration,
 1280x720 at 24 fps: `production/output/<slug>-roughcut.mp4`.
 - **Cards.** It lays the cards over the picture (`--no-cards` leaves them out).
+- **Sound.** It mixes the step 5b stems under the narration: the music dips whenever the narrator
+  speaks (sidechain ducking), and the whole mix is loudness-normalised to YouTube's -14 LUFS
+  (`--no-sound` leaves them out; stale stems are refused).
 - **Voice.** It lays the step 5 track under it automatically. Alternatives are `--vo <audio>` for any
   other track, `--scratch-vo` on macOS for a free `say` read as a timing guide, and `--no-vo`.
 - **Safety.** It refuses to cut while scenes have no clip unless `--allow-gaps` is passed. A clip

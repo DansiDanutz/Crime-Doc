@@ -2084,7 +2084,7 @@ the shadows, and the PASSWORD and WHO? tags stay legible at 320 px. Upload a 128
 
 ## Checklist before publishing
 - [ ] Watch the full cut once with headphones: names, numbers, "U-S-D seventy thousand"
-- [ ] Music / SFX bed (optional; per-chapter notes in `04-scenes.md`)
+- [ ] Music / SFX: run `tools/soundtrack.py umbra ep03-ghost-characters`, then assemble again
 - [x] Thumbnail generated and chosen (V6 "Who?")
 - [ ] Set the "altered or synthetic content" disclosure to **yes** (the visuals and the voice are AI-generated)
 - [ ] Visibility and category (Education or Film & Animation)
