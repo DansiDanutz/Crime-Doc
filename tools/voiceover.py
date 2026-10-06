@@ -181,6 +181,16 @@ def take_is_current(path: Path, entry: dict | None, inputs: str) -> bool:
 def segment_plan(segments: list[tuple[str | None, str]], windows: dict, cut_seconds: float,
                  pronunciation: dict) -> list[dict]:
     """One entry per take: label, spoken text, its neighbours (for continuity) and its window."""
+    marked = [chapter for chapter, _ in segments if chapter is not None]
+    if marked and marked != list(windows):
+        missing = [c for c in windows if c not in marked]
+        extra = [c for c in marked if c not in windows]
+        raise SystemExit("error: 02-script.md's <!-- chNN --> markers must name every storyboard chapter once, in "
+                         f"order ({', '.join(windows)}); "
+                         + "; ".join(x for x in (f"missing {', '.join(missing)}" if missing else "",
+                                                 f"unknown {', '.join(extra)}" if extra else "",
+                                                 "out of order" if not missing and not extra else "") if x)
+                         + ". Nothing was sent.")
     spoken = [spoken_text(text, pronunciation) for _, text in segments]
     plan = []
     for i, (chapter, text) in enumerate(segments):
@@ -262,8 +272,9 @@ def main(argv: list[str] | None = None) -> int:
     assemble = load_tool("assemble-episode")
     cards = load_tool("cards")
     ep = assemble.episode_dir(args.channel, args.episode)
+    script_md = (ep / "02-script.md").read_text()
     try:
-        segments = assemble.narration_segments((ep / "02-script.md").read_text())
+        segments = assemble.narration_segments(script_md)
     except ValueError as err:
         raise SystemExit(f"error: 02-script.md: {err}")
     pron_path = ep / "production" / "pronunciation.json"
@@ -310,6 +321,13 @@ def main(argv: list[str] | None = None) -> int:
             item["path"] = takes_dir / f"{item['label']}-{item['inputs'][:12]}.mp3"
         todo = [i for i in items if args.force or not take_is_current(i["path"], taken.get(i["label"]), i["inputs"])]
         needed = sum(len(i["text"]) for i in todo)
+        built = receipt.get("track") if isinstance(receipt.get("track"), dict) else {}
+        if todo or built.get("takes") != [i["inputs"] for i in items]:
+            # This run changes the narration: the old track goes first, so an interrupted or failed run
+            # can never leave obsolete narration behind for the assembler to pick up.
+            out.unlink(missing_ok=True)
+            if receipt.pop("track", None) is not None:
+                write_json(receipt_path, receipt)
         if todo:
             left = characters_left(key)
             if left is not None:
@@ -377,7 +395,8 @@ def main(argv: list[str] | None = None) -> int:
         finally:
             tmp.unlink(missing_ok=True)
         receipt["track"] = {"audio_sha256": file_sha256(out), "seconds": round(length, 2),
-                            "takes": [i["inputs"] for i in items]}
+                            "takes": [i["inputs"] for i in items],
+                            "narration_sha256": assemble.narration_digest(script_md, pronunciation)}
         write_json(receipt_path, receipt)
 
     print(f"done: {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} ({length:.1f} s, "

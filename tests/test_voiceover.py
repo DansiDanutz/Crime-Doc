@@ -162,6 +162,48 @@ class RecordingTests(unittest.TestCase):
             self.assertEqual(tool.main(["c", "e", "--force"]), 0)
             self.assertIn(b"x1.04", (vo / "e-vo.mp3").read_bytes())
 
+    def test_markers_must_follow_the_storyboard_before_anything_is_sent(self):
+        with self.fake_episode() as (vo, sent, _, _):
+            script = vo.parent.parent / "02-script.md"
+            good = script.read_text()
+            for bad, reason in ((good.replace("<!-- ch01 -->", "<!-- chX -->").replace("<!-- ch02 -->", "<!-- ch01 -->")
+                                 .replace("<!-- chX -->", "<!-- ch02 -->"), "out of order"),
+                                (good.replace("<!-- ch02 -->\nHe dials in.\n", ""), "missing ch02"),
+                                (good.replace("<!-- ch02 -->", "<!-- ch09 -->"), "unknown ch09")):
+                with self.subTest(reason=reason):
+                    script.write_text(bad)
+                    with self.assertRaisesRegex(SystemExit, reason):
+                        tool.main(["c", "e"])
+            self.assertEqual(sent, [])
+
+    def test_a_run_that_changes_the_narration_drops_the_old_track_first(self):
+        with self.fake_episode() as (vo, sent, _, state):
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            self.assertTrue((vo / "e-vo.mp3").exists())
+            state["take"] = 6.0  # the re-recording comes out too long and the run stops
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(tool.main(["c", "e", "--force"]), 2)
+            self.assertFalse((vo / "e-vo.mp3").exists())
+            self.assertNotIn("track", json.loads((vo / "vo.json").read_text()))
+
+    def test_the_assembler_only_takes_a_track_that_matches_its_receipt_and_script(self):
+        assemble = tool.load_tool("assemble-episode")
+        with self.fake_episode() as (vo, sent, _, _):
+            ep = vo.parent.parent
+            self.assertIsNone(assemble.current_vo_track(ep, "e"))  # no voiceover yet: fine, picture only
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            self.assertEqual(assemble.current_vo_track(ep, "e"), vo / "e-vo.mp3")
+            (ep / "02-script.md").write_text((ep / "02-script.md").read_text().replace("dials in", "hangs up"))
+            with self.assertRaisesRegex(SystemExit, "script changed"):
+                assemble.current_vo_track(ep, "e")
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            (vo / "e-vo.mp3").write_bytes(b"some other track")
+            with self.assertRaisesRegex(SystemExit, "not the track vo.json describes"):
+                assemble.current_vo_track(ep, "e")
+            (vo / "e-vo.mp3").unlink()
+            with self.assertRaisesRegex(SystemExit, "missing or unfinished"):
+                assemble.current_vo_track(ep, "e")
+
     def test_audio_that_does_not_decode_is_never_kept(self):
         with self.fake_episode(take_seconds=SystemExit("error: could not read the duration")) as (vo, sent, _, state):
             with self.assertRaises(SystemExit):

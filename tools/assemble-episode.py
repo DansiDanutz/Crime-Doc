@@ -100,6 +100,44 @@ def narration_segments(script_md: str) -> list[tuple[str | None, str]]:
     return segments
 
 
+def narration_digest(script_md: str, pronunciation: dict) -> str:
+    """Fingerprint of what the voiceover should say: every chapter's words + the respellings."""
+    blob = json.dumps({"segments": narration_segments(script_md), "pronunciation": pronunciation}, sort_keys=True)
+    return hashlib.sha256(blob.encode()).hexdigest()
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with open(path, "rb") as f:
+        while chunk := f.read(1 << 20):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def current_vo_track(ep: Path, slug: str) -> Path | None:
+    """The voiceover.py track, if this episode has one; refuses a track that is not the one its
+    receipt describes or was recorded for different words, so stale narration is never muxed."""
+    vo_dir = ep / "production" / "vo"
+    track, receipt_path = vo_dir / f"{slug}-vo.mp3", vo_dir / "vo.json"
+    if not track.exists() and not receipt_path.exists():
+        return None
+    hint = (f"run tools/voiceover.py {ep.parent.parent.name} {slug} (only changed chapters are re-recorded), "
+            "or pass --no-vo / --vo FILE")
+    try:
+        built = json.loads(receipt_path.read_text()).get("track") if receipt_path.exists() else None
+    except ValueError:
+        built = None
+    if not track.exists() or not isinstance(built, dict):
+        raise SystemExit(f"error: the voiceover track is missing or unfinished; {hint}")
+    if built.get("audio_sha256") != file_sha256(track):
+        raise SystemExit(f"error: {track.name} is not the track vo.json describes; {hint}")
+    pron_path = ep / "production" / "pronunciation.json"
+    pronunciation = json.loads(pron_path.read_text()) if pron_path.exists() else {}
+    if built.get("narration_sha256") != narration_digest((ep / "02-script.md").read_text(), pronunciation):
+        raise SystemExit(f"error: the script changed since the voiceover was recorded; {hint}")
+    return track
+
+
 def ffmpeg_binary() -> str:
     found = shutil.which("ffmpeg")
     if found:
@@ -205,6 +243,7 @@ def main(argv: list[str] | None = None) -> int:
               file=sys.stderr)
         return 2
 
+    default_vo = None if (args.vo or args.scratch_vo or args.no_vo) else current_vo_track(ep, args.episode)
     cards_tool = load_tool("cards")
     try:
         cards = [] if args.no_cards else cards_tool.load(ep, shotlist)
@@ -254,10 +293,10 @@ def main(argv: list[str] | None = None) -> int:
             picture = carded
 
         vo = args.vo
-        default_vo = ep / "production" / "vo" / f"{args.episode}-vo.mp3"
-        if not (vo or args.scratch_vo or args.no_vo) and default_vo.exists():
+        if not (vo or args.scratch_vo or args.no_vo):
             vo = default_vo
-            print(f"voiceover: {default_vo.relative_to(ROOT) if default_vo.is_relative_to(ROOT) else default_vo}")
+            if vo:
+                print(f"voiceover: {vo.relative_to(ROOT) if vo.is_relative_to(ROOT) else vo}")
         if args.scratch_vo:
             if not shutil.which("say"):
                 raise SystemExit("error: --scratch-vo needs macOS `say`; pass --vo with an audio file instead.")
