@@ -321,13 +321,6 @@ def main(argv: list[str] | None = None) -> int:
             item["path"] = takes_dir / f"{item['label']}-{item['inputs'][:12]}.mp3"
         todo = [i for i in items if args.force or not take_is_current(i["path"], taken.get(i["label"]), i["inputs"])]
         needed = sum(len(i["text"]) for i in todo)
-        built = receipt.get("track") if isinstance(receipt.get("track"), dict) else {}
-        if todo or built.get("takes") != [i["inputs"] for i in items]:
-            # This run changes the narration: the old track goes first, so an interrupted or failed run
-            # can never leave obsolete narration behind for the assembler to pick up.
-            out.unlink(missing_ok=True)
-            if receipt.pop("track", None) is not None:
-                write_json(receipt_path, receipt)
         if todo:
             left = characters_left(key)
             if left is not None:
@@ -339,6 +332,15 @@ def main(argv: list[str] | None = None) -> int:
                   f"({args.model}, speed {args.speed}, {needed:,} characters)…")
         else:
             print(f"all {len(items)} take(s) already recorded with {receipt.get('voice_name')} (nothing spent)")
+
+        narration = assemble.narration_digest(script_md, pronunciation, shotlist)
+        built = receipt.get("track") if isinstance(receipt.get("track"), dict) else {}
+        if todo or built.get("takes") != [i["inputs"] for i in items] or built.get("narration_sha256") != narration:
+            # This run changes the narration or its timing, and the quota check has passed: the old
+            # track goes now, so a run that stops later can never leave obsolete narration behind.
+            out.unlink(missing_ok=True)
+            if receipt.pop("track", None) is not None:
+                write_json(receipt_path, receipt)
 
         for item in todo:
             body = {"text": item["text"], "model_id": args.model, "voice_settings": settings}
@@ -396,7 +398,7 @@ def main(argv: list[str] | None = None) -> int:
             tmp.unlink(missing_ok=True)
         receipt["track"] = {"audio_sha256": file_sha256(out), "seconds": round(length, 2),
                             "takes": [i["inputs"] for i in items],
-                            "narration_sha256": assemble.narration_digest(script_md, pronunciation)}
+                            "narration_sha256": narration}
         write_json(receipt_path, receipt)
 
     print(f"done: {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} ({length:.1f} s, "

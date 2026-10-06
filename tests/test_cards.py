@@ -34,7 +34,9 @@ class CardPlanTests(unittest.TestCase):
         for change, reason in (({"kind": "banner"}, "unknown kind"), ({"text": ""}, "missing text"),
                                ({"chapter": "ch09"}, "no chapter"), ({"at": 9.0}, "past the end"),
                                ({"dur": 0.5}, "dur between"), ({"text": "X" * 60}, "over 48"),
-                               ({"kind": "tag", "role": "hero"}, "role must be")):
+                               ({"kind": "tag", "role": "hero"}, "role must be"),
+                               ({"at": float("nan")}, "finite"), ({"dur": float("inf")}, "finite"),
+                               ({"at": "soon"}, "must be numbers")):
             with self.subTest(reason=reason), self.assertRaisesRegex(ValueError, reason):
                 cards.plan([{**ok, **change}], SHOT)
         with self.assertRaisesRegex(ValueError, "overlap"):
@@ -102,6 +104,11 @@ class Ep03Tests(unittest.TestCase):
         last = re.split(r"(?<=[.?!])\s+", self.segments[-1][1])[-1]
         self.assertLessEqual(len(last.split()), 12)
         self.assertTrue(last.endswith("page."))
+
+    def test_the_reader_export_hides_the_chapter_markers(self):
+        html = (EP / "export/ep03-ghost-characters.html").read_text()
+        self.assertNotRegex(html, r"&lt;!--\s*ch\d+\s*--&gt;")  # docs may still *mention* <!-- chNN -->
+        self.assertIn("This is the story of a password", html)
 
     def test_segments_without_markers_and_bad_markers(self):
         self.assertEqual(assemble.narration_segments("# x\n\n---\n\nOne. Two.\n\n---\n"), [(None, "One. Two.")])

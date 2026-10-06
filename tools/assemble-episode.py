@@ -100,9 +100,21 @@ def narration_segments(script_md: str) -> list[tuple[str | None, str]]:
     return segments
 
 
-def narration_digest(script_md: str, pronunciation: dict) -> str:
-    """Fingerprint of what the voiceover should say: every chapter's words + the respellings."""
-    blob = json.dumps({"segments": narration_segments(script_md), "pronunciation": pronunciation}, sort_keys=True)
+def chapter_windows(shotlist: dict) -> list[tuple[str, int, int]]:
+    """[(chapter id, start s, length s)] in storyboard order."""
+    windows, t = [], 0
+    for chapter in shotlist["chapters"]:
+        length = sum(int(sc["duration_s"]) for sc in chapter["scenes"])
+        windows.append((chapter.get("id"), t, length))
+        t += length
+    return windows
+
+
+def narration_digest(script_md: str, pronunciation: dict, shotlist: dict) -> str:
+    """Fingerprint of what the voiceover should say and where: every chapter's words, the
+    respellings, and the chapter windows the takes are laid on."""
+    blob = json.dumps({"segments": narration_segments(script_md), "pronunciation": pronunciation,
+                       "windows": chapter_windows(shotlist)}, sort_keys=True)
     return hashlib.sha256(blob.encode()).hexdigest()
 
 
@@ -133,8 +145,9 @@ def current_vo_track(ep: Path, slug: str) -> Path | None:
         raise SystemExit(f"error: {track.name} is not the track vo.json describes; {hint}")
     pron_path = ep / "production" / "pronunciation.json"
     pronunciation = json.loads(pron_path.read_text()) if pron_path.exists() else {}
-    if built.get("narration_sha256") != narration_digest((ep / "02-script.md").read_text(), pronunciation):
-        raise SystemExit(f"error: the script changed since the voiceover was recorded; {hint}")
+    shotlist = json.loads((ep / "production" / "shotlist.json").read_text())
+    if built.get("narration_sha256") != narration_digest((ep / "02-script.md").read_text(), pronunciation, shotlist):
+        raise SystemExit(f"error: the script or the chapter timing changed since the voiceover track was built; {hint}")
     return track
 
 

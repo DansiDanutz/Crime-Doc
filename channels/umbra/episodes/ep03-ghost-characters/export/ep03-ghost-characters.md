@@ -265,25 +265,25 @@ titles) are timed per chapter in `production/cards.json`.
 | Ch | Time | Script beat (VO in this window) | Mode | Scenes |
 |----|------|---------------------------------|------|--------|
 | 01 | 0:00–0:15 | Cold open — the flat, the dial-in, the "safe" network | B flat | 5 |
-| 02 | 0:15–0:30 | "Wau" + anchor — 135,000 marks out, every mark back | B/A | 4 |
+| 02 | 0:15–0:30 | "Wau" + anchor — 134,000 marks out, every mark back; *the story of a password, and where it came from* (the open question) | B/A | 4 |
 | 03 | 0:30–0:45 | Bildschirmtext: the Bundespost's TV-as-terminal | B/A | 5 |
 | 04 | 0:45–1:00 | News, weather, banking; "a fortune"; "Btx is secure." | B/A | 5 |
-| 05 | 1:00–1:15 | Wau doesn't believe them; the Chaos Computer Club's argument | B/A | 4 |
+| 05 | 1:00–1:15 | Wau doesn't believe them; the Chaos Computer Club's argument — *who gets to call a system secure?* | B/A | 4 |
 | 06 | 1:15–1:30 | "Secure" means unbreakable — they found a way; the flaw, almost too small to see | A | 4 |
 | 07 | 1:30–1:45 | Overfill a page: the system stumbles and spills foreign data | A | 4 |
 | 08 | 1:45–2:00 | Ghost characters — by the club's account, a bank's login in the clear | B | 5 |
-| 09 | 2:00–2:15 | Password "USD 70000"; providers may charge per page | B/A | 5 |
+| 09 | 2:00–2:15 | Password "USD 70000" — *only the club says it came from the screen*; providers may charge per page | B/A | 5 |
 | 10 | 2:15–2:30 | 9.97 DM a look; the 31-line program | A/B | 5 |
-| 11 | 2:30–2:45 | It loops; they sleep; by morning… | B | 4 |
+| 11 | 2:30–2:45 | It loops; they sleep — *what would you expect to find in the morning?* | B | 4 |
 | 12 | 2:45–3:00 | 13,000+ calls, ~134,000 DM moved | A/B | 4 |
 | 13 | 3:00–3:15 | No alarm — nothing "broke"; the system did what it was told | A/B | 4 |
 | 14 | 3:15–3:30 | They do not keep it; 19 November: the press conference, the cameras | B | 5 |
-| 15 | 3:30–3:45 | They return every mark; "the point was the word" | B | 4 |
-| 16 | 3:45–4:00 | Overnight fame; the Bundespost: "minor" | B | 5 |
-| 17 | 4:00–4:15 | CCC: "the whole argument" — a 19,000-user network, two men | A/B | 5 |
-| 18 | 4:15–4:30 | An inquiry never proves how they got the password; Btx dies in 2001 | B | 4 |
+| 15 | 3:30–3:45 | They return every mark — *why go to all this trouble?* "the point was one word" | B | 4 |
+| 16 | 3:45–4:00 | Overnight fame; the Bundespost: "minor"; the one question left open | B | 5 |
+| 17 | 4:00–4:15 | CCC: "the whole argument" — a 19,000-user network, two men — *did the page really spill that password?* | A/B | 5 |
+| 18 | 4:15–4:30 | The 1985 report: the bug is real, the password on screen is never established; Btx dies in 2001 | B | 4 |
 | 19 | 4:30–4:45 | "Safe," every year since | A | 5 |
-| 20 | 4:45–5:00 | Implicating close — still overfilling the page; no one ever proved the password came from it | B | 4 |
+| 20 | 4:45–5:00 | Unanswered close — *so where did it come from?* A watched demonstration, a tapped line, someone inside; "Nobody ever proved it was the page." | B | 4 |
 
 > All 20 chapters are built below (CHARACTERS → IMAGE PROMPT → VIDEO PROMPT per 2–4 s scene).
 > After editing any scene, regenerate both artifacts (CI regenerates them and fails on drift):

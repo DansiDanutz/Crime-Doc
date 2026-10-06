@@ -22,6 +22,7 @@ Usage:
 """
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -94,7 +95,12 @@ def plan(cards: list[dict], shotlist: dict) -> list[dict]:
             raise ValueError(f"{name}: missing {', '.join(missing)}")
         if card.get("chapter") not in windows:
             raise ValueError(f"{name}: no chapter {card.get('chapter')!r} in the shotlist")
-        at, dur = float(card.get("at", -1)), float(card.get("dur", 0))
+        try:
+            at, dur = float(card.get("at", -1)), float(card.get("dur", 0))
+        except (TypeError, ValueError):
+            raise ValueError(f"{name}: at and dur must be numbers")
+        if not (math.isfinite(at) and math.isfinite(dur)):
+            raise ValueError(f"{name}: at and dur must be finite numbers")
         start, length = windows[card["chapter"]]
         if at < 0 or not MIN_S <= dur <= MAX_S:
             raise ValueError(f"{name}: needs at >= 0 and dur between {MIN_S} and {MAX_S} s")

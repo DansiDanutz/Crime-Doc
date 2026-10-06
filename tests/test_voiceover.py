@@ -89,17 +89,18 @@ class RecordingTests(unittest.TestCase):
                 {"id": "ch01", "scenes": [{"duration_s": 5}]}, {"id": "ch02", "scenes": [{"duration_s": 5}]}]}))
             (ep / "production/pronunciation.json").write_text('{"Wau": "Vow"}')
             assemble = tool.load_tool("assemble-episode")
-            sent, state = [], {"take": take_seconds}
+            sent, state = [], {"take": take_seconds, "left": 9900, "track": 10.0}
 
             def fake_request(path, key, body=None):
                 sent.append((path, body))
                 payload = {"/voices": b'{"voices": [{"name": "Brian", "voice_id": "brian-id"}]}',
-                           "/user/subscription": b'{"character_limit": 10000, "character_count": 100}'}
+                           "/user/subscription": json.dumps({"character_limit": state["left"],
+                                                             "character_count": 0}).encode()}
                 return contextlib.closing(io.BytesIO(payload.get(path, b"ID3" + (body or {}).get("text", "").encode())))
 
             def duration(ffmpeg, path):
                 if path.name.startswith(".e-vo"):
-                    return 10.0  # the built track: the whole 10 s cut
+                    return state["track"]  # the built track: the whole cut
                 if isinstance(state["take"], BaseException):
                     raise state["take"]
                 return state["take"]
@@ -194,7 +195,7 @@ class RecordingTests(unittest.TestCase):
             self.assertEqual(tool.main(["c", "e"]), 0)
             self.assertEqual(assemble.current_vo_track(ep, "e"), vo / "e-vo.mp3")
             (ep / "02-script.md").write_text((ep / "02-script.md").read_text().replace("dials in", "hangs up"))
-            with self.assertRaisesRegex(SystemExit, "script changed"):
+            with self.assertRaisesRegex(SystemExit, "script or the chapter timing changed"):
                 assemble.current_vo_track(ep, "e")
             self.assertEqual(tool.main(["c", "e"]), 0)
             (vo / "e-vo.mp3").write_bytes(b"some other track")
@@ -203,6 +204,33 @@ class RecordingTests(unittest.TestCase):
             (vo / "e-vo.mp3").unlink()
             with self.assertRaisesRegex(SystemExit, "missing or unfinished"):
                 assemble.current_vo_track(ep, "e")
+
+    def test_a_forced_run_without_quota_keeps_the_finished_track(self):
+        assemble = tool.load_tool("assemble-episode")
+        with self.fake_episode() as (vo, sent, _, state):
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            before = (vo / "e-vo.mp3").read_bytes()
+            state["left"] = 5  # not enough characters for a re-read
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(tool.main(["c", "e", "--force"]), 2)
+            self.assertEqual((vo / "e-vo.mp3").read_bytes(), before)
+            self.assertEqual(assemble.current_vo_track(vo.parent.parent, "e"), vo / "e-vo.mp3")
+
+    def test_new_chapter_timing_rebuilds_the_track_without_new_takes(self):
+        assemble = tool.load_tool("assemble-episode")
+        with self.fake_episode() as (vo, sent, _, state):
+            ep = vo.parent.parent
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            shot = json.loads((ep / "production/shotlist.json").read_text())
+            shot["chapters"][0]["scenes"][0]["duration_s"] = 6  # ch02 now starts at 6 s
+            (ep / "production/shotlist.json").write_text(json.dumps(shot))
+            with self.assertRaisesRegex(SystemExit, "chapter timing changed"):
+                assemble.current_vo_track(ep, "e")
+            state["track"] = 11.0
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            self.assertEqual(len(self.tts(sent)), 2)  # the same takes, laid on the new windows
+            self.assertIn(b"ch02@6.0", (vo / "e-vo.mp3").read_bytes())
+            self.assertEqual(assemble.current_vo_track(ep, "e"), vo / "e-vo.mp3")
 
     def test_audio_that_does_not_decode_is_never_kept(self):
         with self.fake_episode(take_seconds=SystemExit("error: could not read the duration")) as (vo, sent, _, state):

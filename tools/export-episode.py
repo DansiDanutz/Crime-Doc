@@ -114,6 +114,8 @@ def md_to_html(md: str, title: str) -> str:
             continue
         if in_code:
             out.append(html.escape(line)); continue
+        if re.fullmatch(r"\s*<!--.*?-->\s*", line):
+            continue  # production markers (e.g. <!-- ch01 --> in the script) are not for readers
 
         if line.startswith("|") and "|" in line[1:]:
             cells = [c.strip() for c in line.strip().strip("|").split("|")]
