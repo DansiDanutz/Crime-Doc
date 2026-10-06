@@ -25,12 +25,15 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 WIDTH, HEIGHT, FPS = 1280, 720, 24
 WORDS_PER_MINUTE = 150  # the channel pace: 2.5 words per second
+MAX_CLIP_BYTES = 200 * 1024 * 1024  # a 4-15 s 1080p preview is ~2-30 MB; anything far larger is not a clip
+DURATION_TOLERANCE_S = 0.1
 
 
 def episode_dir(channel: str, slug: str) -> Path:
@@ -75,10 +78,21 @@ def ffmpeg_binary() -> str:
     return imageio_ffmpeg.get_ffmpeg_exe()
 
 
-def run(cmd: list[str]) -> None:
+def run(cmd: list[str]) -> subprocess.CompletedProcess:
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         raise SystemExit(f"error: {' '.join(cmd[:3])} … failed:\n{result.stderr[-2000:]}")
+    return result
+
+
+def media_seconds(ffmpeg: str, path: Path) -> float:
+    """Duration of a media file, read from ffmpeg's own header dump (no ffprobe needed)."""
+    result = subprocess.run([ffmpeg, "-hide_banner", "-i", str(path)], capture_output=True, text=True)
+    match = re.search(r"Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)", result.stderr)
+    if not match:
+        raise SystemExit(f"error: could not read the duration of {path.name}")
+    h, m, sec = match.groups()
+    return int(h) * 3600 + int(m) * 60 + float(sec)
 
 
 def cache_path(clips_dir: Path, source: str, url: str) -> Path:
@@ -86,13 +100,45 @@ def cache_path(clips_dir: Path, source: str, url: str) -> Path:
     return clips_dir / f"{source}-{hashlib.sha1(url.encode()).hexdigest()[:12]}.mp4"
 
 
-def download(url: str, dest: Path) -> None:
+def download(url: str, dest: Path, limit: int = MAX_CLIP_BYTES) -> None:
+    """Fetch url into dest at most once. Each run streams into its own temp file and publishes it
+    with an atomic rename, so overlapping runs never share or half-read a download."""
     if dest.exists() and dest.stat().st_size > 0:
         return
-    tmp = dest.with_suffix(".part")
-    with urllib.request.urlopen(url, timeout=120) as response, open(tmp, "wb") as out:
-        shutil.copyfileobj(response, out)
-    tmp.replace(dest)
+    fd, tmp_name = tempfile.mkstemp(dir=dest.parent, prefix=f".{dest.stem}.", suffix=".part")
+    tmp = Path(tmp_name)
+    try:
+        with open(fd, "wb") as out, urllib.request.urlopen(url, timeout=120) as response:
+            size = 0
+            while chunk := response.read(1 << 20):
+                size += len(chunk)
+                if size > limit:
+                    raise SystemExit(f"error: {dest.name} is over {limit // (1024 * 1024)} MB; "
+                                     "that is not a preview clip, refusing to keep downloading")
+                out.write(chunk)
+        if size == 0:
+            raise SystemExit(f"error: {url} returned an empty file")
+        tmp.replace(dest)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
+def concat_line(path: Path) -> str:
+    """One entry of an ffmpeg concat list; a ' inside the quoted path is written as '\\''."""
+    return "file '" + path.as_posix().replace("'", "'\\''") + "'\n"
+
+
+def trim(ffmpeg: str, source: Path, seconds: int, part: Path) -> bool:
+    """Cut source to exactly `seconds` of 1280x720/24 fps picture. A clip shorter than its scene is
+    held on its last frame for the rest. Returns True when that hold was needed."""
+    short = media_seconds(ffmpeg, source) + DURATION_TOLERANCE_S < seconds
+    run([ffmpeg, "-y", "-v", "error", "-i", str(source), "-an",
+         "-vf", f"scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=decrease,"
+                f"pad={WIDTH}:{HEIGHT}:(ow-iw)/2:(oh-ih)/2,fps={FPS},setsar=1,"
+                f"tpad=stop_mode=clone:stop_duration={seconds}",
+         "-t", str(seconds), "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
+         "-pix_fmt", "yuv420p", str(part)])
+    return short
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -124,43 +170,51 @@ def main(argv: list[str] | None = None) -> int:
 
     ffmpeg = ffmpeg_binary()
     clips_dir = ep / "production" / "clips"
-    parts_dir = clips_dir / "trimmed"
-    parts_dir.mkdir(parents=True, exist_ok=True)
-
-    print("downloading and trimming clips…")
-    for seg in segments:
-        source = cache_path(clips_dir, seg["source"], seg["url"])
-        download(seg["url"], source)
-        part = parts_dir / f"{seg['id']}.mp4"
-        run([ffmpeg, "-y", "-v", "error", "-i", str(source), "-t", str(seg["seconds"]), "-an",
-             "-vf", f"scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=decrease,"
-                    f"pad={WIDTH}:{HEIGHT}:(ow-iw)/2:(oh-ih)/2,fps={FPS},setsar=1",
-             "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", str(part)])
-
-    concat_list = parts_dir / "concat.txt"
-    concat_list.write_text("".join(f"file '{(parts_dir / (s['id'] + '.mp4')).as_posix()}'\n" for s in segments))
+    clips_dir.mkdir(parents=True, exist_ok=True)
     out = args.out or (ep / "production" / "output" / f"{args.episode}-roughcut.mp4")
     out.parent.mkdir(parents=True, exist_ok=True)
-    picture = parts_dir / "picture.mp4"
-    run([ffmpeg, "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(concat_list),
-         "-c", "copy", str(picture)])
 
-    vo = args.vo
-    if args.scratch_vo:
-        if not shutil.which("say"):
-            raise SystemExit("error: --scratch-vo needs macOS `say`; pass --vo with an audio file instead.")
-        text_file = parts_dir / "script.txt"
-        text_file.write_text(script_text((ep / "02-script.md").read_text()))
-        vo = parts_dir / "scratch-vo.aiff"
-        run(["say", "-v", args.voice, "-r", str(WORDS_PER_MINUTE), "-f", str(text_file), "-o", str(vo)])
-        print(f"scratch voiceover written with macOS voice {args.voice}")
+    # Intermediates live in a directory of this run's own, so two runs never mix their files.
+    with tempfile.TemporaryDirectory(dir=clips_dir, prefix=".assemble-") as work:
+        parts_dir = Path(work)
+        print("downloading and trimming clips…")
+        held = []
+        for seg in segments:
+            source = cache_path(clips_dir, seg["source"], seg["url"])
+            download(seg["url"], source)
+            if trim(ffmpeg, source, seg["seconds"], parts_dir / f"{seg['id']}.mp4"):
+                held.append(seg["id"])
+        if held:
+            print(f"note: {len(held)} clip(s) shorter than their scene, held on the last frame: {', '.join(held)}")
 
-    if vo:
-        run([ffmpeg, "-y", "-v", "error", "-i", str(picture), "-i", str(vo), "-map", "0:v", "-map", "1:a",
-             "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-t", str(total), str(out)])
-    else:
-        shutil.copyfile(picture, out)
-    print(f"done: {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} ({total} s)")
+        concat_list = parts_dir / "concat.txt"
+        concat_list.write_text("".join(concat_line(parts_dir / f"{s['id']}.mp4") for s in segments))
+        picture = parts_dir / "picture.mp4"
+        run([ffmpeg, "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(concat_list),
+             "-c", "copy", str(picture)])
+
+        vo = args.vo
+        if args.scratch_vo:
+            if not shutil.which("say"):
+                raise SystemExit("error: --scratch-vo needs macOS `say`; pass --vo with an audio file instead.")
+            text_file = parts_dir / "script.txt"
+            text_file.write_text(script_text((ep / "02-script.md").read_text()))
+            vo = parts_dir / "scratch-vo.aiff"
+            run(["say", "-v", args.voice, "-r", str(WORDS_PER_MINUTE), "-f", str(text_file), "-o", str(vo)])
+            print(f"scratch voiceover written with macOS voice {args.voice}")
+
+        staged = parts_dir / ("final" + out.suffix)
+        if vo:
+            run([ffmpeg, "-y", "-v", "error", "-i", str(picture), "-i", str(vo), "-map", "0:v", "-map", "1:a",
+                 "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-t", str(total), str(staged)])
+        else:
+            shutil.copyfile(picture, staged)
+
+        length = media_seconds(ffmpeg, staged)
+        if abs(length - total) > 0.5:
+            raise SystemExit(f"error: the cut runs {length:.2f} s but the storyboard is {total} s; not writing {out.name}")
+        shutil.move(str(staged), out)  # same filesystem in the usual case, so the finished file appears at once
+    print(f"done: {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} ({length:.2f} s)")
     return 0
 
 

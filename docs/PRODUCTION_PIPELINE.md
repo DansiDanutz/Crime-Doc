@@ -71,7 +71,9 @@ its own planned duration is shorter.
 with REUSE scenes taking their source clip) into one rough cut, each clip trimmed to its scene's
 duration, 1280x720 at 24 fps: `production/output/<slug>-roughcut.mp4`. Add `--vo <audio>` to lay a
 voiceover under it, or `--scratch-vo` on macOS for a free `say` read of the script at 2.5 words/s as a
-timing guide. It refuses to cut while scenes have no clip unless `--allow-gaps` is passed.
+timing guide. It refuses to cut while scenes have no clip unless `--allow-gaps` is passed. A clip
+shorter than its scene is held on its last frame (and named in the output), and the finished cut is
+checked against the storyboard length before it is written.
 
 ### 5b. Finish (outside this repo)
 Concatenate the scene videos in chapter order, lay the VO + SFX/ambient/music split
