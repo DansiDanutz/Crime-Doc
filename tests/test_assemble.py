@@ -59,7 +59,7 @@ class AssembleTests(unittest.TestCase):
         self.assertEqual(missing, [])
         self.assertEqual(sum(s["seconds"] for s in segments), 300)
         narration = tool.script_text((ROOT / "channels/umbra/episodes/ep03-ghost-characters/02-script.md").read_text())
-        self.assertEqual(len(narration.split()), 732)
+        self.assertEqual(len(narration.split()), 698)
 
 
     def test_concat_entries_escape_apostrophes(self):

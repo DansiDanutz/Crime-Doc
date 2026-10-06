@@ -67,22 +67,40 @@ its own planned duration is shorter.
   `count: 4`, `aspect_ratio:"16:9"`.
 
 ### 5. Voiceover (ElevenLabs, voice Brian)
-`tools/voiceover.py <channel> <slug>` reads the narration of `02-script.md` in one take with the
-ElevenLabs voice **Brian** (`--voice` / `--voice-id` to change it; `eleven_multilingual_v2`), using
-`ELEVENLABS_API_KEY` from `.env.local`. Names the voice tends to misread are respelled for the read
-only in `production/pronunciation.json` (EP03: Wau → "Vow", "USD 70000", Btx). The take goes to
-`production/vo/<slug>-vo.mp3` (git-ignored) with a `vo.json` receipt; re-running with nothing
-changed reuses it and spends no characters. If the read runs past the cut, it prints the `--speed`
-to re-record with. `--dry-run` shows what would be sent without a key.
+`tools/voiceover.py <channel> <slug>` reads `02-script.md` with the ElevenLabs voice **Brian**
+(`--voice` / `--voice-id` to change it; `eleven_multilingual_v2`), using `ELEVENLABS_API_KEY` from
+`.env.local`.
+- **Chapter by chapter.** A script whose narration is marked `<!-- chNN -->` is recorded one take
+  per chapter, each sent with the lines around it so the delivery stays continuous, and each laid
+  0.35 s into its own chapter window. The track (`production/vo/<slug>-vo.mp3`) is exactly as long
+  as the cut, and no line drifts off its pictures. A take slightly long for its window is tightened
+  (≤8%, pitch kept); a longer one is reported, so its line can be shortened. A script without
+  markers is read in one take.
+- **Pronunciation.** Names the voice misreads are respelled for the read only in
+  `production/pronunciation.json` (EP03: Wau → "Vow", "USD 70000", Btx).
+- **Cost control.** Takes live in `production/vo/takes/` with a `vo.json` receipt. A re-run records
+  only chapters whose words or neighbours changed; `--force` re-records all of them, and
+  `--dry-run` shows the per-chapter plan without a key.
 
-### 6. Assemble
+### 6. Cards
+`production/cards.json` lists the on-screen cards: date/place stamps, DNA name tags with a pointer,
+big figures, the questions put to the viewer, act titles, a "keep in mind" flag, a summary of a
+document's findings, and short lists. Each card names its chapter, its time into that chapter and
+how long it stays, and only one card is on screen at a time. `tools/cards.py <channel> <slug>`
+checks them; `--sheet x.png` draws every card on one contact sheet. The cards are drawn with Pillow
+in the umbra. look (white on near-black, one red accent) and faded in over the picture by the
+assembler.
+
+### 6b. Assemble
 `tools/assemble-episode.py <channel> <slug>` cuts the rendered clips (from `production/renders.json`,
-with REUSE scenes taking their source clip) into one rough cut, each clip trimmed to its scene's
-duration, 1280x720 at 24 fps: `production/output/<slug>-roughcut.mp4`. Add `--vo <audio>` to lay a
-voiceover under it (the Brian take from step 5), or `--scratch-vo` on macOS for a free `say` read of the script at 2.5 words/s as a
-timing guide. It refuses to cut while scenes have no clip unless `--allow-gaps` is passed. A clip
-shorter than its scene is held on its last frame (and named in the output), and the finished cut is
-checked against the storyboard length before it is written.
+with REUSE scenes taking their source clip) into one cut, each clip trimmed to its scene's duration,
+1280x720 at 24 fps: `production/output/<slug>-roughcut.mp4`.
+- **Cards.** It lays the cards over the picture (`--no-cards` leaves them out).
+- **Voice.** It lays the step 5 track under it automatically. Alternatives are `--vo <audio>` for any
+  other track, `--scratch-vo` on macOS for a free `say` read as a timing guide, and `--no-vo`.
+- **Safety.** It refuses to cut while scenes have no clip unless `--allow-gaps` is passed. A clip
+  shorter than its scene is held on its last frame, and the finished cut is checked against the
+  storyboard length before it is written.
 
 ### 7. Finish (outside this repo)
 Concatenate the scene videos in chapter order, lay the VO + SFX/ambient/music split

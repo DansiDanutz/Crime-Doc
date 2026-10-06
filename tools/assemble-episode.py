@@ -6,7 +6,11 @@ clip each scene rendered). A scene marked REUSE takes the clip of the scene it n
 is trimmed to its scene's planned duration, scaled to 1280x720 at 24 fps, and joined in order,
 so the cut runs exactly as long as the storyboard (EP03: 5:00).
 
-Optionally a voiceover is laid under the picture:
+The cards of production/cards.json (date stamps, name tags, figures, questions; see
+tools/cards.py) fade in over the picture; --no-cards leaves them out.
+
+A voiceover is laid under the picture:
+  (default)        the track tools/voiceover.py wrote to production/vo/<slug>-vo.mp3, if any
   --vo FILE        any audio file (your own read, a TTS export, ...)
   --scratch-vo     macOS only: speak the script with the built-in `say` voice at the channel's
                    2.5 words/s, as a free timing guide (not a final voice)
@@ -36,6 +40,14 @@ MAX_CLIP_BYTES = 200 * 1024 * 1024  # a 4-15 s 1080p preview is ~2-30 MB; anythi
 DURATION_TOLERANCE_S = 0.1
 
 
+def load_tool(name: str):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(name.replace("-", "_"), Path(__file__).resolve().parent / f"{name}.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def episode_dir(channel: str, slug: str) -> Path:
     path = (ROOT / "channels" / channel / "episodes" / slug).resolve()
     if ROOT / "channels" not in path.parents:
@@ -59,11 +71,33 @@ def plan(shotlist: dict, renders: dict) -> tuple[list[dict], list[str]]:
     return segments, missing
 
 
-def script_text(script_md: str) -> str:
-    """The narration of 02-script.md: the body between the first two --- rules."""
+CHAPTER_MARK = re.compile(r"<!--\s*(ch\d+)\s*-->")
+
+
+def script_body(script_md: str) -> str:
     parts = script_md.split("\n---\n")
-    body = parts[1] if len(parts) >= 3 else script_md
-    return " ".join(body.split())
+    return parts[1] if len(parts) >= 3 else script_md
+
+
+def script_text(script_md: str) -> str:
+    """The narration of 02-script.md: the body between the first two --- rules, markers removed."""
+    return " ".join(re.sub(r"<!--.*?-->", " ", script_body(script_md), flags=re.S).split())
+
+
+def narration_segments(script_md: str) -> list[tuple[str | None, str]]:
+    """[(chapter id, its narration)] from the script's <!-- chNN --> markers, or [(None, all of it)]
+    for a script without markers."""
+    pieces = CHAPTER_MARK.split(script_body(script_md))
+    if len(pieces) == 1:
+        return [(None, script_text(script_md))]
+    if " ".join(pieces[0].split()):
+        raise ValueError("narration before the first <!-- chNN --> marker")
+    segments = [(pieces[i], " ".join(re.sub(r"<!--.*?-->", " ", pieces[i + 1], flags=re.S).split()))
+                for i in range(1, len(pieces), 2)]
+    ids = [c for c, _ in segments]
+    if len(set(ids)) != len(ids):
+        raise ValueError("a chapter marker appears twice")
+    return segments
 
 
 def ffmpeg_binary() -> str:
@@ -145,14 +179,17 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("channel")
     ap.add_argument("episode")
-    ap.add_argument("--vo", type=Path, help="voiceover audio to lay under the picture")
+    ap.add_argument("--vo", type=Path, help="voiceover audio to lay under the picture "
+                    "(default: the voiceover.py track in production/vo/, if there is one)")
+    ap.add_argument("--no-vo", action="store_true", help="picture only, even if a voiceover track exists")
+    ap.add_argument("--no-cards", action="store_true", help="leave out the on-screen cards of production/cards.json")
     ap.add_argument("--scratch-vo", action="store_true", help="macOS: make a free `say` voiceover from the script")
     ap.add_argument("--voice", default="Daniel", help="macOS `say` voice for --scratch-vo (default: Daniel)")
     ap.add_argument("--out", type=Path, help="output file (default: production/output/<slug>-roughcut.mp4)")
     ap.add_argument("--allow-gaps", action="store_true", help="assemble even if some scenes have no clip yet")
     args = ap.parse_args(argv)
-    if args.vo and args.scratch_vo:
-        ap.error("use --vo or --scratch-vo, not both")
+    if sum(map(bool, (args.vo, args.scratch_vo, args.no_vo))) > 1:
+        ap.error("use only one of --vo, --scratch-vo and --no-vo")
 
     ep = episode_dir(args.channel, args.episode)
     shotlist = json.loads((ep / "production" / "shotlist.json").read_text())
@@ -167,6 +204,16 @@ def main(argv: list[str] | None = None) -> int:
         print("error: render the missing scenes first (or pass --allow-gaps for a partial cut).",
               file=sys.stderr)
         return 2
+
+    cards_tool = load_tool("cards")
+    try:
+        cards = [] if args.no_cards else cards_tool.load(ep, shotlist)
+    except ValueError as err:
+        print(f"error: cards.json: {err}", file=sys.stderr)
+        return 2
+    if cards and missing:
+        print("note: cards left out of a cut with gaps; their times follow the full storyboard")
+        cards = []
 
     ffmpeg = ffmpeg_binary()
     clips_dir = ep / "production" / "clips"
@@ -193,7 +240,24 @@ def main(argv: list[str] | None = None) -> int:
         run([ffmpeg, "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(concat_list),
              "-c", "copy", str(picture)])
 
+        if cards:
+            print(f"laying {len(cards)} card(s) over the picture…")
+            card_files = cards_tool.render_all(cards, parts_dir)
+            graph, label = cards_tool.overlay_filter(cards)
+            inputs = []
+            for card, path in zip(cards, card_files):
+                inputs += ["-loop", "1", "-t", f"{card['end'] - card['start']:.3f}", "-i", str(path)]
+            carded = parts_dir / "picture-cards.mp4"
+            run([ffmpeg, "-y", "-v", "error", "-i", str(picture), *inputs, "-filter_complex", graph,
+                 "-map", f"[{label}]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
+                 "-pix_fmt", "yuv420p", "-t", str(total), str(carded)])
+            picture = carded
+
         vo = args.vo
+        default_vo = ep / "production" / "vo" / f"{args.episode}-vo.mp3"
+        if not (vo or args.scratch_vo or args.no_vo) and default_vo.exists():
+            vo = default_vo
+            print(f"voiceover: {default_vo.relative_to(ROOT) if default_vo.is_relative_to(ROOT) else default_vo}")
         if args.scratch_vo:
             if not shutil.which("say"):
                 raise SystemExit("error: --scratch-vo needs macOS `say`; pass --vo with an audio file instead.")

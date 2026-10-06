@@ -1,25 +1,30 @@
 #!/usr/bin/env python3
 """voiceover.py — read an episode's script with an ElevenLabs voice (default: Brian).
 
-The narration of 02-script.md (the body between its first two --- rules) is sent to ElevenLabs
-text-to-speech in one take, so the read keeps one consistent delivery. Words the voice tends to
-misread can be respelled for the read only, in the episode's production/pronunciation.json
-({"Wau": "Vow"}); the script itself is never changed.
+A script whose narration carries <!-- chNN --> markers is recorded chapter by chapter: each
+chapter is one take (sent with the lines around it, so the delivery stays continuous) and is
+placed at the start of its own window in the cut. The finished track therefore runs the full
+length of the picture and every line lands on its own shots. A take that runs a little long for
+its window is tightened (up to 8%, pitch kept); one that would need more is reported so its line
+can be shortened. A script without markers is read in one take from the top.
+
+Words the voice tends to misread can be respelled for the read only, in the episode's
+production/pronunciation.json ({"Wau": "Vow"}); the script itself is never changed.
 
 Credentials stay local: ELEVENLABS_API_KEY is read from the environment, loaded here from the
 repo's git-ignored .env.local. Nothing prints or stores the key.
 
-The take is written to production/vo/<slug>-vo.mp3 (git-ignored) with a vo.json receipt holding a
-fingerprint of text + voice + model + settings and the hash of the audio itself. A take is only
-published after it decodes, and one run per episode records at a time. Running again with nothing
-changed reuses the take and spends no characters; --force records a new one.
+Takes are kept in production/vo/takes/ and the track is production/vo/<slug>-vo.mp3 (all
+git-ignored), with a vo.json receipt: per take a fingerprint of text + context + voice + model +
+settings and the hash of the audio. A take is only kept after it decodes, one run per episode
+records at a time, and a re-run only records the chapters whose words changed (--force: all).
 
 Usage:
     tools/voiceover.py umbra ep03-ghost-characters --dry-run    # what would be sent, no request
-    tools/voiceover.py umbra ep03-ghost-characters              # record with Brian
-    tools/voiceover.py umbra ep03-ghost-characters --speed 1.05 --force
+    tools/voiceover.py umbra ep03-ghost-characters              # record with Brian, build the track
+    tools/voiceover.py umbra ep03-ghost-characters --speed 0.95 --force
 Then:
-    tools/assemble-episode.py umbra ep03-ghost-characters --vo channels/umbra/episodes/<slug>/production/vo/<slug>-vo.mp3
+    tools/assemble-episode.py umbra ep03-ghost-characters        # picks the track up by itself
 """
 import argparse
 import fcntl
@@ -43,11 +48,13 @@ DEFAULT_MODEL = "eleven_multilingual_v2"
 OUTPUT_FORMAT = "mp3_44100_128"
 WORDS_PER_SECOND = 2.5  # the channel pace
 MAX_AUDIO_BYTES = 50 * 1024 * 1024  # a 5-minute 128 kbps take is ~5 MB
+LEAD_S, TAIL_S = 0.35, 0.15  # breath before a chapter's first word / after its last
+MAX_TEMPO = 1.08  # tighten a long take by at most 8%; past that, shorten the line
 
 
 def load_tool(name: str):
     import importlib.util
-    spec = importlib.util.spec_from_file_location(name.replace("-", "_"), ROOT / "tools" / f"{name}.py")
+    spec = importlib.util.spec_from_file_location(name.replace("-", "_"), Path(__file__).resolve().parent / f"{name}.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -74,9 +81,10 @@ def voice_settings(args) -> dict:
             "use_speaker_boost": True, "speed": args.speed}
 
 
-def fingerprint(text: str, voice_id: str, model: str, settings: dict) -> str:
+def fingerprint(text: str, voice_id: str, model: str, settings: dict,
+                previous: str = "", following: str = "") -> str:
     blob = json.dumps({"text": text, "voice_id": voice_id, "model": model, "settings": settings,
-                       "format": OUTPUT_FORMAT}, sort_keys=True)
+                       "format": OUTPUT_FORMAT, "previous": previous, "next": following}, sort_keys=True)
     return hashlib.sha256(blob.encode()).hexdigest()
 
 
@@ -164,10 +172,63 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def take_is_current(out: Path, receipt: dict, inputs: str) -> bool:
-    """Reuse a take only when its receipt was written for these inputs *and* for this very file."""
-    return (out.exists() and receipt.get("inputs_sha256") == inputs
-            and receipt.get("audio_sha256") == file_sha256(out))
+def take_is_current(path: Path, entry: dict | None, inputs: str) -> bool:
+    """Reuse a take only when its receipt entry was written for these inputs *and* this very file."""
+    return bool(entry) and path.exists() and entry.get("inputs_sha256") == inputs \
+        and entry.get("audio_sha256") == file_sha256(path)
+
+
+def segment_plan(segments: list[tuple[str | None, str]], windows: dict, cut_seconds: float,
+                 pronunciation: dict) -> list[dict]:
+    """One entry per take: label, spoken text, its neighbours (for continuity) and its window."""
+    spoken = [spoken_text(text, pronunciation) for _, text in segments]
+    plan = []
+    for i, (chapter, text) in enumerate(segments):
+        if chapter is None:
+            start, length, lead = 0.0, float(cut_seconds), 0.0
+        elif chapter not in windows:
+            raise SystemExit(f"error: the script has a <!-- {chapter} --> marker but the shotlist has no {chapter}")
+        else:
+            (start, length), lead = windows[chapter], LEAD_S
+        plan.append({"label": chapter or "full", "words": len(text.split()), "text": spoken[i],
+                     "previous": spoken[i - 1] if i else "", "next": spoken[i + 1] if i + 1 < len(spoken) else "",
+                     "start": start, "window": length, "lead": lead})
+    return plan
+
+
+def fit(seconds: float, item: dict) -> float:
+    """The tempo that makes a take fit its window (1.0 when it already fits)."""
+    usable = item["window"] - item["lead"] - (TAIL_S if item["lead"] else 0.0)
+    return max(1.0, seconds / usable)
+
+
+def build_track(ffmpeg: str, items: list[dict], total: float, dest: Path) -> None:
+    """Lay each take at its window start (tightened by its tempo), pad every window to length and
+    join them: one mono track exactly as long as the cut."""
+    inputs, chains = [], []
+    for i, item in enumerate(items):
+        inputs += ["-i", str(item["path"])]
+        chains.append(f"[{i}:a]aformat=sample_rates=44100:channel_layouts=mono,"
+                      + (f"atempo={item['tempo']:.4f}," if item["tempo"] > 1.0 else "")
+                      + f"adelay=delays={int(round(item['lead'] * 1000))}:all=1,apad,"
+                      f"atrim=0:{item['window']:.3f},asetpts=N/SR/TB[a{i}]")
+    graph = ";".join(chains) + ";" + "".join(f"[a{i}]" for i in range(len(items))) \
+        + f"concat=n={len(items)}:v=0:a=1[out]"
+    result = subprocess.run([ffmpeg, "-y", "-v", "error", *inputs, "-filter_complex", graph, "-map", "[out]",
+                             "-t", f"{total:.3f}", "-c:a", "libmp3lame", "-b:a", "192k", str(dest)],
+                            capture_output=True, text=True)
+    if result.returncode != 0:
+        raise SystemExit(f"error: building the voiceover track failed:\n{result.stderr[-1500:]}")
+
+
+def write_json(path: Path, data: dict) -> None:
+    fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=f".{path.stem}.", suffix=".json.part")
+    try:
+        with open(fd, "w") as f:
+            f.write(json.dumps(data, indent=2) + "\n")
+        Path(tmp).replace(path)
+    finally:
+        Path(tmp).unlink(missing_ok=True)
 
 
 def lock_vo(vo_dir: Path):
@@ -199,19 +260,27 @@ def main(argv: list[str] | None = None) -> int:
         ap.error("--speed must be between 0.7 and 1.2 (ElevenLabs' range)")
 
     assemble = load_tool("assemble-episode")
+    cards = load_tool("cards")
     ep = assemble.episode_dir(args.channel, args.episode)
-    script = assemble.script_text((ep / "02-script.md").read_text())
+    try:
+        segments = assemble.narration_segments((ep / "02-script.md").read_text())
+    except ValueError as err:
+        raise SystemExit(f"error: 02-script.md: {err}")
     pron_path = ep / "production" / "pronunciation.json"
     pronunciation = json.loads(pron_path.read_text()) if pron_path.exists() else {}
-    text = spoken_text(script, pronunciation)
-    words = len(script.split())
     shotlist = json.loads((ep / "production" / "shotlist.json").read_text())
-    cut_seconds = sum(int(sc["duration_s"]) for ch in shotlist["chapters"] for sc in ch["scenes"])
-    print(f"{words} words, {len(text)} characters to read; the cut is {cut_seconds} s "
-          f"(at the channel pace the read is ~{words / WORDS_PER_SECOND:.0f} s)")
+    windows = cards.chapter_windows(shotlist)
+    cut_seconds = sum(length for _, length in windows.values())
+    items = segment_plan(segments, windows, cut_seconds, pronunciation)
+    words = sum(i["words"] for i in items)
+    print(f"{words} words in {len(items)} take(s), {sum(len(i['text']) for i in items)} characters; "
+          f"the cut is {cut_seconds:g} s")
     if pronunciation:
         print("respelled for the read: " + ", ".join(f"{k} -> {v}" for k, v in pronunciation.items()))
     if args.dry_run:
+        for i in items:
+            print(f"  {i['label']:>5}  {i['start']:6.1f} s  {i['words']:3d} words  ~{i['words'] / WORDS_PER_SECOND:4.1f} s "
+                  f"of {i['window']:g} s")
         print(f"dry run: would read with voice {args.voice_id or args.voice}, model {args.model}, "
               f"speed {args.speed}. Nothing was sent.")
         return 0
@@ -225,51 +294,95 @@ def main(argv: list[str] | None = None) -> int:
 
     voice_id, voice_name = (args.voice_id, args.voice_id) if args.voice_id else resolve_voice(key, args.voice)
     settings = voice_settings(args)
-    inputs = fingerprint(text, voice_id, args.model, settings)
     vo_dir = ep / "production" / "vo"
-    vo_dir.mkdir(parents=True, exist_ok=True)
+    takes_dir = vo_dir / "takes"
+    takes_dir.mkdir(parents=True, exist_ok=True)
     out, receipt_path = vo_dir / f"{args.episode}-vo.mp3", vo_dir / "vo.json"
+    ffmpeg = assemble.ffmpeg_binary()
     with lock_vo(vo_dir):
         try:
             receipt = json.loads(receipt_path.read_text()) if receipt_path.exists() else {}
         except ValueError:
             receipt = {}
-        if not args.force and take_is_current(out, receipt, inputs):
-            print(f"already recorded with {receipt.get('voice_name')}: {out.relative_to(ROOT)} (nothing spent)")
-            return 0
+        taken = receipt.get("takes", {}) if isinstance(receipt.get("takes"), dict) else {}
+        for item in items:
+            item["inputs"] = fingerprint(item["text"], voice_id, args.model, settings, item["previous"], item["next"])
+            item["path"] = takes_dir / f"{item['label']}-{item['inputs'][:12]}.mp3"
+        todo = [i for i in items if args.force or not take_is_current(i["path"], taken.get(i["label"]), i["inputs"])]
+        needed = sum(len(i["text"]) for i in todo)
+        if todo:
+            left = characters_left(key)
+            if left is not None:
+                print(f"ElevenLabs characters left this period: {left:,}")
+                if left < needed:
+                    print(f"error: {len(todo)} take(s) need {needed:,} characters. Nothing was sent.", file=sys.stderr)
+                    return 2
+            print(f"recording {len(todo)} of {len(items)} take(s) with {voice_name} "
+                  f"({args.model}, speed {args.speed}, {needed:,} characters)…")
+        else:
+            print(f"all {len(items)} take(s) already recorded with {receipt.get('voice_name')} (nothing spent)")
 
-        left = characters_left(key)
-        if left is not None:
-            print(f"ElevenLabs characters left this period: {left:,}")
-            if left < len(text):
-                print(f"error: this read needs {len(text):,} characters. Nothing was sent.", file=sys.stderr)
-                return 2
+        for item in todo:
+            body = {"text": item["text"], "model_id": args.model, "voice_settings": settings}
+            if item["previous"]:
+                body["previous_text"] = item["previous"]
+            if item["next"]:
+                body["next_text"] = item["next"]
+            with request(f"/text-to-speech/{voice_id}?output_format={OUTPUT_FORMAT}", key, body) as response:
+                audio = save_audio(response, takes_dir, item["label"])
+            try:
+                # A take must decode before it is kept, so a broken response never reaches the track.
+                seconds = assemble.media_seconds(ffmpeg, audio)
+                if seconds <= 0:
+                    raise SystemExit("error: ElevenLabs returned audio with no length; nothing was kept")
+                digest = file_sha256(audio)
+                audio.replace(item["path"])
+            finally:
+                audio.unlink(missing_ok=True)
+            taken[item["label"]] = {"inputs_sha256": item["inputs"], "audio_sha256": digest,
+                                    "seconds": round(seconds, 2), "characters": len(item["text"]),
+                                    "file": item["path"].name}
+            receipt = {"voice_id": voice_id, "voice_name": voice_name, "model": args.model,
+                       "settings": settings, "takes": taken}
+            write_json(receipt_path, receipt)  # after every take, so an interrupted run keeps what it paid for
+            print(f"  {item['label']}: {seconds:.1f} s")
 
-        print(f"recording with {voice_name} ({args.model}, speed {args.speed})…")
-        body = {"text": text, "model_id": args.model, "voice_settings": settings}
-        with request(f"/text-to-speech/{voice_id}?output_format={OUTPUT_FORMAT}", key, body) as response:
-            audio = save_audio(response, vo_dir, out.stem)
-        fd, receipt_tmp = tempfile.mkstemp(dir=vo_dir, prefix=".vo.", suffix=".json.part")
+        too_long = []
+        for item in items:
+            item["seconds"] = float(taken[item["label"]]["seconds"])
+            item["tempo"] = fit(item["seconds"], item)
+            if item["tempo"] > MAX_TEMPO:
+                too_long.append(item)
+        print(" take   start  length  window  fit")
+        for item in items:
+            note = "" if item["tempo"] == 1.0 else f"tightened {100 * (item['tempo'] - 1):.0f}%"
+            if item in too_long:
+                note = "TOO LONG"
+            print(f"  {item['label']:>5} {item['start']:6.1f} {item['seconds']:6.1f} s {item['window']:5.0f} s  {note}")
+        if too_long:
+            print(f"error: {', '.join(i['label'] for i in too_long)} run more than {100 * (MAX_TEMPO - 1):.0f}% past "
+                  "their window. Shorten those lines in 02-script.md (or raise --speed) and run again; only "
+                  "the changed chapters are recorded again.", file=sys.stderr)
+            return 2
+
+        fd, tmp_name = tempfile.mkstemp(dir=vo_dir, prefix=f".{out.stem}.", suffix=".mp3")
+        os.close(fd)
+        tmp = Path(tmp_name)
         try:
-            # The take must decode before either file is published, so a broken response is never kept.
-            seconds = assemble.media_seconds(assemble.ffmpeg_binary(), audio)
-            if seconds <= 0:
-                raise SystemExit("error: ElevenLabs returned audio with no length; nothing was kept")
-            with open(fd, "w") as f:
-                f.write(json.dumps({"voice_id": voice_id, "voice_name": voice_name, "model": args.model,
-                                    "settings": settings, "characters": len(text), "seconds": round(seconds, 2),
-                                    "inputs_sha256": inputs, "audio_sha256": file_sha256(audio)}, indent=2) + "\n")
-            audio.replace(out)
-            Path(receipt_tmp).replace(receipt_path)
+            build_track(ffmpeg, items, cut_seconds, tmp)
+            length = assemble.media_seconds(ffmpeg, tmp)
+            if abs(length - cut_seconds) > 0.5:
+                raise SystemExit(f"error: the track came out {length:.1f} s for a {cut_seconds:g} s cut; not kept")
+            tmp.replace(out)
         finally:
-            audio.unlink(missing_ok=True)
-            Path(receipt_tmp).unlink(missing_ok=True)
+            tmp.unlink(missing_ok=True)
+        receipt["track"] = {"audio_sha256": file_sha256(out), "seconds": round(length, 2),
+                            "takes": [i["inputs"] for i in items]}
+        write_json(receipt_path, receipt)
 
-    print(f"done: {out.relative_to(ROOT)} ({seconds:.1f} s, {out.stat().st_size / 1e6:.1f} MB)")
-    if seconds > cut_seconds:
-        print(f"note: the read is {seconds - cut_seconds:.1f} s longer than the {cut_seconds} s cut and would be "
-              f"clipped; run again with --speed {min(1.2, round(args.speed * seconds / (cut_seconds - 3), 2))} --force")
-    print(f"next: tools/assemble-episode.py {args.channel} {args.episode} --vo {out.relative_to(ROOT)}")
+    print(f"done: {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} ({length:.1f} s, "
+          f"{len(items)} take(s), narration ends at {items[-1]['start'] + items[-1]['lead'] + items[-1]['seconds'] / items[-1]['tempo']:.1f} s)")
+    print(f"next: tools/assemble-episode.py {args.channel} {args.episode}")
     return 0
 
 

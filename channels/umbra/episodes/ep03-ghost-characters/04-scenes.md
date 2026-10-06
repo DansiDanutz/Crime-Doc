@@ -19,9 +19,11 @@ ARRI Alexa, 16:9.
 
 ## Chapter map (5:00 = 20 chapters × 15 s, derived from the narration)
 
-Windows come from the script's actual word timeline, **not** one paragraph per chapter: narration
-runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (732 words ≈ 4:53 in total; the
-~8 s of slack is absorbed as breathing room). Dense paragraphs therefore span two chapters.
+Each chapter's narration is marked `<!-- chNN -->` in `02-script.md` (script v2, the mystery cut)
+and is recorded as its own take, laid at the start of its 15 s window — so every line lands on
+its own pictures and the voice runs the full 5:00. At 2.5 words/s a chapter carries ≤37 words
+(698 in total). On-screen cards (date stamps, name tags, figures, the viewer questions, act
+titles) are timed per chapter in `production/cards.json`.
 
 | Ch | Time | Script beat (VO in this window) | Mode | Scenes |
 |----|------|---------------------------------|------|--------|

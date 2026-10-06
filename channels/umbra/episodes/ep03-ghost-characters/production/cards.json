@@ -1,0 +1,47 @@
+{
+  "_doc": "On-screen cards for EP03. 'at' = seconds into the chapter, 'dur' = seconds on screen. One card at a time. Kinds and fields: tools/cards.py.",
+  "cards": [
+    {"chapter": "ch01", "at": 0.6, "dur": 4.5, "kind": "stamp", "lines": ["16 NOVEMBER 1984", "HAMBURG · WEST GERMANY"]},
+
+    {"chapter": "ch02", "at": 0.3, "dur": 3.6, "kind": "tag", "role": "subject", "pos": "tl", "text": "HERWART “WAU” HOLLAND", "sub": "CHAOS COMPUTER CLUB"},
+    {"chapter": "ch02", "at": 4.4, "dur": 4.6, "kind": "figure", "value": "DM 134,000+", "label": "OUT OF A BANK, OVERNIGHT"},
+    {"chapter": "ch02", "at": 10.2, "dur": 4.6, "kind": "question", "text": "WHERE DID THE PASSWORD COME FROM?"},
+
+    {"chapter": "ch03", "at": 0.0, "dur": 2.4, "kind": "act", "part": "PART I", "title": "THE PROMISE"},
+
+    {"chapter": "ch05", "at": 8.8, "dur": 5.8, "kind": "question", "text": "WHO GETS TO CALL A SYSTEM SECURE?"},
+
+    {"chapter": "ch06", "at": 0.0, "dur": 2.4, "kind": "act", "part": "PART II", "title": "THE FLAW"},
+
+    {"chapter": "ch08", "at": 3.2, "dur": 4.0, "kind": "figure", "value": "GHOST CHARACTERS", "label": "WHAT THE CLUB CALLS THE SPILL"},
+
+    {"chapter": "ch09", "at": 0.4, "dur": 4.0, "kind": "figure", "value": "USD 70000", "label": "THE BANK'S BTX PASSWORD"},
+    {"chapter": "ch09", "at": 5.0, "dur": 5.5, "kind": "flag", "label": "KEEP IN MIND", "text": "ONLY THE CLUB SAYS IT CAME FROM THE SCREEN"},
+
+    {"chapter": "ch10", "at": 0.0, "dur": 2.2, "kind": "act", "part": "PART III", "title": "THE NIGHT"},
+    {"chapter": "ch10", "at": 2.6, "dur": 3.8, "kind": "figure", "value": "DM 9.97", "label": "PER PAGE VIEW"},
+    {"chapter": "ch10", "at": 8.0, "dur": 3.8, "kind": "figure", "value": "31 LINES", "label": "THE PROGRAM"},
+
+    {"chapter": "ch11", "at": 7.4, "dur": 7.2, "kind": "question", "text": "WHAT WOULD YOU EXPECT TO FIND IN THE MORNING?"},
+
+    {"chapter": "ch12", "at": 3.8, "dur": 4.5, "kind": "figure", "value": "13,000+", "label": "PAGE VIEWS BY MORNING"},
+    {"chapter": "ch12", "at": 9.8, "dur": 4.8, "kind": "figure", "value": "DM 134,000+", "label": "BILLED TO THE BANK"},
+
+    {"chapter": "ch14", "at": 0.0, "dur": 2.2, "kind": "act", "part": "PART IV", "title": "THE RETURN"},
+    {"chapter": "ch14", "at": 6.2, "dur": 4.2, "kind": "stamp", "lines": ["19 NOVEMBER 1984", "THREE DAYS LATER"]},
+
+    {"chapter": "ch15", "at": 2.6, "dur": 4.8, "kind": "question", "text": "WHY GIVE IT ALL BACK?"},
+
+    {"chapter": "ch16", "at": 7.0, "dur": 4.5, "kind": "tag", "role": "institution", "pos": "tr", "text": "DEUTSCHE BUNDESPOST", "sub": "CALLS THE FLAW MINOR"},
+
+    {"chapter": "ch17", "at": 1.6, "dur": 4.0, "kind": "figure", "value": "19,000", "label": "BTX USERS, NOVEMBER 1984"},
+    {"chapter": "ch17", "at": 8.6, "dur": 6.0, "kind": "question", "text": "DID THE PAGE REALLY SPILL THE PASSWORD?"},
+
+    {"chapter": "ch18", "at": 0.0, "dur": 2.2, "kind": "act", "part": "PART V", "title": "THE DOUBT"},
+    {"chapter": "ch18", "at": 2.6, "dur": 7.0, "kind": "file", "header": "HAMBURG DATA PROTECTION · REPORT 1985", "rows": ["EDITING BUG IN BTX | CONFIRMED", "COULD EXPOSE PASSWORDS | YES", "BANK'S PASSWORD ON SCREEN | NOT ESTABLISHED"]},
+    {"chapter": "ch18", "at": 10.6, "dur": 4.0, "kind": "stamp", "lines": ["2001", "BTX SWITCHED OFF"]},
+
+    {"chapter": "ch20", "at": 2.8, "dur": 3.6, "kind": "question", "text": "SO WHERE DID IT COME FROM?"},
+    {"chapter": "ch20", "at": 6.8, "dur": 6.2, "kind": "list", "rows": ["A WATCHED DEMONSTRATION?", "A TAPPED LINE?", "SOMEONE INSIDE?"]}
+  ]
+}

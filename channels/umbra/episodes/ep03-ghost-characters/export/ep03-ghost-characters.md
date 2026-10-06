@@ -58,44 +58,82 @@ calls; ~134,000 DM; Btx shut down in 2001 after ~16 more years.
 
 ## STATE 3 — Script
 
-**Target length:** 5 minutes ≈ 750 words
+**Target length:** 5 minutes ≈ 750 words · **v2 — mystery cut**
+
+Each `<!-- chNN -->` marker starts the narration for that 15 s chapter of `04-scenes.md`. The
+voiceover is recorded and placed chapter by chapter, so every line lands on its own pictures.
+The spine is one open question, planted in ch02 and answered only partly, in ch18 and ch20:
+*where did the password really come from?*
 
 ---
 
-It's the night of the 16th of November, 1984. In a flat in Hamburg, a man sits at a home computer, dials a telephone line, and connects to a network the German state has promised is safe. His name is Herwart Holland. They call him Wau.
+<!-- ch01 -->
+It's the night of the 16th of November, 1984. In a flat in Hamburg, a man sits at a home computer, dials a telephone line, and connects to a network the German state has promised is safe.
 
-This is the story of how two men moved a hundred and thirty-five thousand marks out of a bank in one night, and gave every mark back.
+<!-- ch02 -->
+They call him Wau. Before morning, his club will move a hundred and thirty-four thousand marks out of a bank, and give every mark back. This is the story of a password, and where it came from.
 
-The network is called Bildschirmtext — screen text, Btx for short. It is West Germany's picture of the future: a nationwide system, run by the Deutsche Bundespost, that turns an ordinary television into a terminal. You can read the news on it. Check the weather. From 1984, do your banking. The Post Office has spent a fortune building it, and it tells the public one thing above all else. Btx is secure.
+<!-- ch03 -->
+The network is called Bildschirmtext — screen text, Btx for short. It is West Germany's picture of the future: a nationwide system, run by the Deutsche Bundespost, that turns an ordinary television into a terminal.
 
-Wau Holland does not believe them. He belongs to a small group of hackers who call themselves the Chaos Computer Club, and their argument with the state is simple. A system is not secure because an official says it is. It is secure only if it cannot be broken. And they have found a way to break this one.
+<!-- ch04 -->
+You can read the news on it. Check the weather. From 1984, do your banking. The Post Office has spent a fortune building it, and it tells the public one thing above all else. Btx is secure.
 
-The flaw is almost too small to see. When a Btx page is filled with more text than it expects, the system stumbles. For a fraction of a second, the overflow spills onto the screen — fragments of data from somewhere else inside the machine, characters that were never meant for your eyes. Ghost characters. And one night, the club says, that spill shows them something remarkable: the login and the password of another Btx account, printed in the clear. The account belongs to the Hamburger Sparkasse. A bank.
+<!-- ch05 -->
+Wau Holland does not believe them. He belongs to the Chaos Computer Club, a small group of hackers with a simple argument. So who gets to call a system secure? The people selling it?
 
-The password is "USD 70000."
+<!-- ch06 -->
+Secure, they argue, means only one thing: that it cannot be broken. And the club says it has found a way to break this one. The flaw is almost too small to see.
 
-After that, the rest is almost trivial. On Btx, a provider is allowed to charge visitors to open its page — a few marks a look. The Chaos Computer Club owns such a page. It costs nine marks and ninety-seven pfennig to open. So they write a short program. Thirty-one lines. It logs in as the Hamburger Sparkasse, and it opens the club's own page. Then it does it again. And again.
+<!-- ch07 -->
+Fill a Btx page with more text than it expects, and the system stumbles. For a fraction of a second, the overflow spills onto the screen — fragments of data from somewhere else inside the machine.
 
-They leave it running, and they go to sleep.
+<!-- ch08 -->
+Characters that were never meant for your eyes. Ghost characters. And one night, the club says, the spill shows them a login and a password, printed in the clear. The account belongs to a bank.
 
-By morning, the bank has opened a single page more than thirteen thousand times, and paid the Chaos Computer Club nine marks and ninety-seven pfennig for every one. The total is a little over a hundred and thirty-four thousand marks. The money has moved out of one of Germany's largest banks and into the account of a hacker club, and not one alarm has sounded — because nothing was broken. The system did exactly what it was told to do.
+<!-- ch09 -->
+The Hamburger Sparkasse. The password is "USD 70000." Keep one detail in mind: only the club says it came from the screen. On Btx, a provider may charge visitors a few marks to open its page.
 
-Here is the part that does not belong in the story of a robbery. They do not keep it.
+<!-- ch10 -->
+The club owns such a page. It costs nine marks and ninety-seven pfennig to open. So they write a short program. Thirty-one lines. It logs in as the bank, and opens the club's own page.
 
-On the 19th of November, three days later, the Chaos Computer Club calls a press conference. In front of television cameras, they explain what they did, how they did it, and to whom. Then they return the hundred and thirty-four thousand marks to the Hamburger Sparkasse, in full. The money was never the point. The point was the word "secure," and the fact that a state had used it to sell a system it did not understand.
+<!-- ch11 -->
+Then it does it again. And again. They leave it running, and they go to sleep. What would you expect to find in the morning? An alarm? A locked account? Police at the door?
 
-The effect is immediate. Overnight, the Chaos Computer Club goes from a handful of enthusiasts to the most famous hackers in the country. The Bundespost calls the flaw minor, an isolated case. The hackers call it the whole argument: a national network of nineteen thousand users, opened by two men and a home computer, using nothing but a mistake the operator had sworn did not exist. An official inquiry never establishes how the password reached them.
+<!-- ch12 -->
+There is nothing. By morning, the bank has opened a single page more than thirteen thousand times, and paid the club nine marks ninety-seven for every one. A little over a hundred and thirty-four thousand marks.
 
-Btx never recovered. It ran on for another sixteen years, always about to become the future, and was quietly switched off in 2001, having never arrived.
+<!-- ch13 -->
+The money has moved out of one of Germany's largest savings banks, and not one alarm has sounded. Why would it? Nothing was broken. The system did exactly what it was told to do.
 
-But the argument it started did not switch off with it. Every year since, a new system has been built and sold with the same single word. Your money is safe. Your data is safe. Your account cannot be reached. And every year, somewhere, someone quietly overfills the page, and waits to see what spills onto the screen.
+<!-- ch14 -->
+Here is the part that does not belong in a robbery. They do not keep it. On the 19th of November, the club calls a press conference, and explains to the cameras exactly what it did.
 
-Maybe the password was there the whole time. No one ever proved it came from the page.
+<!-- ch15 -->
+Then they return every mark to the bank. So why go to all this trouble? Because the money was never the point. The point was one word, "secure," and the state that had used it.
+
+<!-- ch16 -->
+Overnight, the Chaos Computer Club becomes the most famous group of hackers in the country. The Bundespost calls the flaw minor, an isolated case. And the one question that matters is left open.
+
+<!-- ch17 -->
+The hackers call it the whole argument: a national network of nineteen thousand users, opened by two men and a home computer. But opened how, exactly? Did the page really spill that password?
+
+<!-- ch18 -->
+In 1985, Hamburg's data-protection commissioner finds the bug is real, but cannot establish that the password ever reached a screen. Btx runs another sixteen years, and is switched off in 2001, never having arrived.
+
+<!-- ch19 -->
+But the argument it started did not switch off with it. Every year, a new system is sold with the same single word. Your money is safe. Your data is safe. Your account cannot be reached.
+
+<!-- ch20 -->
+And somewhere, someone still overfills the page, and waits. So where did that password really come from? A watched demonstration. A tapped line. Someone inside. Nobody ever proved it was the page.
 
 ---
 
-**Word count:** 732
-**Ending type used:** 2 — implicating turn (last line 9 words, lands on "page")
+**Word count:** 698 (20 chapters, 32–37 words each)
+**Question beats (DNA: rhetorical questions as act pivots):** ch05, ch11, ch13, ch15, ch17, ch20
+**Open loop:** planted ch02 ("where it came from"), flagged ch09 ("only the club says"), asked ch17,
+half-answered ch18 (the 1985 report), left open ch20 (a list of three, none proved)
+**Ending type used:** 4 — unanswered "we don't know" (last line 7 words, lands on "page")
 
 
 ---
@@ -218,9 +256,11 @@ ARRI Alexa, 16:9.
 
 ## Chapter map (5:00 = 20 chapters × 15 s, derived from the narration)
 
-Windows come from the script's actual word timeline, **not** one paragraph per chapter: narration
-runs 2.5 words/s, so every 15 s chapter carries ≤37 words of VO (732 words ≈ 4:53 in total; the
-~8 s of slack is absorbed as breathing room). Dense paragraphs therefore span two chapters.
+Each chapter's narration is marked `<!-- chNN -->` in `02-script.md` (script v2, the mystery cut)
+and is recorded as its own take, laid at the start of its 15 s window — so every line lands on
+its own pictures and the voice runs the full 5:00. At 2.5 words/s a chapter carries ≤37 words
+(698 in total). On-screen cards (date stamps, name tags, figures, the viewer questions, act
+titles) are timed per chapter in `production/cards.json`.
 
 | Ch | Time | Script beat (VO in this window) | Mode | Scenes |
 |----|------|---------------------------------|------|--------|
