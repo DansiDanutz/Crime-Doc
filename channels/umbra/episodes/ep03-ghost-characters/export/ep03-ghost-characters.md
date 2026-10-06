@@ -2076,13 +2076,16 @@ Sparkasse, 1984 hack, Deutsche Bundespost, hacker documentary, cybersecurity his
 hacking history, West Germany, umbra
 
 ## Thumbnail
-Variant 6 "Who?" from `05-thumbnails.md` (recommended), or V1 / V5. Each costs 2 Higgsfield credits
-on Nano Banana Pro at 2k, 16:9.
+**Generated:** variant 6 "Who?" from `05-thumbnails.md` (Higgsfield job
+`4084030d-de68-4db0-911a-3931b57f3e2d`, 2752x1536, 2 credits). It was checked at full size and at
+phone size: the red figure is faceless in the pinned red cardigan, three black watchers stand in
+the shadows, and the PASSWORD and WHO? tags stay legible at 320 px. Upload a 1280x720 JPEG (about
+130 KB). V1 / V5 remain alternatives at 2 credits each.
 
 ## Checklist before publishing
 - [ ] Watch the full cut once with headphones: names, numbers, "U-S-D seventy thousand"
 - [ ] Music / SFX bed (optional; per-chapter notes in `04-scenes.md`)
-- [ ] Thumbnail generated and chosen
+- [x] Thumbnail generated and chosen (V6 "Who?")
 - [ ] Set the "altered or synthetic content" disclosure to **yes** (the visuals and the voice are AI-generated)
 - [ ] Visibility and category (Education or Film & Animation)
 
