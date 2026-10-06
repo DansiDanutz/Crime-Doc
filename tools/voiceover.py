@@ -10,8 +10,9 @@ Credentials stay local: ELEVENLABS_API_KEY is read from the environment, loaded 
 repo's git-ignored .env.local. Nothing prints or stores the key.
 
 The take is written to production/vo/<slug>-vo.mp3 (git-ignored) with a vo.json receipt holding a
-fingerprint of text + voice + model + settings. Running again with nothing changed reuses the
-take and spends no characters; --force records a new one.
+fingerprint of text + voice + model + settings and the hash of the audio itself. A take is only
+published after it decodes, and one run per episode records at a time. Running again with nothing
+changed reuses the take and spends no characters; --force records a new one.
 
 Usage:
     tools/voiceover.py umbra ep03-ghost-characters --dry-run    # what would be sent, no request
@@ -21,6 +22,7 @@ Then:
     tools/assemble-episode.py umbra ep03-ghost-characters --vo channels/umbra/episodes/<slug>/production/vo/<slug>-vo.mp3
 """
 import argparse
+import fcntl
 import hashlib
 import json
 import os
@@ -125,8 +127,9 @@ def characters_left(key: str) -> int | None:
         return None  # a key restricted to text-to-speech may not read the subscription; not fatal
 
 
-def save_audio(response, dest: Path) -> int:
-    fd, tmp_name = tempfile.mkstemp(dir=dest.parent, prefix=f".{dest.stem}.", suffix=".part")
+def save_audio(response, directory: Path, stem: str) -> Path:
+    """Stream the audio into a temp file of this run's own and return it, unpublished."""
+    fd, tmp_name = tempfile.mkstemp(dir=directory, prefix=f".{stem}.", suffix=".mp3.part")
     tmp = Path(tmp_name)
     try:
         size = 0
@@ -138,10 +141,35 @@ def save_audio(response, dest: Path) -> int:
                 out.write(chunk)
         if size == 0:
             raise SystemExit("error: ElevenLabs returned no audio")
-        tmp.replace(dest)
-        return size
-    finally:
+        return tmp
+    except BaseException:
         tmp.unlink(missing_ok=True)
+        raise
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with open(path, "rb") as f:
+        while chunk := f.read(1 << 20):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def take_is_current(out: Path, receipt: dict, inputs: str) -> bool:
+    """Reuse a take only when its receipt was written for these inputs *and* for this very file."""
+    return (out.exists() and receipt.get("inputs_sha256") == inputs
+            and receipt.get("audio_sha256") == file_sha256(out))
+
+
+def lock_vo(vo_dir: Path):
+    """One recording per episode at a time, held from the reuse check through publication."""
+    handle = open(vo_dir / "vo.lock", "w")
+    try:
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        handle.close()
+        raise SystemExit("error: another voiceover run is already recording this episode. Nothing was sent.")
+    return handle
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -196,30 +224,43 @@ def main(argv: list[str] | None = None) -> int:
     vo_dir = ep / "production" / "vo"
     vo_dir.mkdir(parents=True, exist_ok=True)
     out, receipt_path = vo_dir / f"{args.episode}-vo.mp3", vo_dir / "vo.json"
-    receipt = json.loads(receipt_path.read_text()) if receipt_path.exists() else {}
-    if out.exists() and receipt.get("inputs_sha256") == inputs and not args.force:
-        print(f"already recorded with {receipt.get('voice_name')}: {out.relative_to(ROOT)} (nothing spent)")
-        return 0
+    with lock_vo(vo_dir):
+        try:
+            receipt = json.loads(receipt_path.read_text()) if receipt_path.exists() else {}
+        except ValueError:
+            receipt = {}
+        if not args.force and take_is_current(out, receipt, inputs):
+            print(f"already recorded with {receipt.get('voice_name')}: {out.relative_to(ROOT)} (nothing spent)")
+            return 0
 
-    left = characters_left(key)
-    if left is not None:
-        print(f"ElevenLabs characters left this period: {left:,}")
-        if left < len(text):
-            print(f"error: this read needs {len(text):,} characters. Nothing was sent.", file=sys.stderr)
-            return 2
+        left = characters_left(key)
+        if left is not None:
+            print(f"ElevenLabs characters left this period: {left:,}")
+            if left < len(text):
+                print(f"error: this read needs {len(text):,} characters. Nothing was sent.", file=sys.stderr)
+                return 2
 
-    print(f"recording with {voice_name} ({args.model}, speed {args.speed})…")
-    body = {"text": text, "model_id": args.model, "voice_settings": settings}
-    with request(f"/text-to-speech/{voice_id}?output_format={OUTPUT_FORMAT}", key, body) as response:
-        size = save_audio(response, out)
-    tmp_receipt = receipt_path.with_suffix(".tmp")
-    tmp_receipt.write_text(json.dumps({"voice_id": voice_id, "voice_name": voice_name, "model": args.model,
-                                       "settings": settings, "characters": len(text),
-                                       "inputs_sha256": inputs}, indent=2) + "\n")
-    tmp_receipt.replace(receipt_path)
+        print(f"recording with {voice_name} ({args.model}, speed {args.speed})…")
+        body = {"text": text, "model_id": args.model, "voice_settings": settings}
+        with request(f"/text-to-speech/{voice_id}?output_format={OUTPUT_FORMAT}", key, body) as response:
+            audio = save_audio(response, vo_dir, out.stem)
+        fd, receipt_tmp = tempfile.mkstemp(dir=vo_dir, prefix=".vo.", suffix=".json.part")
+        try:
+            # The take must decode before either file is published, so a broken response is never kept.
+            seconds = assemble.media_seconds(assemble.ffmpeg_binary(), audio)
+            if seconds <= 0:
+                raise SystemExit("error: ElevenLabs returned audio with no length; nothing was kept")
+            with open(fd, "w") as f:
+                f.write(json.dumps({"voice_id": voice_id, "voice_name": voice_name, "model": args.model,
+                                    "settings": settings, "characters": len(text), "seconds": round(seconds, 2),
+                                    "inputs_sha256": inputs, "audio_sha256": file_sha256(audio)}, indent=2) + "\n")
+            audio.replace(out)
+            Path(receipt_tmp).replace(receipt_path)
+        finally:
+            audio.unlink(missing_ok=True)
+            Path(receipt_tmp).unlink(missing_ok=True)
 
-    seconds = assemble.media_seconds(assemble.ffmpeg_binary(), out)
-    print(f"done: {out.relative_to(ROOT)} ({seconds:.1f} s, {size / 1e6:.1f} MB)")
+    print(f"done: {out.relative_to(ROOT)} ({seconds:.1f} s, {out.stat().st_size / 1e6:.1f} MB)")
     if seconds > cut_seconds:
         print(f"note: the read is {seconds - cut_seconds:.1f} s longer than the {cut_seconds} s cut and would be "
               f"clipped; run again with --speed {min(1.2, round(args.speed * seconds / (cut_seconds - 3), 2))} --force")
