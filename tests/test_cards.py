@@ -124,11 +124,18 @@ class Ep03Tests(unittest.TestCase):
             self.assertIsNone(assemble.load_outro(ep))
             for change, reason in (({"seconds": float("nan")}, "seconds"), ({"seconds": True}, "seconds"),
                                    ({"seconds": 60}, "seconds"), ({"text": " "}, "text"),
-                                   ({"card": {"kind": "stamp"}}, "card")):
+                                   ({"text": 7}, "text"), ({"card": {"kind": "stamp"}}, "card"),
+                                   ({"card": {"kind": "endcard", "wordmark": "umbra"}}, "card.lines"),
+                                   ({"card": {"kind": "endcard", "wordmark": "umbra", "lines": [1]}}, "card.lines"),
+                                   ({"card": {"kind": "endcard", "wordmark": "", "lines": ["X"]}}, "card.wordmark")):
                 with self.subTest(reason=reason):
                     (ep.parent.parent / "outro.json").write_text(json.dumps({**good, **change}))
                     with self.assertRaisesRegex(ValueError, reason):
                         assemble.load_outro(ep)
+            for bad in ("[1, 2]", "{not json"):
+                (ep.parent.parent / "outro.json").write_text(bad)
+                with self.assertRaisesRegex(ValueError, "outro.json"):
+                    assemble.load_outro(ep)
 
     def test_the_reader_export_hides_the_chapter_markers(self):
         html = (EP / "export/ep03-ghost-characters.html").read_text()

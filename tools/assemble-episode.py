@@ -123,15 +123,27 @@ def load_outro(ep: Path) -> dict | None:
     path = ep.parent.parent / "outro.json"
     if not path.exists():
         return None
-    data = json.loads(path.read_text())
-    seconds, text, card = data.get("seconds"), " ".join(str(data.get("text") or "").split()), data.get("card")
+    try:
+        data = json.loads(path.read_text())
+    except ValueError as err:
+        raise ValueError(f"outro.json: not valid JSON ({err})")
+    if not isinstance(data, dict):
+        raise ValueError("outro.json: must be an object with seconds, text and card")
+    seconds, text, card = data.get("seconds"), data.get("text"), data.get("card")
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) \
             or not OUTRO_MIN_S <= seconds <= OUTRO_MAX_S:
         raise ValueError(f"outro.json: seconds must be a number from {OUTRO_MIN_S} to {OUTRO_MAX_S}")
+    text = " ".join(text.split()) if isinstance(text, str) else ""
     if not text or len(text) > 400:
         raise ValueError("outro.json: text must be 1-400 characters")
-    if not isinstance(card, dict) or card.get("kind") != "endcard" or not card.get("wordmark"):
+    if not isinstance(card, dict) or card.get("kind") != "endcard":
         raise ValueError('outro.json: card must be {"kind": "endcard", "wordmark": ..., "lines": [...]}')
+    wordmark, lines = card.get("wordmark"), card.get("lines")
+    if not isinstance(wordmark, str) or not 1 <= len(wordmark.strip()) <= 20:
+        raise ValueError("outro.json: card.wordmark must be 1-20 characters")
+    if not isinstance(lines, list) or not 1 <= len(lines) <= 3 \
+            or not all(isinstance(x, str) and 1 <= len(x.strip()) <= 48 for x in lines):
+        raise ValueError("outro.json: card.lines must be 1-3 lines of 1-48 characters")
     return {"seconds": float(seconds), "text": text, "card": card}
 
 
