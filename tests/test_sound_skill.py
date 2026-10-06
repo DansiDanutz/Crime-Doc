@@ -182,6 +182,44 @@ class SkillClientTests(unittest.TestCase):
             self.assertTrue(sound.server_stop())
             killpg.assert_called_once_with(4242, signal.SIGTERM)
 
+    def test_starts_are_serialized_and_a_failed_start_keeps_anothers_pid(self):
+        import threading
+        state = self.dir / "state2"
+        running = {"up": False}
+        launched = []
+
+        def fake_popen(*a, **k):
+            launched.append(1)
+            running["up"] = True  # the first start brings the server up
+            return mock.Mock(pid=4000 + len(launched), poll=mock.Mock(return_value=None))
+
+        with mock.patch.object(sound, "STATE", state), mock.patch.object(sound, "ace_installed", return_value=True), \
+                mock.patch.object(sound, "ace_running", side_effect=lambda: running["up"]), \
+                mock.patch.object(sound.subprocess, "Popen", side_effect=fake_popen), \
+                contextlib.redirect_stderr(io.StringIO()):
+            threads = [threading.Thread(target=sound.server_start) for _ in range(4)]
+            for th in threads:
+                th.start()
+            for th in threads:
+                th.join()
+        self.assertEqual(len(launched), 1)  # four concurrent callers, one server
+        # a failing start must not delete a PID record that another start owns
+        (state / "ace-step-api.pid").write_text("7777")
+        failing = mock.Mock(pid=8888, poll=mock.Mock(return_value=1), returncode=1)
+
+        def popen_overwritten(*a, **k):
+            return failing
+
+        with mock.patch.object(sound, "STATE", state), mock.patch.object(sound, "ace_installed", return_value=True), \
+                mock.patch.object(sound, "ace_running", return_value=False), \
+                mock.patch.object(sound.subprocess, "Popen", side_effect=popen_overwritten), \
+                mock.patch.object(sound.Path, "write_text", autospec=True,
+                                  side_effect=lambda self, text: None if self.name == "ace-step-api.pid" else None), \
+                contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaisesRegex(sound.SoundError, "exited"):
+                sound.server_start()
+        self.assertEqual((state / "ace-step-api.pid").read_text(), "7777")
+
     def test_server_start_needs_an_install(self):
         with mock.patch.object(sound, "ace_running", return_value=False), \
                 mock.patch.object(sound, "ace_installed", return_value=False):

@@ -23,6 +23,7 @@ Configuration (environment variables, all optional):
 Only the Python standard library is used, so it runs from any project without installing anything.
 """
 import argparse
+import fcntl
 import json
 import os
 import signal
@@ -122,6 +123,16 @@ def server_start(wait_s: float = 900) -> None:
     if not ace_installed():
         raise SoundError(f"ACE-Step is not installed at {ACE_HOME}; run the skill's install.sh")
     STATE.mkdir(parents=True, exist_ok=True)
+    # One start at a time across every command: a second caller waits here, then finds the
+    # first one's server already up instead of launching another.
+    with open(STATE / "ace-step-start.lock", "w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        if ace_running():
+            return
+        _start_locked(wait_s)
+
+
+def _start_locked(wait_s: float) -> None:
     pid_file = STATE / "ace-step-api.pid"
     log = open(STATE / "ace-step-api.log", "ab")
     proc = subprocess.Popen(["uv", "run", "acestep-api"], cwd=ACE_HOME, stdout=log, stderr=log,
@@ -146,7 +157,11 @@ def server_start(wait_s: float = 900) -> None:
                 os.killpg(proc.pid, signal.SIGTERM)
             except (ProcessLookupError, PermissionError):
                 pass
-        pid_file.unlink(missing_ok=True)
+        try:  # remove the record only if it is still this start's own
+            if pid_file.read_text().strip() == str(proc.pid):
+                pid_file.unlink()
+        except FileNotFoundError:
+            pass
         raise
     finally:
         log.close()
