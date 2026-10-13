@@ -37,6 +37,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -76,6 +77,17 @@ def plan(shotlist: dict, renders: dict) -> tuple[list[dict], list[str]]:
             segments.append({"id": scene["id"], "source": source, "url": entry["video_url"],
                              "seconds": int(scene["duration_s"])})
     return segments, missing
+
+
+def local_clip(ep: Path, clips_dir: Path, seg: dict) -> Path:
+    """Where the segment's clip is cached. A borrowed clip is used straight from the source
+    episode's own cache when it is there, so it is never downloaded again."""
+    if "/" in seg["source"]:
+        slug, sid = seg["source"].split("/", 1)
+        theirs = cache_path(ep.parent / slug / "production" / "clips", sid, seg["url"])
+        if theirs.exists() and theirs.stat().st_size > 0:
+            return theirs
+    return cache_path(clips_dir, seg["source"], seg["url"])
 
 
 def with_borrowed_clips(ep: Path, shotlist: dict, renders: dict) -> dict:
@@ -382,8 +394,15 @@ def main(argv: list[str] | None = None) -> int:
         print("downloading and trimming clips…")
         held = []
         for seg in segments:
-            source = cache_path(clips_dir, seg["source"], seg["url"])
-            download(seg["url"], source)
+            source = local_clip(ep, clips_dir, seg)
+            if not source.exists():
+                try:
+                    download(seg["url"], source)
+                except urllib.error.HTTPError as err:
+                    raise SystemExit(
+                        f"error: the clip for {seg['id']} ({seg['source']}) can no longer be downloaded "
+                        f"(HTTP {err.code}; render links expire). Restore the episode's production/clips "
+                        "from its Drive archive (media.tar.gz), then run again.")
             if trim(ffmpeg, source, seg["seconds"], parts_dir / f"{seg['id']}.mp4"):
                 held.append(seg["id"])
         if held:

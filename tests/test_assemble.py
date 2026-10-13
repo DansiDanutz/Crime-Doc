@@ -52,6 +52,17 @@ class AssembleTests(unittest.TestCase):
             self.assertEqual([(s["id"], s["url"]) for s in segments], [("ch01_s1", "u3")])
             self.assertEqual(missing, ["ch01_s2 (via ep03-a/ch09_s9)"])
 
+    def test_a_borrowed_clip_is_taken_from_the_source_episodes_cache(self):
+        with tempfile.TemporaryDirectory() as d:
+            eps = Path(d)
+            mine = eps / "ep04-b/production/clips"
+            theirs = tool.cache_path(eps / "ep03-a/production/clips", "ch01_s1", "u")
+            theirs.parent.mkdir(parents=True)
+            seg = {"source": "ep03-a/ch01_s1", "url": "u"}
+            self.assertEqual(tool.local_clip(eps / "ep04-b", mine, seg).parent, mine)  # not cached there yet
+            theirs.write_bytes(b"clip")
+            self.assertEqual(tool.local_clip(eps / "ep04-b", mine, seg), theirs)
+
     def test_a_borrowed_clip_caches_as_a_flat_file(self):
         p = tool.cache_path(Path("/tmp/clips"), "ep03-ghost-characters/ch01_s1", "https://cdn/x.mp4")
         self.assertEqual(p.parent, Path("/tmp/clips"))
