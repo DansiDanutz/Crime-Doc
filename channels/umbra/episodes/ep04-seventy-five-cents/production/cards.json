@@ -1,0 +1,45 @@
+{
+  "_doc": "On-screen cards for EP04. 'at' = seconds into the chapter, 'dur' = seconds on screen. One card at a time. Kinds and fields: tools/cards.py.",
+  "cards": [
+    {"chapter": "ch01", "at": 0.6, "dur": 4.5, "kind": "stamp", "lines": ["SUMMER 1986", "HANOVER · WEST GERMANY"]},
+    {"chapter": "ch01", "at": 8.5, "dur": 4.5, "kind": "figure", "value": "6,000 MILES", "label": "HANOVER TO CALIFORNIA, BY PHONE LINE"},
+
+    {"chapter": "ch02", "at": 0.4, "dur": 4.2, "kind": "figure", "value": "$0.75", "label": "THE ERROR IN THE BILL"},
+    {"chapter": "ch02", "at": 9.6, "dur": 5.2, "kind": "question", "text": "WHAT HAPPENED TO KARL KOCH?"},
+
+    {"chapter": "ch03", "at": 0.0, "dur": 2.4, "kind": "act", "part": "PART I", "title": "THE ERROR"},
+    {"chapter": "ch03", "at": 4.5, "dur": 4.5, "kind": "tag", "role": "institution", "pos": "tl", "text": "CLIFFORD STOLL", "sub": "LAWRENCE BERKELEY LABORATORY"},
+
+    {"chapter": "ch05", "at": 2.8, "dur": 3.6, "kind": "list", "rows": ["NUCLEAR", "MILITARY", "SDI"]},
+    {"chapter": "ch05", "at": 8.0, "dur": 6.6, "kind": "question", "text": "WHY READ ABOUT MISSILES IN A PHYSICS LAB?"},
+
+    {"chapter": "ch07", "at": 0.0, "dur": 2.4, "kind": "act", "part": "PART II", "title": "THE TRACE"},
+    {"chapter": "ch07", "at": 9.5, "dur": 5.0, "kind": "tag", "role": "institution", "pos": "tr", "text": "DEUTSCHE BUNDESPOST", "sub": "THE LINE ENDS IN ITS NETWORK"},
+
+    {"chapter": "ch08", "at": 9.0, "dur": 5.6, "kind": "question", "text": "HOW DO YOU KEEP A THIEF IN THE ROOM?"},
+
+    {"chapter": "ch09", "at": 2.4, "dur": 6.0, "kind": "file", "header": "SDINET · PROJECT FILES (FAKE)", "rows": ["WRITTEN BY | STOLL + PARTNER", "PURPOSE | KEEP HIM ONLINE", "SECRETS INSIDE | NONE"]},
+
+    {"chapter": "ch10", "at": 7.6, "dur": 4.6, "kind": "tag", "role": "subject", "pos": "tl", "text": "MARKUS HESS", "sub": "HANOVER"},
+
+    {"chapter": "ch11", "at": 0.0, "dur": 2.4, "kind": "act", "part": "PART III", "title": "THE BUYER"},
+    {"chapter": "ch11", "at": 3.6, "dur": 4.4, "kind": "tag", "role": "subject", "pos": "tl", "text": "KARL KOCH", "sub": "23 · HANOVER HACKER GROUP"},
+    {"chapter": "ch11", "at": 9.2, "dur": 5.2, "kind": "tag", "role": "institution", "pos": "tr", "text": "KGB", "sub": "EAST BERLIN · PAID IN CASH"},
+
+    {"chapter": "ch12", "at": 0.4, "dur": 4.6, "kind": "question", "text": "WHAT DID THE KGB GET FOR ITS MONEY?"},
+
+    {"chapter": "ch13", "at": 6.0, "dur": 7.0, "kind": "flag", "label": "KEEP IN MIND", "text": "KOCH ASKED FOR PROTECTION AS A WITNESS"},
+
+    {"chapter": "ch14", "at": 0.4, "dur": 4.2, "kind": "stamp", "lines": ["MARCH 1989", "THE ARRESTS"]},
+
+    {"chapter": "ch16", "at": 0.0, "dur": 2.4, "kind": "act", "part": "PART IV", "title": "THE WEEK"},
+    {"chapter": "ch16", "at": 2.8, "dur": 4.6, "kind": "stamp", "lines": ["23 MAY 1989", "KOCH LEAVES WORK"]},
+
+    {"chapter": "ch17", "at": 0.4, "dur": 4.6, "kind": "stamp", "lines": ["1 JUNE 1989", "FOREST NEAR GIFHORN"]},
+    {"chapter": "ch17", "at": 8.4, "dur": 6.2, "kind": "file", "header": "POLICE FINDING · JUNE 1989", "rows": ["OFFICIAL FINDING | SUICIDE", "CASE | CLOSED"]},
+
+    {"chapter": "ch18", "at": 5.0, "dur": 8.0, "kind": "list", "rows": ["A WITNESS WHO ASKED FOR PROTECTION?", "WHY THAT FOREST?", "WHO SAW HIM IN THOSE 9 DAYS?"]},
+
+    {"chapter": "ch20", "at": 2.0, "dur": 6.0, "kind": "list", "rows": ["THE 75 CENTS: FOUND", "THE HACKERS: TRIED", "KARL KOCH: UNEXPLAINED"]}
+  ]
+}

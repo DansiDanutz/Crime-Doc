@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>The Seventy-Five Cent Spy</title>
+<style>
+  :root { --red:#e23; --ink:#111; --muted:#666; --line:#ddd; }
+  body { font: 16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+         color: var(--ink); max-width: 820px; margin: 40px auto; padding: 0 24px; }
+  h1 { font-size: 2.1rem; border-bottom: 3px solid var(--red); padding-bottom: .3em; }
+  h2 { font-size: 1.45rem; margin-top: 2em; border-bottom: 1px solid var(--line); padding-bottom:.2em; }
+  h3 { font-size: 1.12rem; color:#222; margin-top: 1.4em; }
+  h4 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing:.04em; }
+  pre.code { background:#0e0e10; color:#e8e8ea; padding:14px 16px; border-radius:8px;
+             overflow-x:auto; font:13px/1.5 ui-monospace,Menlo,Consolas,monospace; white-space:pre-wrap; }
+  blockquote { border-left:3px solid var(--red); margin:1em 0; padding:.2em 1em; color:var(--muted); background:#fafafa; }
+  table { border-collapse:collapse; width:100%; margin:1em 0; font-size:.92rem; }
+  td { border:1px solid var(--line); padding:6px 10px; vertical-align:top; }
+  hr { border:0; border-top:1px solid var(--line); margin:2em 0; }
+  ul { margin:.4em 0 .8em 1.2em; }
+  code { background:#f2f2f4; padding:.1em .35em; border-radius:4px; font-size:.9em; }
+  @media print { body { margin:0; max-width:none; } pre.code { white-space:pre-wrap; } }
+</style></head><body>
+<h1>The Seventy-Five Cent Spy</h1>
+
+<p><strong>Channel:</strong> umbra  ·  <strong>Episode:</strong> <code>ep04-seventy-five-cents</code></p>
+
+<p><strong>Subject:</strong> Clifford Stoll&#x27;s 75-cent trace to the Hanover KGB hackers (1986-89) and the death of Karl Koch</p>
+
+<p><strong>Target:</strong> 5 min (~750 words)  ·  <strong>Status:</strong> storyboarded  ·  <strong>Ending:</strong> 4 — unanswered (nobody has explained the first of June, 1989)</p>
+
+<h2>Production summary</h2>
+<ul><li><strong>Chapters:</strong> 20  ·  <strong>Scenes:</strong> 90  ·  <strong>Runtime (storyboarded):</strong> 5:00</li>
+<li><strong>Cast:</strong> CHARACTER_ID</li>
+<li><strong>Aspect ratio:</strong> 16:9  ·  <strong>Image model:</strong> nano_banana_pro  ·  <strong>Video model:</strong> seedance_2_0</li>
+</ul>
+<hr/>
+
+<h2>STATE 2 — Idea</h2>
+
+<p><strong>Working title:</strong> The Seventy-Five Cent Spy</p>
+
+<p><strong>Subject:</strong> In 1986 Clifford Stoll, an astronomer turned systems manager at Lawrence Berkeley</p>
+<p>Laboratory, chased a 75-cent accounting error (nine seconds of unbilled computer time) to an</p>
+<p>intruder in Hanover. The intruder was Markus Hess, part of a group of young West German hackers,</p>
+<p>Karl Koch among them, who sold what they found to the KGB. Koch came forward to West German</p>
+<p>security, became a witness, disappeared on 23 May 1989, and was found dead near Gifhorn on 1 June</p>
+<p>1989. The death was ruled a suicide and has never been explained to his friends&#x27; satisfaction.</p>
+
+<p><strong>Why it fits:</strong> hacking, money (secrets sold for cash), and an open mystery at the end. It is the</p>
+<p>same 1980s West German hacker world as EP03, so EP03&#x27;s rendered clips carry it, and the episode</p>
+<p>costs no render credits.</p>
+
+<p><strong>Mechanism:</strong> an unbilled user, then a borrowed account and a privilege flaw, then keyword</p>
+<p>searches of military networks. Stoll records everything and traces the line abroad. The</p>
+<p>Bundespost needs a long connection to finish the trace, so the bait is SDInet, a pile of fake</p>
+<p>files. Hess is traced and named; the group&#x27;s KGB deal and Koch&#x27;s confession follow, then the</p>
+<p>arrests (March 1989) and the trial (1990, suspended sentences).</p>
+
+<p><strong>Provenance caveats (keep the script inside them):</strong> no payment totals and no forensic details</p>
+<p>of the death are stated, because sources differ. Only the dates (23 May and 1 June 1989), the</p>
+<p>place (a forest near Gifhorn), the ruling (suicide) and the friends&#x27; disbelief are used.</p>
+
+<p><strong>Ending type:</strong> 4 — unanswered: &quot;Nobody has explained the first of June, 1989.&quot;</p>
+
+
+<hr/>
+
+<h2>STATE 3 — Script</h2>
+
+<p><strong>Target length:</strong> 5 minutes ≈ 750 words</p>
+
+<p>Each <code>&lt;!-- chNN --&gt;</code> marker starts the narration for that 15 s chapter of <code>04-scenes.md</code>. The</p>
+<p>spine is one open question, planted in ch02 and never closed: <em>what happened to Karl Koch?</em></p>
+
+<hr/>
+
+<p>It&#x27;s the summer of 1986. In a flat in Hanover, West Germany, a young man dials a telephone line and connects to a computer six thousand miles away, in California. Nobody there knows he exists.</p>
+
+<p>Then a bill comes out wrong by seventy-five cents. This is the story of the spy those cents exposed, the agency that paid him, and a death that nobody has explained.</p>
+
+<p>The bill belongs to Lawrence Berkeley Laboratory. The man asked to find the missing seventy-five cents is Clifford Stoll, an astronomer who has just been moved to the computer room. He finds a user nobody pays for.</p>
+
+<p>Someone is logging in with the account of a scientist who is out of the country. Then that someone uses a flaw in an ordinary program to make himself the most powerful user on the machine.</p>
+
+<p>He is not interested in physics. He searches for other words. Nuclear. Military. SDI. So why would a stranger break into a physics laboratory, only to read about missiles?</p>
+
+<p>Stoll does not lock him out. He wants to know who it is. He wires printers to the lines, records every keystroke, and starts sleeping under his desk with a pager on his belt.</p>
+
+<p>The trail runs out of California, across the country, under the Atlantic, and into the network of the Deutsche Bundespost. The intruder is not in America at all. He is in West Germany.</p>
+
+<p>To trace him to a single telephone, the Bundespost needs him connected for a long time. He never stays long. He takes what he wants, and hangs up. How do you keep a thief in the room?</p>
+
+<p>You give him something to read. Stoll and his girlfriend invent a project called SDInet: pages and pages of fake military documents, written to look secret, far too long to steal quickly.</p>
+
+<p>The intruder takes the bait. He stays online, reading, for more than an hour. The line is traced to Hanover, and to a name. Markus Hess. But Hess is not working alone.</p>
+
+<p>He belongs to a small group of young West German hackers. One of them is called Karl Koch. Together they have been selling what they find to the KGB in East Berlin, for cash.</p>
+
+<p>And what does the KGB get for its money? Little that was not public, and some files that a man in California had made up. Real money, paid for invented secrets.</p>
+
+<p>By 1988, the pressure is too much for Karl Koch. He and another member go to West German security, confess, and ask for the protection the law offers to spies who come forward.</p>
+
+<p>In March 1989, the police move. The arrests are on the evening news: West German hackers, a laboratory in California, and the KGB, all in one story. Karl Koch is now a witness.</p>
+
+<p>The trial, the next year, ends with suspended sentences. The men who sold the secrets go home. One name is missing from the defendants. Karl Koch never reaches the court.</p>
+
+<p>On the 23rd of May, 1989, Koch leaves his job in the morning and takes a car. He does not come back. For nine days, nobody knows where he is.</p>
+
+<p>On the first of June, in a forest near Gifhorn, police find what is left of him beside a patch of burned ground. The death is ruled a suicide. The file is closed.</p>
+
+<p>His friends never accept it. Why would a witness under official protection end his life? Why in that forest? And who, if anyone, saw him in those nine days?</p>
+
+<p>Stoll writes a book about the seventy-five cents. It becomes the story of how networks are hunted: follow the one small number that does not add up, and keep following it.</p>
+
+<p>The seventy-five cents were found. The nine seconds of stolen time were explained. The hackers were named and tried. Nobody has explained the first of June, 1989.</p>
+
+<hr/>
+
+<p><strong>Word count:</strong> see <code>tests</code> (each chapter ≤37 words, 2.5 words/s)</p>
+<p><strong>Question beats (DNA: rhetorical questions as act pivots):</strong> ch05, ch08, ch12, ch18</p>
+<p><strong>Open loop:</strong> planted ch02 (&quot;a death that nobody has explained&quot;), widened ch14 (Koch becomes a</p>
+<p>witness), dropped ch16-17, left open ch18-20</p>
+<p><strong>Ending type used:</strong> 4 — unanswered (last line 8 words, lands on a date)</p>
+
+
+<hr/>
+
+<h2>STATE 4 — Characters</h2>
+
+<blockquote>This episode borrows EP03&#x27;s rendered clips, so it borrows EP03&#x27;s cast</blockquote>
+<blockquote>(<code>../ep03-ghost-characters/03-characters.md</code>): the red Hacker stands in for Hess and Koch, the</blockquote>
+<blockquote>black institution figures stand in for the Bundespost, the security service and the police, and</blockquote>
+<blockquote>the white figures stand in for the lab and the public. The names are carried by the on-screen</blockquote>
+<blockquote>tags in <code>production/cards.json</code>, not by faces. A cast-locked render of a later episode would</blockquote>
+<blockquote>add a white &quot;Astronomer&quot; (Stoll) and a black &quot;Case Officer&quot; (KGB).</blockquote>
+
+
+<hr/>
+
+<h2>STATE 5 — Scene prompts</h2>
+
+<blockquote>Every scene borrows a clip already rendered for EP03 (<code>REUSE: ep03-ghost-characters/&lt;scene&gt;</code>),</blockquote>
+<blockquote>so this episode costs no render credits. EP03 clips that show readable text from that story</blockquote>
+<blockquote>(SECURE, 9.97 DM, the password, the date, the counter) are left out. Rendered clips are at</blockquote>
+<blockquote>least 4 s, so every borrowed clip covers its scene.</blockquote>
+
+<hr/>
+
+<h2>CHAPTER 01 — The dial-in from Hanover  (0:00–0:15)</h2>
+
+<h3>Scene ch01_s1 — 3s — wide, the flat at night</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch01_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch01_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch01_s2 — 3s — the telephone handset into the modem</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch01_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch01_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch01_s3 — 3s — the screen wakes</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch01_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch01_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch01_s4 — 3s — he begins to type</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch01_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch01_s4 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch01_s5 — 3s — the ordinary room around him (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch01_s5). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch01_s5 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 02 — Seventy-five cents  (0:15–0:30)</h2>
+
+<h3>Scene ch02_s1 — 4s — STYLE ANCHOR / title beat</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch02_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch02_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch02_s2 — 4s — money leaves (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch02_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch02_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch02_s3 — 4s — and all of it back (the line reverses)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch02_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch02_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch02_s4 — 3s — the red figure, unreadable (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch02_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch02_s4 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 03 — The astronomer in the computer room  (0:30–0:45)</h2>
+
+<h3>Scene ch03_s1 — 4s — the silent alarm</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch13_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch13_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch03_s2 — 4s — nothing broken (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch13_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch13_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch03_s3 — 4s — the operator&#x27;s machine room</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch13_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch13_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch03_s4 — 3s — the red figure, unreadable (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch02_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch02_s4 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 04 — A borrowed account  (0:45–1:00)</h2>
+
+<h3>Scene ch04_s1 — 4s — a sealed block (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch06_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch06_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch04_s2 — 4s — a hairline crack</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch06_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch06_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch04_s3 — 4s — the red hand on the keys</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch06_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch06_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch04_s4 — 3s — a page, magnified (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch06_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch06_s4 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 05 — Nuclear. Military. SDI.  (1:00–1:15)</h2>
+
+<h3>Scene ch05_s1 — 4s — too much text (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch07_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch07_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch05_s2 — 3s — the system stumbles</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch07_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch07_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch05_s3 — 4s — the spill</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch07_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch07_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch05_s4 — 4s — from somewhere else inside the machine (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch07_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch07_s4 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 06 — Sleeping under the desk  (1:15–1:30)</h2>
+
+<h3>Scene ch06_s1 — 3s — the screen wakes</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch01_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch01_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch06_s2 — 3s — the program</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch10_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch10_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch06_s3 — 3s — thirty-one lines</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch10_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch10_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch06_s4 — 3s — it logs in as the bank (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch10_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch10_s4 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch06_s5 — 3s — and opens the club&#x27;s page (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch10_s5). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch10_s5 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 07 — Across the Atlantic  (1:30–1:45)</h2>
+
+<h3>Scene ch07_s1 — 3s — the living-room terminal</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch03_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch03_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch07_s2 — 3s — a nation of terminals (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch03_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch03_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch07_s3 — 3s — the Bundespost runs it</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch03_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch03_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch07_s4 — 3s — an ordinary television becomes a terminal</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch03_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch03_s4 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch07_s5 — 3s — the red figure watches the screen (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch03_s5). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch03_s5 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 08 — Keep him on the line  (1:45–2:00)</h2>
+
+<h3>Scene ch08_s1 — 4s — the red figure turns from the screen</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch05_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch05_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch08_s2 — 4s — the club room</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch05_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch05_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch08_s3 — 4s — the argument (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch05_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch05_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch08_s4 — 3s — the official, unmoved (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch05_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch05_s4 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 09 — SDInet  (2:00–2:15)</h2>
+
+<h3>Scene ch09_s1 — 3s — the machine works alone</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch11_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch11_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch09_s2 — 3s — almost trivial</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch09_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch09_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch09_s3 — 3s — a page that charges (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch09_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch09_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch09_s4 — 3s — a few marks a look</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch09_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch09_s4 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch09_s5 — 3s — the club&#x27;s own page (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch09_s5). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch09_s5 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 10 — Markus Hess  (2:15–2:30)</h2>
+
+<h3>Scene ch10_s1 — 3s — ghost characters</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch08_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch08_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch10_s2 — 3s — one night</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch08_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch08_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch10_s3 — 3s — a login, in the clear</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch08_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch08_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch10_s4 — 3s — the red figure reads it</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch08_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch08_s4 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch10_s5 — 3s — the bank (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch08_s5). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch08_s5 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 11 — Sold to the KGB  (2:30–2:45)</h2>
+
+<h3>Scene ch11_s1 — 4s — the operator&#x27;s machine room</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch13_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch13_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch11_s2 — 4s — the red hand on the keys</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch06_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch06_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch11_s3 — 4s — out of the bank</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch12_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch12_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch11_s4 — 3s — money leaves (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch02_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch02_s2 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 12 — Invented secrets  (2:45–3:00)</h2>
+
+<h3>Scene ch12_s1 — 4s — and all of it back (the line reverses)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch02_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch02_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch12_s2 — 4s — the bank (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch08_s5). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch08_s5 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch12_s3 — 4s — not the money</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch15_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch15_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch12_s4 — 3s — the spill</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch07_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch07_s3 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 13 — Karl Koch comes forward  (3:00–3:15)</h2>
+
+<h3>Scene ch13_s1 — 3s — an isolated case (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch17_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch17_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch13_s2 — 3s — a nation of terminals (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch03_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch03_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch13_s3 — 3s — nineteen thousand users</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch17_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch17_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch13_s4 — 3s — the club room</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch05_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch05_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch13_s5 — 3s — the official, unmoved (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch05_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch05_s4 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 14 — The arrests  (3:15–3:30)</h2>
+
+<h3>Scene ch14_s1 — 3s — and all of it back (the line reverses)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch02_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch02_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch14_s2 — 3s — the red figure reads it</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch08_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch08_s4 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch14_s3 — 3s — the cameras</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch14_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch14_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch14_s4 — 3s — the two red figures at the table</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch14_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch14_s4 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch14_s5 — 3s — it logs in as the bank (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch10_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch10_s4 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 15 — Suspended sentences  (3:30–3:45)</h2>
+
+<h3>Scene ch15_s1 — 3s — the Bundespost runs it</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch03_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch03_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch15_s2 — 3s — overnight</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch16_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch16_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch15_s3 — 3s — on every television</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch16_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch16_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch15_s4 — 3s — the two red figures at the table</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch14_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch14_s4 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch15_s5 — 3s — the Bundespost stamps it</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch04_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch04_s4 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 16 — 23 May 1989  (3:45–4:00)</h2>
+
+<h3>Scene ch16_s1 — 4s — the operator&#x27;s machine room</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch13_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch13_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch16_s2 — 4s — sixteen years (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch18_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch18_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch16_s3 — 4s — switched off</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch18_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch18_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch16_s4 — 3s — switched off</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch18_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch18_s3 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 17 — The forest near Gifhorn  (4:00–4:15)</h2>
+
+<h3>Scene ch17_s1 — 4s — again, and again (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch11_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch11_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch17_s2 — 4s — they go to sleep</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch11_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch11_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch17_s3 — 4s — the machine works alone</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch11_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch11_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch17_s4 — 3s — by morning (handoff)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch11_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch11_s4 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 18 — Why?  (4:15–4:30)</h2>
+
+<h3>Scene ch18_s1 — 4s — the news, then the weather</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch04_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch04_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch18_s2 — 2s — banking</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch04_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch04_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch18_s3 — 4s — a fortune spent building it (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch04_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch04_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch18_s4 — 3s — the Bundespost stamps it</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch04_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch04_s4 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch18_s5 — 2s — the screen wakes</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch01_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch01_s3 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 19 — The book  (4:30–4:45)</h2>
+
+<h3>Scene ch19_s1 — 3s — STYLE ANCHOR / title beat</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch02_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch02_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch19_s2 — 3s — every year since (white-void diagram)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch19_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch19_s2 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch19_s3 — 3s — out of the bank</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch12_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch12_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch19_s4 — 3s — your data is safe</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch19_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch19_s4 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch19_s5 — 3s — a hairline crack</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch06_s2). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch06_s2 — borrowed clip, nothing rendered</p>
+
+<h2>CHAPTER 20 — The first of June  (4:45–5:00)</h2>
+
+<h3>Scene ch20_s1 — 4s — someone, somewhere</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch20_s1). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch20_s1 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch20_s2 — 4s — the spill</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch07_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch07_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch20_s3 — 4s — a login, in the clear</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch08_s3). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch08_s3 — borrowed clip, nothing rendered</p>
+
+<h3>Scene ch20_s4 — 3s — the page (final)</h3>
+<p>1. <strong>CHARACTERS IN SCENE:</strong> No recurring characters</p>
+<p>2. <strong>IMAGE PROMPT:</strong></p>
+<pre class="code">
+Reused EP03 shot (ch20_s4). Mannequin-world palette, 16:9.
+</pre>
+<p>3. <strong>VIDEO PROMPT:</strong></p>
+<pre class="code">
+Reused footage, trimmed to the scene length. No captions, titles or subtitle text.
+</pre>
+<p>4. <strong>REUSE:</strong> ep03-ghost-characters/ch20_s4 — borrowed clip, nothing rendered</p>
+
+
+<hr/>
+
+<h2>STATE 6 — Thumbnail</h2>
+
+<p>Made for free from the EP03 &quot;WHO?&quot; render, which is already in the library: the red hacker at</p>
+<p>the CRT with three black watchers, plus a large red &quot;$0.75&quot; figure added in the umbra. style. No</p>
+<p>new generation was made. If the series goes ahead, a new Nano Banana Pro render would show the</p>
+<p>75-cent bill, the trace map, or the forest.</p>
+
+
+<hr/>
+
+<h2>STATE 7 — Upload package</h2>
+
+<p>Final cut: <code>production/output/ep04-seventy-five-cents-roughcut.mp4</code>. It runs 5:12: the 5:00 story,</p>
+<p>then the 12 s channel outro.</p>
+
+<h2>Title (pick one)</h2>
+<p>1. <strong>The Seventy-Five Cent Spy</strong> <em>(recommended)</em></p>
+<p>2. A 75-Cent Error Exposed a KGB Hacker. Then a Witness Disappeared.</p>
+<p>3. The Astronomer Who Caught a Spy With a Phone Bill</p>
+
+<h2>Description</h2>
+<pre class="code">
+Summer 1986. A bill at a California laboratory is wrong by seventy-five cents. The astronomer asked
+to find it follows the missing cents across the Atlantic, to a flat in Hanover and a group of
+hackers selling secrets to the KGB. One of them, Karl Koch, becomes a witness. Two months after the
+arrests he disappears, and nine days later, on the first of June, 1989, he is found dead.
+
+00:00 The dial-in
+00:30 Part I — The error
+01:30 Part II — The trace
+02:30 Part III — The buyer
+03:45 Part IV — The week
+
+Sources: Clifford Stoll, &quot;The Cuckoo&#x27;s Egg&quot; (1989); reporting on the 1990 Celle trial and on Karl
+Koch&#x27;s death (June 1989).
+
+Which case should we open next? Tell us in the comments, and subscribe for more.
+</pre>
+
+<h2>Tags</h2>
+<p>Clifford Stoll, The Cuckoo&#x27;s Egg, Karl Koch, Markus Hess, KGB hack, Hanover hackers, 1980s hacking,</p>
+<p>Lawrence Berkeley Laboratory, cyber espionage, hacker documentary, cold war, true crime, mystery</p>
+
+<h2>Checklist before publishing</h2>
+<ul><li>[ ] Watch the full cut once with headphones</li>
+<li>[x] Thumbnail made from library images (no new credits)</li>
+<li>[ ] Set the &quot;altered or synthetic content&quot; disclosure to <strong>yes</strong> (the visuals and the voice are AI-generated)</li>
+</ul>
+
+<hr/>
+</body></html>

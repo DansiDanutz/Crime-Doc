@@ -1,0 +1,169 @@
+{
+  "_doc": "EP04 soundtrack. Same music beds and effect prompts as EP03 (placed for this story), so tools/soundtrack.py copies EP03's recordings instead of making new ones: nothing new is paid for.",
+  "music": [
+    {
+      "from": "ch01",
+      "to": "ch02",
+      "gain_db": -2,
+      "prompt": "Dark minimal ambient underscore for a true-crime documentary: a low, patient analog synth drone with one cold, soft pulse every few seconds. 1980s synthesizer texture, slow, restrained, no drums, no vocals, no melody."
+    },
+    {
+      "from": "ch03",
+      "to": "ch05",
+      "gain_db": -3,
+      "prompt": "Documentary underscore: a bright, optimistic 1980s analog synth pad, like a period technology advert, that slowly turns cold and minor, thinning out. Sparse, no drums, no vocals."
+    },
+    {
+      "from": "ch06",
+      "to": "ch09",
+      "gain_db": -3,
+      "prompt": "Tense minimal electronic underscore: a single sustained tone rising very slowly, one detuned note, faint glitchy digital textures, cold and quiet, building unease. No drums, no vocals, no melody."
+    },
+    {
+      "from": "ch10",
+      "to": "ch12",
+      "gain_db": -3,
+      "prompt": "Cold minimal documentary underscore: a steady, unchanging mechanical pulse like a machine working alone at night, clockwork analog synth, repetitive, with a low swell at the very end. No vocals, no melody."
+    },
+    {
+      "from": "ch14",
+      "to": "ch16",
+      "gain_db": -4,
+      "prompt": "Restrained, formal documentary underscore: a measured, quiet synth pulse that eases into a cold low drone. Minimal, serious, 1980s analog texture. No drums, no vocals."
+    },
+    {
+      "from": "ch17",
+      "to": "ch20",
+      "gain_db": -3,
+      "prompt": "Unresolved, uneasy ambient documentary underscore: a wide cold synth drone that slowly thins to a single held low note and stays suspended, never resolving. Sparse, quiet. No drums, no vocals, no melody."
+    }
+  ],
+  "sfx": [
+    {
+      "chapter": "ch01",
+      "at": 0.3,
+      "dur": 4.0,
+      "gain_db": -12,
+      "prompt": "1980s analog modem dial-up handshake tones heard through a telephone handset"
+    },
+    {
+      "chapter": "ch01",
+      "at": 9.5,
+      "dur": 1.0,
+      "gain_db": -10,
+      "prompt": "a single mechanical keyboard key clack on a 1980s home computer"
+    },
+    {
+      "chapter": "ch02",
+      "at": 8.8,
+      "dur": 3.0,
+      "gain_db": -9,
+      "prompt": "deep cinematic low impact hit, a single boom that decays into silence"
+    },
+    {
+      "chapter": "ch03",
+      "at": 6.0,
+      "dur": 1.5,
+      "gain_db": -10,
+      "prompt": "a single relay click in a quiet machine room"
+    },
+    {
+      "chapter": "ch06",
+      "at": 2.6,
+      "dur": 4.0,
+      "gain_db": -14,
+      "prompt": "1980s dot matrix printer chatter"
+    },
+    {
+      "chapter": "ch06",
+      "at": 3.5,
+      "dur": 11.0,
+      "gain_db": -18,
+      "prompt": "a wall clock ticking in an empty room at night, a computer humming"
+    },
+    {
+      "chapter": "ch07",
+      "at": 3.2,
+      "dur": 2.0,
+      "gain_db": -14,
+      "prompt": "an analog modem connect tone, short"
+    },
+    {
+      "chapter": "ch08",
+      "at": 12.0,
+      "dur": 2.0,
+      "gain_db": -10,
+      "prompt": "a low dark cinematic hit"
+    },
+    {
+      "chapter": "ch10",
+      "at": 0.3,
+      "dur": 4.0,
+      "gain_db": -20,
+      "prompt": "faint static hiss from an old television"
+    },
+    {
+      "chapter": "ch10",
+      "at": 9.8,
+      "dur": 2.0,
+      "gain_db": -10,
+      "prompt": "a low dark cinematic hit"
+    },
+    {
+      "chapter": "ch11",
+      "at": 11.5,
+      "dur": 2.0,
+      "gain_db": -16,
+      "prompt": "a handful of coins settling on a wooden table"
+    },
+    {
+      "chapter": "ch14",
+      "at": 1.0,
+      "dur": 3.0,
+      "gain_db": -16,
+      "prompt": "a short 1980s television news broadcast sting"
+    },
+    {
+      "chapter": "ch14",
+      "at": 6.0,
+      "dur": 6.0,
+      "gain_db": -14,
+      "prompt": "press conference: camera shutters and flashes, a murmuring crowd in a hall"
+    },
+    {
+      "chapter": "ch15",
+      "at": 4.0,
+      "dur": 1.5,
+      "gain_db": -6,
+      "prompt": "a heavy rubber stamp thud on paper on a wooden desk"
+    },
+    {
+      "chapter": "ch16",
+      "at": 9.0,
+      "dur": 1.0,
+      "gain_db": -12,
+      "prompt": "an old light switch clicking off"
+    },
+    {
+      "chapter": "ch17",
+      "at": 11.5,
+      "dur": 3.0,
+      "gain_db": -10,
+      "prompt": "an old CRT television switching off with a fading whine"
+    },
+    {
+      "chapter": "ch20",
+      "at": 0.5,
+      "dur": 1.0,
+      "gain_db": -10,
+      "prompt": "a single keyboard key clack"
+    },
+    {
+      "chapter": "ch20",
+      "at": 12.5,
+      "dur": 1.5,
+      "gain_db": -14,
+      "prompt": "a soft digital glitch crackle, then silence"
+    }
+  ]
+}

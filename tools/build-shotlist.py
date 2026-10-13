@@ -168,6 +168,10 @@ def check_reuse(chapters: list[dict]) -> None:
         target = sc.get("reuse")
         if target is None:
             continue
+        if "/" in target:  # another episode's clip: <episode-slug>/<scene id>, resolved at assembly
+            if not re.fullmatch(r"ep\d+[a-z0-9-]*/ch\d+_s\d+", target):
+                raise ValueError(f"{sc['id']}: cross-episode REUSE must look like ep03-slug/ch01_s1, not {target}")
+            continue
         if target not in by_id:
             raise ValueError(f"{sc['id']}: REUSE names unknown scene {target}")
         if order.index(target) >= order.index(sc["id"]):

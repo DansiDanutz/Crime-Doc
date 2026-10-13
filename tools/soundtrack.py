@@ -230,6 +230,34 @@ class Store:
         vo.write_json(self.receipt_path, self.receipt)
 
 
+def borrow_from_siblings(ep: Path, store: "Store", cues: list[dict], vo) -> int:
+    """Copy into this episode any recording (real take or fallback loop) that a sibling episode's
+    store already holds for the exact same cue, so the same sound is never paid for twice."""
+    import shutil
+    n = 0
+    siblings = [Store(p / "production" / "sound") for p in sorted(ep.parent.iterdir())
+                if p != ep and (p / "production" / "sound" / "receipt.json").exists()]
+    for sib in siblings:
+        sib.engine = store.engine
+        try:
+            sib.receipt = json.loads(sib.receipt_path.read_text())
+        except ValueError:
+            continue
+        if not isinstance(sib.receipt, dict) or not isinstance(sib.receipt.get("takes"), dict):
+            continue  # a damaged receipt in another episode is skipped, never fatal here
+        for cue in cues:
+            for variant in ("", "loop"):
+                if store.current(cue, vo, variant) or not sib.current(cue, vo, variant):
+                    continue
+                fd, tmp = tempfile.mkstemp(dir=store.takes, prefix=".borrow.", suffix=".mp3")
+                os.close(fd)
+                shutil.copyfile(sib.path(cue, variant), tmp)
+                entry = sib.receipt["takes"][sib.key(cue, variant)]
+                store.keep(cue, vo, Path(tmp), float(entry.get("seconds", 0)), entry.get("source", "borrowed"), variant)
+                n += 1
+    return n
+
+
 def record(cue: dict, store: Store, key: str, vo, assemble, ffmpeg: str, state: dict) -> None:
     """Record one cue into the store. Music uses the Music API unless it is unavailable to this
     account, in which case (for this and every later section) a looped ambient effect stands in."""
@@ -389,6 +417,9 @@ def main(argv: list[str] | None = None) -> int:
     episode_store, channel_store = Store(ep / "production" / "sound"), Store(ep.parent.parent / "sound")
     episode_store.engine = channel_store.engine = engine
     with episode_store as es, channel_store as cs:
+        borrowed = borrow_from_siblings(ep, es, [c for c in cues if not c.get("channel")], vo)
+        if borrowed:
+            print(f"reused {borrowed} recording(s) another episode already made (nothing spent)")
         todo = [c for c in cues if not (cs if c.get("channel") else es).current(c, vo)]
         if todo:
             def cost(group):

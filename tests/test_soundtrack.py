@@ -99,7 +99,7 @@ class RecordTests(unittest.TestCase):
                     mock.patch.object(tool, "load_tool",
                                       side_effect=lambda n: {"assemble-episode": a, "voiceover": vo}.get(n) or load(n)), \
                     mock.patch.object(a, "ffmpeg_binary", return_value="ffmpeg"), \
-                    mock.patch.object(a, "media_seconds", side_effect=lambda f, p: 32.0 if ".e-" in p.name else 3.0), \
+                    mock.patch.object(a, "media_seconds", side_effect=lambda f, p: 32.0 if p.name.startswith(".e") else 3.0), \
                     mock.patch.object(tool, "build_stem", side_effect=lambda f, cues, total, dest: (
                         stems.append([c["label"] for c in cues]), dest.write_bytes(json.dumps([c["label"] for c in cues]).encode()))), \
                     mock.patch.object(vo, "request", side_effect=fake_request), mock.patch.object(vo, "load_env"), \
@@ -203,6 +203,23 @@ class RecordTests(unittest.TestCase):
                 p.unlink()
             with self.assertRaisesRegex(SystemExit, "missing or unfinished"):
                 tool.current_stems(ep, "e")
+
+    def test_a_second_episode_reuses_the_first_ones_recordings_for_free(self):
+        with self.episode() as (ep, root, sent, out, stems):
+            self.assertEqual(tool.main(["c", "e"]), 0)
+            n = len(self.generated(sent))
+            twin = ep.parent / "e2"
+            (twin / "production").mkdir(parents=True)
+            for f in ("shotlist.json", "sound.json"):
+                (twin / "production" / f).write_text((ep / "production" / f).read_text())
+            self.assertEqual(tool.main(["c", "e2"]), 0)
+            self.assertEqual(self.generated(sent)[n:], [])  # every cue copied from episode e
+            self.assertIn("reused 3 recording(s)", out.getvalue())
+            self.assertEqual(tool.current_stems(twin, "e2"), tool.stem_paths(twin, "e2")[:2])
+            broken = ep.parent / "e3" / "production" / "sound"
+            broken.mkdir(parents=True)
+            (broken / "receipt.json").write_text('{"takes": null}')  # damaged sibling: skipped
+            self.assertEqual(tool.main(["c", "e2"]), 0)
 
     def test_an_episode_without_sound_json_has_no_stems(self):
         with tempfile.TemporaryDirectory() as d:
