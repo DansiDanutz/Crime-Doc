@@ -272,7 +272,8 @@ def media_seconds(ffmpeg: str, path: Path) -> float:
 
 def cache_path(clips_dir: Path, source: str, url: str) -> Path:
     """Cache key includes the URL, so a re-rendered scene (new video_url) is downloaded afresh."""
-    return clips_dir / f"{source}-{hashlib.sha1(url.encode()).hexdigest()[:12]}.mp4"
+    safe = re.sub(r"[^A-Za-z0-9_-]", "_", source)  # a borrowed "ep03-x/ch01_s1" stays one flat file
+    return clips_dir / f"{safe}-{hashlib.sha1(url.encode()).hexdigest()[:12]}.mp4"
 
 
 def download(url: str, dest: Path, limit: int = MAX_CLIP_BYTES) -> None:
