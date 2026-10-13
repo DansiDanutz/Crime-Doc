@@ -243,7 +243,8 @@ def borrow_from_siblings(ep: Path, store: "Store", cues: list[dict], vo) -> int:
             sib.receipt = json.loads(sib.receipt_path.read_text())
         except ValueError:
             continue
-        sib.receipt.setdefault("takes", {})
+        if not isinstance(sib.receipt, dict) or not isinstance(sib.receipt.get("takes"), dict):
+            continue  # a damaged receipt in another episode is skipped, never fatal here
         for cue in cues:
             for variant in ("", "loop"):
                 if store.current(cue, vo, variant) or not sib.current(cue, vo, variant):

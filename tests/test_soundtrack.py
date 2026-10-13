@@ -216,6 +216,10 @@ class RecordTests(unittest.TestCase):
             self.assertEqual(self.generated(sent)[n:], [])  # every cue copied from episode e
             self.assertIn("reused 3 recording(s)", out.getvalue())
             self.assertEqual(tool.current_stems(twin, "e2"), tool.stem_paths(twin, "e2")[:2])
+            broken = ep.parent / "e3" / "production" / "sound"
+            broken.mkdir(parents=True)
+            (broken / "receipt.json").write_text('{"takes": null}')  # damaged sibling: skipped
+            self.assertEqual(tool.main(["c", "e2"]), 0)
 
     def test_an_episode_without_sound_json_has_no_stems(self):
         with tempfile.TemporaryDirectory() as d:

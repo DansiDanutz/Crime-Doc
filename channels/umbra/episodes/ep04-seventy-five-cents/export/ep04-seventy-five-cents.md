@@ -98,13 +98,13 @@ In March 1989, the police move. The arrests are on the evening news: West German
 The trial, the next year, ends with suspended sentences. The men who sold the secrets go home. One name is missing from the defendants. Karl Koch never reaches the court.
 
 <!-- ch16 -->
-On the 23rd of May, 1989, Koch leaves his job in the morning and takes a car. He does not come back. For a week, nobody knows where he is.
+On the 23rd of May, 1989, Koch leaves his job in the morning and takes a car. He does not come back. For nine days, nobody knows where he is.
 
 <!-- ch17 -->
 On the first of June, in a forest near Gifhorn, police find what is left of him beside a patch of burned ground. The death is ruled a suicide. The file is closed.
 
 <!-- ch18 -->
-His friends never accept it. Why would a witness who had just asked for protection end his life a week later? Why in that forest? And who, if anyone, saw him in those seven days?
+His friends never accept it. Why would a witness under official protection end his life? Why in that forest? And who, if anyone, saw him in those nine days?
 
 <!-- ch19 -->
 Stoll writes a book about the seventy-five cents. It becomes the story of how networks are hunted: follow the one small number that does not add up, and keep following it.
@@ -1291,8 +1291,8 @@ then the 12 s channel outro.
 ```
 Summer 1986. A bill at a California laboratory is wrong by seventy-five cents. The astronomer asked
 to find it follows the missing cents across the Atlantic, to a flat in Hanover and a group of
-hackers selling secrets to the KGB. One of them, Karl Koch, becomes a witness. A week after the
-case breaks he disappears, and on the first of June, 1989, he is found dead.
+hackers selling secrets to the KGB. One of them, Karl Koch, becomes a witness. Two months after the
+arrests he disappears, and nine days later, on the first of June, 1989, he is found dead.
 
 00:00 The dial-in
 00:30 Part I — The error

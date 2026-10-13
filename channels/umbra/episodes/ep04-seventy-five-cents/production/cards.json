@@ -38,7 +38,7 @@
     {"chapter": "ch17", "at": 0.4, "dur": 4.6, "kind": "stamp", "lines": ["1 JUNE 1989", "FOREST NEAR GIFHORN"]},
     {"chapter": "ch17", "at": 8.4, "dur": 6.2, "kind": "file", "header": "POLICE FINDING · JUNE 1989", "rows": ["OFFICIAL FINDING | SUICIDE", "CASE | CLOSED"]},
 
-    {"chapter": "ch18", "at": 5.0, "dur": 8.0, "kind": "list", "rows": ["A WITNESS WHO ASKED FOR PROTECTION?", "WHY THAT FOREST?", "WHO SAW HIM IN THOSE 7 DAYS?"]},
+    {"chapter": "ch18", "at": 5.0, "dur": 8.0, "kind": "list", "rows": ["A WITNESS WHO ASKED FOR PROTECTION?", "WHY THAT FOREST?", "WHO SAW HIM IN THOSE 9 DAYS?"]},
 
     {"chapter": "ch20", "at": 2.0, "dur": 6.0, "kind": "list", "rows": ["THE 75 CENTS: FOUND", "THE HACKERS: TRIED", "KARL KOCH: UNEXPLAINED"]}
   ]

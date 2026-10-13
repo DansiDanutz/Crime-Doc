@@ -12,8 +12,8 @@ then the 12 s channel outro.
 ```
 Summer 1986. A bill at a California laboratory is wrong by seventy-five cents. The astronomer asked
 to find it follows the missing cents across the Atlantic, to a flat in Hanover and a group of
-hackers selling secrets to the KGB. One of them, Karl Koch, becomes a witness. A week after the
-case breaks he disappears, and on the first of June, 1989, he is found dead.
+hackers selling secrets to the KGB. One of them, Karl Koch, becomes a witness. Two months after the
+arrests he disappears, and nine days later, on the first of June, 1989, he is found dead.
 
 00:00 The dial-in
 00:30 Part I — The error
