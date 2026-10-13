@@ -78,6 +78,26 @@ def plan(shotlist: dict, renders: dict) -> tuple[list[dict], list[str]]:
     return segments, missing
 
 
+def with_borrowed_clips(ep: Path, shotlist: dict, renders: dict) -> dict:
+    """Add the clips that cross-episode REUSE lines (<episode-slug>/<scene id>) borrow, keyed by
+    that reference, from the sibling episode's own render ledger."""
+    scenes = dict(renders.get("scenes", {}))
+    for chapter in shotlist["chapters"]:
+        for scene in chapter["scenes"]:
+            ref = scene.get("reuse") or ""
+            if "/" not in ref or ref in scenes:
+                continue
+            slug, sid = ref.split("/", 1)
+            if not re.fullmatch(r"ep\d+[a-z0-9-]*", slug):
+                continue
+            ledger = ep.parent / slug / "production" / "renders.json"
+            if ledger.exists():
+                entry = json.loads(ledger.read_text()).get("scenes", {}).get(sid)
+                if entry:
+                    scenes[ref] = entry
+    return {**renders, "scenes": scenes}
+
+
 CHAPTER_MARK = re.compile(r"<!--\s*(ch\d+)\s*-->")
 
 
@@ -317,6 +337,7 @@ def main(argv: list[str] | None = None) -> int:
     shotlist = json.loads((ep / "production" / "shotlist.json").read_text())
     renders_path = ep / "production" / "renders.json"
     renders = json.loads(renders_path.read_text()) if renders_path.exists() else {}
+    renders = with_borrowed_clips(ep, shotlist, renders)
     segments, missing = plan(shotlist, renders)
     total = sum(s["seconds"] for s in segments)
     print(f"{len(segments)} scene(s) with a clip, {total} s of picture"

@@ -1,0 +1,1121 @@
+{
+  "episode": "ep04-seventy-five-cents",
+  "channel": "umbra",
+  "aspect_ratio": "16:9",
+  "style_anchor": "Mannequin world — glossy white civilians / matte red protagonist / matte black institution, eggshell featureless heads, cinematic key from above, shallow DoF, volumetric light, dust particles, cinematic color grade, Unreal Engine 5, octane render, 8K, anamorphic lens, ARRI Alexa.",
+  "models": {
+    "image": "nano_banana_pro",
+    "video": "seedance_2_0"
+  },
+  "characters": [
+    {
+      "id": "CHARACTER_ID",
+      "label": "red|black|white|uniform",
+      "ref_prompt": "white-void character reference prompt",
+      "image_job_id": null,
+      "element_id": null
+    }
+  ],
+  "chapters": [
+    {
+      "id": "ch01",
+      "title": "The dial-in from Hanover",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch01_s1",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch01_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch01_s1"
+        },
+        {
+          "id": "ch01_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch01_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch01_s2"
+        },
+        {
+          "id": "ch01_s3",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch01_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch01_s3"
+        },
+        {
+          "id": "ch01_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch01_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch01_s4"
+        },
+        {
+          "id": "ch01_s5",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch01_s5). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch01_s5"
+        }
+      ]
+    },
+    {
+      "id": "ch02",
+      "title": "Seventy-five cents",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch02_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch02_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch02_s1"
+        },
+        {
+          "id": "ch02_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch02_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch02_s2"
+        },
+        {
+          "id": "ch02_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch02_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch02_s3"
+        },
+        {
+          "id": "ch02_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch02_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch02_s4"
+        }
+      ]
+    },
+    {
+      "id": "ch03",
+      "title": "The astronomer in the computer room",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch03_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch13_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch13_s1"
+        },
+        {
+          "id": "ch03_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch13_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch13_s2"
+        },
+        {
+          "id": "ch03_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch13_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch13_s3"
+        },
+        {
+          "id": "ch03_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch02_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch02_s4"
+        }
+      ]
+    },
+    {
+      "id": "ch04",
+      "title": "A borrowed account",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch04_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch06_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch06_s1"
+        },
+        {
+          "id": "ch04_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch06_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch06_s2"
+        },
+        {
+          "id": "ch04_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch06_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch06_s3"
+        },
+        {
+          "id": "ch04_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch06_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch06_s4"
+        }
+      ]
+    },
+    {
+      "id": "ch05",
+      "title": "Nuclear. Military. SDI.",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch05_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch07_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch07_s1"
+        },
+        {
+          "id": "ch05_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch07_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch07_s2"
+        },
+        {
+          "id": "ch05_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch07_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch07_s3"
+        },
+        {
+          "id": "ch05_s4",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch07_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch07_s4"
+        }
+      ]
+    },
+    {
+      "id": "ch06",
+      "title": "Sleeping under the desk",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch06_s1",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch01_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch01_s3"
+        },
+        {
+          "id": "ch06_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch10_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch10_s2"
+        },
+        {
+          "id": "ch06_s3",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch10_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch10_s3"
+        },
+        {
+          "id": "ch06_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch10_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch10_s4"
+        },
+        {
+          "id": "ch06_s5",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch10_s5). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch10_s5"
+        }
+      ]
+    },
+    {
+      "id": "ch07",
+      "title": "Across the Atlantic",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch07_s1",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch03_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch03_s1"
+        },
+        {
+          "id": "ch07_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch03_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch03_s2"
+        },
+        {
+          "id": "ch07_s3",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch03_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch03_s3"
+        },
+        {
+          "id": "ch07_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch03_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch03_s4"
+        },
+        {
+          "id": "ch07_s5",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch03_s5). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch03_s5"
+        }
+      ]
+    },
+    {
+      "id": "ch08",
+      "title": "Keep him on the line",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch08_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch05_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch05_s1"
+        },
+        {
+          "id": "ch08_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch05_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch05_s2"
+        },
+        {
+          "id": "ch08_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch05_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch05_s3"
+        },
+        {
+          "id": "ch08_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch05_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch05_s4"
+        }
+      ]
+    },
+    {
+      "id": "ch09",
+      "title": "SDInet",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch09_s1",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch11_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch11_s3"
+        },
+        {
+          "id": "ch09_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch09_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch09_s2"
+        },
+        {
+          "id": "ch09_s3",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch09_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch09_s3"
+        },
+        {
+          "id": "ch09_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch09_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch09_s4"
+        },
+        {
+          "id": "ch09_s5",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch09_s5). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch09_s5"
+        }
+      ]
+    },
+    {
+      "id": "ch10",
+      "title": "Markus Hess",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch10_s1",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch08_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch08_s1"
+        },
+        {
+          "id": "ch10_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch08_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch08_s2"
+        },
+        {
+          "id": "ch10_s3",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch08_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch08_s3"
+        },
+        {
+          "id": "ch10_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch08_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch08_s4"
+        },
+        {
+          "id": "ch10_s5",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch08_s5). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch08_s5"
+        }
+      ]
+    },
+    {
+      "id": "ch11",
+      "title": "Sold to the KGB",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch11_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch13_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch13_s3"
+        },
+        {
+          "id": "ch11_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch06_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch06_s3"
+        },
+        {
+          "id": "ch11_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch12_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch12_s3"
+        },
+        {
+          "id": "ch11_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch02_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch02_s2"
+        }
+      ]
+    },
+    {
+      "id": "ch12",
+      "title": "Invented secrets",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch12_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch02_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch02_s3"
+        },
+        {
+          "id": "ch12_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch08_s5). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch08_s5"
+        },
+        {
+          "id": "ch12_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch15_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch15_s3"
+        },
+        {
+          "id": "ch12_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch07_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch07_s3"
+        }
+      ]
+    },
+    {
+      "id": "ch13",
+      "title": "Karl Koch comes forward",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch13_s1",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch17_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch17_s1"
+        },
+        {
+          "id": "ch13_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch03_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch03_s2"
+        },
+        {
+          "id": "ch13_s3",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch17_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch17_s3"
+        },
+        {
+          "id": "ch13_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch05_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch05_s2"
+        },
+        {
+          "id": "ch13_s5",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch05_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch05_s4"
+        }
+      ]
+    },
+    {
+      "id": "ch14",
+      "title": "The arrests",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch14_s1",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch02_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch02_s3"
+        },
+        {
+          "id": "ch14_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch08_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch08_s4"
+        },
+        {
+          "id": "ch14_s3",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch14_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch14_s3"
+        },
+        {
+          "id": "ch14_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch14_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch14_s4"
+        },
+        {
+          "id": "ch14_s5",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch10_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch10_s4"
+        }
+      ]
+    },
+    {
+      "id": "ch15",
+      "title": "Suspended sentences",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch15_s1",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch03_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch03_s3"
+        },
+        {
+          "id": "ch15_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch16_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch16_s2"
+        },
+        {
+          "id": "ch15_s3",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch16_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch16_s3"
+        },
+        {
+          "id": "ch15_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch14_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch14_s4"
+        },
+        {
+          "id": "ch15_s5",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch04_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch04_s4"
+        }
+      ]
+    },
+    {
+      "id": "ch16",
+      "title": "23 May 1989",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch16_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch13_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch13_s3"
+        },
+        {
+          "id": "ch16_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch18_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch18_s2"
+        },
+        {
+          "id": "ch16_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch18_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch18_s3"
+        },
+        {
+          "id": "ch16_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch18_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch18_s3"
+        }
+      ]
+    },
+    {
+      "id": "ch17",
+      "title": "The forest near Gifhorn",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch17_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch11_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch11_s1"
+        },
+        {
+          "id": "ch17_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch11_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch11_s2"
+        },
+        {
+          "id": "ch17_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch11_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch11_s3"
+        },
+        {
+          "id": "ch17_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch11_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch11_s4"
+        }
+      ]
+    },
+    {
+      "id": "ch18",
+      "title": "Why?",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch18_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch04_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch04_s1"
+        },
+        {
+          "id": "ch18_s2",
+          "duration_s": 2,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch04_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch04_s2"
+        },
+        {
+          "id": "ch18_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch04_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch04_s3"
+        },
+        {
+          "id": "ch18_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch04_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch04_s4"
+        },
+        {
+          "id": "ch18_s5",
+          "duration_s": 2,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch01_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch01_s3"
+        }
+      ]
+    },
+    {
+      "id": "ch19",
+      "title": "The book",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch19_s1",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch02_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch02_s1"
+        },
+        {
+          "id": "ch19_s2",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch19_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch19_s2"
+        },
+        {
+          "id": "ch19_s3",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch12_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch12_s3"
+        },
+        {
+          "id": "ch19_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch19_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch19_s4"
+        },
+        {
+          "id": "ch19_s5",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch06_s2). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch06_s2"
+        }
+      ]
+    },
+    {
+      "id": "ch20",
+      "title": "The first of June",
+      "duration_s": 15,
+      "sfx": "",
+      "ambient": "",
+      "music": "",
+      "scenes": [
+        {
+          "id": "ch20_s1",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch20_s1). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch20_s1"
+        },
+        {
+          "id": "ch20_s2",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch07_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch07_s3"
+        },
+        {
+          "id": "ch20_s3",
+          "duration_s": 4,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch08_s3). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch08_s3"
+        },
+        {
+          "id": "ch20_s4",
+          "duration_s": 3,
+          "characters": [],
+          "image_prompt": "Reused EP03 shot (ch20_s4). Mannequin-world palette, 16:9.",
+          "video_prompt": "Reused footage, trimmed to the scene length. No captions, titles or subtitle text.",
+          "image_job_id": null,
+          "video_job_id": null,
+          "reuse": "ep03-ghost-characters/ch20_s4"
+        }
+      ]
+    }
+  ]
+}

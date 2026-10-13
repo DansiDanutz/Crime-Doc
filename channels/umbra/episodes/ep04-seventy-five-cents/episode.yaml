@@ -1,0 +1,11 @@
+# Episode metadata — edit per episode
+slug: ep04-seventy-five-cents          # kebab-case, matches folder name
+channel: umbra
+title: "The Seventy-Five Cent Spy"
+subject: "Clifford Stoll's 75-cent trace to the Hanover KGB hackers (1986-89) and the death of Karl Koch"
+status: storyboarded               # draft | scripted | storyboarded | in-production | done
+duration_minutes: 5         # 1–10
+target_words: 750           # duration_minutes × 150
+created: "2026-10-13"
+ending_type: "4 — unanswered (nobody has explained the first of June, 1989)"
+states_done: [idea, script, characters, scenes, thumbnails, upload]             # e.g. [idea, script, characters, scenes, thumbnails]

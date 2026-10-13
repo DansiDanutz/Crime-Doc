@@ -40,6 +40,18 @@ class AssembleTests(unittest.TestCase):
         self.assertEqual(segments, [])
         self.assertEqual(missing, ["ch01_s1", "ch01_s2 (via ch01_s1)"])
 
+    def test_cross_episode_reuse_borrows_the_sibling_episodes_clip(self):
+        with tempfile.TemporaryDirectory() as d:
+            eps = Path(d) / "episodes"
+            (eps / "ep03-a/production").mkdir(parents=True)
+            (eps / "ep03-a/production/renders.json").write_text(json.dumps({"scenes": {"ch01_s1": {"video_url": "u3"}}}))
+            (eps / "ep04-b/production").mkdir(parents=True)
+            shot = shotlist(("ch01_s1", 3, "ep03-a/ch01_s1"), ("ch01_s2", 3, "ep03-a/ch09_s9"))
+            renders = tool.with_borrowed_clips(eps / "ep04-b", shot, {})
+            segments, missing = tool.plan(shot, renders)
+            self.assertEqual([(s["id"], s["url"]) for s in segments], [("ch01_s1", "u3")])
+            self.assertEqual(missing, ["ch01_s2 (via ep03-a/ch09_s9)"])
+
     def test_a_rerendered_clip_gets_a_new_cache_file(self):
         clips = Path("/tmp/clips")
         old = tool.cache_path(clips, "ch03_s5", "https://cdn/old.mp4")
