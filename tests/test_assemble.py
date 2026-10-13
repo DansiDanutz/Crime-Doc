@@ -52,6 +52,17 @@ class AssembleTests(unittest.TestCase):
             self.assertEqual([(s["id"], s["url"]) for s in segments], [("ch01_s1", "u3")])
             self.assertEqual(missing, ["ch01_s2 (via ep03-a/ch09_s9)"])
 
+    def test_a_borrowed_clip_is_taken_from_the_source_episodes_cache(self):
+        with tempfile.TemporaryDirectory() as d:
+            eps = Path(d)
+            mine = eps / "ep04-b/production/clips"
+            theirs = tool.cache_path(eps / "ep03-a/production/clips", "ch01_s1", "u")
+            theirs.parent.mkdir(parents=True)
+            seg = {"source": "ep03-a/ch01_s1", "url": "u"}
+            self.assertEqual(tool.local_clip(eps / "ep04-b", mine, seg).parent, mine)  # not cached there yet
+            theirs.write_bytes(b"clip")
+            self.assertEqual(tool.local_clip(eps / "ep04-b", mine, seg), theirs)
+
     def test_a_borrowed_clip_caches_as_a_flat_file(self):
         p = tool.cache_path(Path("/tmp/clips"), "ep03-ghost-characters/ch01_s1", "https://cdn/x.mp4")
         self.assertEqual(p.parent, Path("/tmp/clips"))
@@ -126,6 +137,35 @@ class AssembleTests(unittest.TestCase):
             with contextlib.redirect_stdout(io.StringIO()), self.assertRaisesRegex(SystemExit, "storyboard is 5 s"):
                 tool.main(["c", "e"])
             move.assert_not_called()
+
+
+    def test_an_expired_render_link_asks_for_the_archive_and_other_errors_propagate(self):
+        for code, expired in ((403, True), (404, True), (410, True), (500, False), (429, False)):
+            with self.subTest(code=code), tempfile.TemporaryDirectory() as d, \
+                    mock.patch.object(tool, "ROOT", Path(d)), \
+                    mock.patch.object(tool, "ffmpeg_binary", return_value="ffmpeg"), \
+                    mock.patch.object(tool, "trim", return_value=False) as trim, \
+                    mock.patch.object(tool.urllib.request, "urlopen",
+                                      side_effect=tool.urllib.error.HTTPError("u1", code, "x", {}, None)):
+                self._episode(Path(d), {"scenes": {"ch01_s1": {"video_url": "u1"}, "ch01_s2": {"video_url": "u2"}}})
+                clips = Path(d) / "channels" / "c" / "episodes" / "e" / "production" / "clips"
+                with contextlib.redirect_stdout(io.StringIO()):
+                    if expired:
+                        with self.assertRaisesRegex(SystemExit, f"HTTP {code}.*media.tar.gz"):
+                            tool.main(["c", "e"])
+                    else:
+                        with self.assertRaises(tool.urllib.error.HTTPError):
+                            tool.main(["c", "e"])
+                trim.assert_not_called()
+                self.assertEqual([f for f in clips.rglob("*") if f.is_file()], [])
+
+    def test_an_empty_cached_clip_is_downloaded_again(self):
+        with tempfile.TemporaryDirectory() as d:
+            src, dest = Path(d) / "src.mp4", Path(d) / "clip.mp4"
+            src.write_bytes(b"v" * 10)
+            dest.touch()
+            tool.download(src.as_uri(), dest)
+            self.assertEqual(dest.read_bytes(), b"v" * 10)
 
 
 def real_ffmpeg():
