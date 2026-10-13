@@ -395,14 +395,15 @@ def main(argv: list[str] | None = None) -> int:
         held = []
         for seg in segments:
             source = local_clip(ep, clips_dir, seg)
-            if not source.exists():
-                try:
-                    download(seg["url"], source)
-                except urllib.error.HTTPError as err:
-                    raise SystemExit(
-                        f"error: the clip for {seg['id']} ({seg['source']}) can no longer be downloaded "
-                        f"(HTTP {err.code}; render links expire). Restore the episode's production/clips "
-                        "from its Drive archive (media.tar.gz), then run again.")
+            try:
+                download(seg["url"], source)
+            except urllib.error.HTTPError as err:
+                if err.code not in (403, 404, 410):
+                    raise
+                raise SystemExit(
+                    f"error: the clip for {seg['id']} ({seg['source']}) can no longer be downloaded "
+                    f"(HTTP {err.code}; render links expire). Restore the episode's production/clips "
+                    "from its Drive archive (media.tar.gz), then run again.")
             if trim(ffmpeg, source, seg["seconds"], parts_dir / f"{seg['id']}.mp4"):
                 held.append(seg["id"])
         if held:
