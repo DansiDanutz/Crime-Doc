@@ -1,0 +1,444 @@
+{
+  "kind": "preview: prompt-only text-to-video, not anchored to the locked cast or a keyframe; production shots come from the reference-element path in docs/PRODUCTION_PIPELINE.md",
+  "model": "bytedance/seedance-2.5/text-to-video",
+  "scenes": {
+    "ch01_s1": {
+      "request_id": "44118331-7662-4ae4-b050-3b914adc8d6f",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/52fea532-24e1-498b-83c8-f181b55363fa.mp4",
+      "resolution": "720p"
+    },
+    "ch01_s2": {
+      "request_id": "917032ea-51c8-4822-a30d-d2c07639b6ec",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/dced95f7-f1ee-43ba-832d-b4ea97f26728.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "9164b167af0d27d722cc87c3d0589209aa2a91837cab5ddd5e60f74175b8a01a"
+    },
+    "ch01_s3": {
+      "request_id": "820b074d-f05d-45f9-b1d6-41334df260be",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/d971ee95-a64c-4e66-b72e-818ebcf34bb8.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "c34decd5e58d3dbbf69b68fff7b86a020f3ad234a31924f1fae4954cf039d3e1"
+    },
+    "ch01_s4": {
+      "request_id": "f16c15bb-9dc3-4303-b50a-f9fe4acd88cb",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/2f55a010-aca5-454c-8ce5-e79f9ea5f129.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "376277ad29284efd48c82851d97f9cc37591088165a9cf6347573bdfd7cfc27c"
+    },
+    "ch01_s5": {
+      "request_id": "e861c3a2-4dc1-4e49-884f-1f57bd685476",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/e4d6135f-0815-4cb6-ae1a-4b548820b7ac.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "18aa4534a66caa41256fec751b406c3710e213452818384b3d209b3a077b9c89"
+    },
+    "ch02_s1": {
+      "request_id": "555cbcbe-ea4d-4923-9795-0b5c3b47c95b",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/5e142047-2c98-461d-b973-7350ad120bc5.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "0cf12f431ce2df9cf7ca791efe7248cf90eb44436fb7769d89f1366f5def9303"
+    },
+    "ch02_s2": {
+      "request_id": "dbe31d11-3e15-462e-9c18-6b3d6aef5e2d",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/053fa4f3-d97f-4e01-af28-86e97b506b6a.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "12a282d29ea73b576cc3b96747a30210285ecbae988635e06a33fc4d4b889499"
+    },
+    "ch02_s3": {
+      "request_id": "223172c5-61b7-4be6-b4b0-90c21406f7b7",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/0bd266b1-b061-416c-ab7c-36e8181a4c5f.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "e55f42fbbf8802bafdb8b852424d757a04d1fdee47bda2619411558aa4274881"
+    },
+    "ch02_s4": {
+      "request_id": "560bc1f5-864f-4df5-9c89-af20ff0d3d4c",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/7c1d0fc2-e1bd-49c5-bf1e-eb78e58ac7ff.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "b196b8418ff78855fe6d447a9300c1d6cf9bb5fb2b3fd403811b597766a84369"
+    },
+    "ch03_s1": {
+      "request_id": "e849503e-ea64-4e43-8d55-b355f18f8d4a",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/10a76e74-3ead-4f78-90aa-063133cb5061.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "d064df17406ee2a5d2de09a52c27672677aeae6d0333c427a6770d04e9c2cd08"
+    },
+    "ch03_s2": {
+      "request_id": "758b535e-c64b-4102-b76c-c94b784928e0",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/e0696aa5-7fcd-4fff-bdb5-663200c3b8ad.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "014c12928234139ed4c5fee8c747acdf3dc91adb6dad22ad31d113cb421d1766"
+    },
+    "ch03_s3": {
+      "request_id": "5d7ceedf-6342-4b97-b7af-01a1f0ead95c",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/a8d4cd98-7933-4db6-b78a-35b72999a8f8.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "4c6d8597c28bf1aa2f2aa6b595c383c08e791f317f28827276b61f0235add4e6"
+    },
+    "ch03_s4": {
+      "request_id": "455bcb13-873c-4767-a4e1-e84afdc124e2",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/052647c4-e2d3-411f-90aa-272a3dd74b31.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "95b9256f88691c323bbb760f192b4c8f1f5f1126044d1b94adf0ffbc568bce4f"
+    },
+    "ch03_s5": {
+      "request_id": "cf71a788-9b3d-475b-8fcd-6fe60df3b613",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/870c28bf-07fe-4c6d-b088-b9bd069397a1.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "65ece8372fbed17fbcc730c7c3f9e66264e8dec80c350039a59672aebf44fb7f"
+    },
+    "ch04_s1": {
+      "request_id": "c5adb902-cc42-4ace-96d8-8da19759a77d",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/2d5cc194-519e-4d11-8d43-72fdd87eb36f.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "7a988d69dd62cad413e02b3f0ee080c87646473b195630cd5fcbf704f57f0f5d"
+    },
+    "ch04_s2": {
+      "request_id": "6bcb9bfd-f349-40c3-ac22-714f265ad94d",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/cfbdb91d-60ba-4b98-a59d-7a9f28c9f5b1.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "1c1bd41c48b5a4a847a9078a0ec490917ac144f3bdb10b51fac44090efda5852"
+    },
+    "ch04_s3": {
+      "request_id": "f54b9aa0-7531-4e1d-8613-b385c256cc1b",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/41711ece-4b0b-435e-8ff5-0881c3b210f1.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "8fbb4b5b5946f57b0d67946b424d5646c2f448fcc9dd87ace73fd04230ea7f04"
+    },
+    "ch04_s4": {
+      "request_id": "7c023540-5ecd-4638-a9dd-ca9ffb98ec4c",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/1eeb4e40-1673-41f1-98be-f060da78b0ae.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "8f381c209b823f645083dfd80bd1ca44e55a1dddd9eb1af08044f20bbf7305c2"
+    },
+    "ch04_s5": {
+      "request_id": "c1569371-ac75-4ea3-85f0-6a393635c299",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/c5ab2a77-b612-4426-a93d-985bf69b5746.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "1429cfa82f28e9171f9e1185714bda497d867e8ed17c60c9478dfc647f63b5ea"
+    },
+    "ch05_s1": {
+      "request_id": "581442b1-52b7-4032-bd0b-473ad4eca16d",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/57417d85-8a97-42f3-b109-90e88bc546ed.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "6c214a1dad51db475f0b53063002017210e2c6da533d848b560696597f246800"
+    },
+    "ch05_s2": {
+      "request_id": "2e0182ef-0bf1-42fb-b7e5-0a98b1da2055",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/2a43e387-fd9b-4f8e-bdaa-672564cae85f.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "7436a9b974bdc599268ce01bfbcae7f6148ddd7f3f29ff51713389f327c1d7e4"
+    },
+    "ch05_s3": {
+      "request_id": "9b3641d0-1889-4cc1-a58a-ad1f48d979e5",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/958a5c9f-0bf3-431d-acea-f3cb524f6d15.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "8baaf108a901917ded8703884f58baf21b35e58133e30ffdf4ddd71157b2cec7"
+    },
+    "ch05_s4": {
+      "request_id": "fdf1c13d-3380-48ac-afbb-8fe9758319a4",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/72a3238d-2f94-4666-97be-338fc33246bf.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "5c7955f5bb6fafeeb3d1681ec2203fee14301fefaf607c4a26191b2ee367a6c1"
+    },
+    "ch06_s1": {
+      "request_id": "1681c162-5537-4fc8-b6f5-45348c2e068c",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/5896ef82-d664-4816-a8af-6762f071fdb6.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "747e3f772130934083f2c599bcf6bf4de4499da05262f31f87bb03722699a592"
+    },
+    "ch06_s2": {
+      "request_id": "3d3b3c7b-5e5f-453d-8bf7-ac97c27178d4",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/ae68fa3b-8b62-402a-a98f-fe6ca7964892.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "2cebc86b1b463ce2b392c15e2ce4130150c057a6ec80ec0e7404739b48692e0f"
+    },
+    "ch06_s3": {
+      "request_id": "5a188a79-d45e-4765-865c-9b2d794b8f64",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/9ad7ee60-709b-4198-b41b-15e633c64975.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "290382a28d9c7d7487a0bec2c40db06e708eea15810d736ff69d67084b07aa83"
+    },
+    "ch06_s4": {
+      "request_id": "4ddb2f72-fcb6-4fda-bbe7-2a692a7f8dcf",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/815383d6-d05d-4805-b78f-495c457b0624.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "d57316e1979709a2c3cde48d24a7e13b8a07bd2ac74d274bdb70cca0f6e577ce"
+    },
+    "ch07_s1": {
+      "request_id": "9548a67b-529b-41b6-8619-6a9f3a9385ea",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/2466183c-d76f-4d6e-aa1b-f8d922baa402.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "19604891badd085e891a0cf7add8e2f589bf793c0f0d4c871fe474d6ff1f88e3"
+    },
+    "ch07_s2": {
+      "request_id": "1bc6b260-1b62-4878-b608-1f9b828fb904",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/72c60ab6-afa3-4549-aa08-c19177aa7e28.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "f7bef850fa5bdc2d79e4cf9ff31815c7d2a57db2d3b59d6b2ea4ce4f253aca0b"
+    },
+    "ch07_s3": {
+      "request_id": "52ad3972-9776-45cb-8635-47808b0c5432",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/590fc4ad-5527-4849-93c4-bbbdde165406.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "a470447d56348366f59c5a967163d285b47634e341d97fa428700edb04ceac9b"
+    },
+    "ch07_s4": {
+      "request_id": "03066c82-9781-478b-bb24-ab458661f2cd",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/99f370b4-ec3a-48ba-a61a-45a41643d8a3.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "e7ae7dbb1c8fd6f80faf4fb9d0f72ca76cc9b5f2ec755ab09ee731cfd96268be"
+    },
+    "ch08_s1": {
+      "request_id": "1dee47f9-6615-4b7b-b562-9a2b1f9de778",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/0749c595-6a83-4fa8-9a0b-ba01b398a270.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "190842c302006f2522d5e1dada3b64772dd1bdf65e1996ad675943bcbb6c923e"
+    },
+    "ch08_s2": {
+      "request_id": "67b0f6e8-131a-4a41-af56-ab8b77dd07d1",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/ae42ac10-bb57-4c24-8347-bf70373d82f2.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "8bfa1040bc79f0dc8a5f8436d81b97664fccc4bc16bcc6ead81c3d0f9202aa6a"
+    },
+    "ch08_s3": {
+      "request_id": "a755d96f-5da6-418a-b6bf-95e4d7320fe4",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/6d06a78d-1da4-4f79-a80a-2c634abea651.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "64d9576e70e7ff09c4d7e2bbbd686485198c16ed6372fc5349d2800f5fb69db7"
+    },
+    "ch08_s4": {
+      "request_id": "8ea209fe-5e76-4caa-8166-ce2bdc7556c7",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/3c4b1bbd-db80-44c2-89b3-85eaf5f5c3c9.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "1ce70f9208a247e4b7f2476f12e821587ed46ede9e2c04dd735eb65e5ebe5d0a"
+    },
+    "ch08_s5": {
+      "request_id": "dad3b85a-e8dc-4133-85d6-578044cdfd64",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/46e7d412-9ea8-4fdb-82e0-48fd1edea468.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "c21cceff7a5259a3240a144e8122dd433578e8aa229e87067b50d72004b2b55d"
+    },
+    "ch09_s1": {
+      "request_id": "a9e0672d-7910-4b67-8164-523341ab9f9c",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/536ae128-84bf-4575-a848-ed6c1d24e8c6.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "381e8e6bd8a1edbe098e1fcaab2f917b4ee6b9035e67cc516a07d238f4d3318f"
+    },
+    "ch09_s2": {
+      "request_id": "da0b5153-ca15-4ac0-b3ab-4d7d353051dd",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/0e1795bb-5b7e-4086-ba68-8d374354c65b.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "d29c745357fa000b21af5a42af28104355789696a409f0dc236f76efa20a0d5a"
+    },
+    "ch09_s3": {
+      "request_id": "e8d2af0e-f857-45a4-8ed8-846b76bf269c",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/3a11c4a6-e7c3-4ee9-8cfd-9b8b275fc0d0.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "7df3c76e2fd7009cbe1f0ad14e007f6a731403a66e803da156f965241adb2b42"
+    },
+    "ch09_s4": {
+      "request_id": "4b471fc0-0925-4b6a-91f1-69d90efd7481",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/e87c01fb-48d5-4dc4-ad49-e58871b18e98.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "c108232804154bf45bd1cbc3ccbe4ce2ebf3ce7d47f368d605a2f876b5c5f9e2"
+    },
+    "ch09_s5": {
+      "request_id": "707a3e49-3d0b-47c9-a9b9-2eadd506ae4a",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/1ae2164c-2a9e-489f-85ab-fdf9a03f2599.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "2a5c1b2850d7fa1d907046865818ecee1d2203677808ad5b0a298e6200471780"
+    },
+    "ch10_s1": {
+      "request_id": "3573ba69-f4b1-4a30-a03c-91123be9348b",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/8ac4ee9b-1c3d-40bd-8028-08a141697a9d.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "22ff8be62ca96fa11aa79bdb2dd29933933f5c73e948da10bef51d604837d6be"
+    },
+    "ch10_s2": {
+      "request_id": "ecbcb579-f1f0-4ff9-8c0f-312c61ca13ac",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/8870a37b-a80a-4f60-aed4-efc2f69d66ad.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "4f03f59d138c48313672b40f6e8b0679c75667b105f2259f1fe2aed947e92bf9"
+    },
+    "ch10_s3": {
+      "request_id": "efb2c581-e3bb-42bb-a128-fccc07f74325",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/11d24bc0-6c7f-4e30-8144-52a7bdcb29ea.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "1702deaadad15ea6277a44c0ff792b88b038753d02b5af5abed319e0fed34bee"
+    },
+    "ch10_s4": {
+      "request_id": "deac1a14-e655-4034-a199-59e0ff8d65cc",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/065d5a25-e720-48e3-9bfb-0d8b6eaa92b2.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "09a9e54fa27826870cc4b4debd3f562d9e81edc11840bcab567058997706ca74"
+    },
+    "ch10_s5": {
+      "request_id": "09b5b413-032f-4b18-8988-73021f15e666",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/6ac9b003-7a02-4975-976e-0826856c1134.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "1db8c9774dc84e639fead40d376f143916f7fd9a0e577b7de3edbb3897626134"
+    },
+    "ch11_s1": {
+      "request_id": "467bdb8e-283b-4895-a072-841c83a3c6f9",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/d13058c1-a58a-4843-b1cc-fd92e5a7f87a.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "3cb892284678fd858a30d199dd263487a51107396a829cd9da9c05604f2bb7dd"
+    },
+    "ch11_s2": {
+      "request_id": "2d20960a-242b-4554-8d58-5e3c5824a038",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/8cb32f99-e5ec-42f0-93c4-41cd31ba3d4c.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "a67785206658fabe5080e169bed80f5c8e8b484062eeae07cc9f344055598c3d"
+    },
+    "ch11_s3": {
+      "request_id": "33056f7e-b018-469a-bcf6-828107a2e3f9",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/e35a6d0c-a565-475c-bca7-7db78fa85ac8.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "5d88a7e824ee8e6fad656f19a1e291faa7103255126b11ae35033990bfb029ae"
+    },
+    "ch11_s4": {
+      "request_id": "d2724b50-8d97-43b1-978a-1d21e6a4c8e1",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/2abe72fc-3a49-4f59-8e8d-03007c797764.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "65aa95a40c2ed859b3534bd4482c3f806b98f162d1db18ea15d2a14a603d6f58"
+    },
+    "ch12_s1": {
+      "request_id": "b7855cc9-bdce-4ac7-8ba5-f94f0d02cc71",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/633e0fa5-4b53-4273-bb8d-a3e61af5b246.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "8152825bc1a2b0be7e4aa820529ad15159c4367d0518e0b914db14f68a373722"
+    },
+    "ch12_s2": {
+      "request_id": "c50cf229-c7cb-4fb0-a1be-f40e0507c3d7",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/b8ac3f70-eabd-46e5-b173-dbfd758eb9b2.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "db5f05f44164ad71633bd01558206ab0bf9ea2f940f0dbb3a89190f91cdb7726"
+    },
+    "ch12_s3": {
+      "request_id": "491c8d60-bf91-4b97-918c-4ba523a9c066",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/1b8563b1-3112-4c84-b198-04753d2a2120.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "c33e6964f65e737f76919b3879c1621f39707ee4b161ed3f8a01d53cf5218eb4"
+    },
+    "ch13_s1": {
+      "request_id": "7898dbb4-7eaf-470f-a0fd-b8b1df7287ba",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/7e2de2ee-37ef-47bb-8d87-eee45f8d7019.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "ed832dd93ddacbca35005caa95e656194f1d477d628daef15660de5c5666c2a8"
+    },
+    "ch13_s2": {
+      "request_id": "c50c2548-1806-48fa-a110-2ea4ce9d55f1",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/cd4f5bb7-2066-484f-8c9f-636a12b11651.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "df1ee42b50820eb2d2f07b5d94b40e2795cc0c53f6f192a10ba4370a1f40c6fe"
+    },
+    "ch13_s3": {
+      "request_id": "76579b3f-1e9c-4cd5-8648-42987f197bbe",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/219af75e-1385-46dc-b895-102be67db209.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "a348e985e5707b9605245ec1f011786e90a48bb987929d8a5f6429abd3c2241d"
+    },
+    "ch14_s1": {
+      "request_id": "2d26b925-9ff7-4fd5-a858-16c6ca9f54e0",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/b01e53d0-9af9-4a29-9858-f5a81985a46d.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "c3dfbae1b5d69e3c3d780b66d68aa5068c2dd4e15bf3194832caabb2fdf8eb41"
+    },
+    "ch14_s2": {
+      "request_id": "be257dc2-fb87-4d65-af64-280e23403f20",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/e6381645-91d8-4d39-aa46-39c4a1e50485.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "a41f4978e31da02e45210553971e4dba1cbd52bd1574cc2ade621ae697902657"
+    },
+    "ch14_s3": {
+      "request_id": "156dfdd4-0bd2-4983-bd64-260ff08251d1",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/9087e5d0-bfe7-4280-8a2c-27389222c7e3.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "eb09ded821a6ec555f9b916e00dd97d820a044791067001bc3d1d88ef54a9656"
+    },
+    "ch14_s4": {
+      "request_id": "ef12b88d-9472-4657-bbed-b422e47da186",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/91738913-0911-45ed-bb1e-199b683749e0.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "3ee91011c3db34bf136ea3be5506dde75439bc8d10a5f687bd7f41075a196885"
+    },
+    "ch14_s5": {
+      "request_id": "9b766008-f191-43f2-b028-b2e90912af8d",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/372f0c92-9f72-45cb-8a6f-5023aa71f60d.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "c8f9d94e8bbc4c6f391bf0d7d858aec238999caff73ff8ba9fee3decc58e7de4"
+    },
+    "ch15_s2": {
+      "request_id": "ef53547a-2dcc-466f-a4e2-102c8960faf2",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/e6345f37-6611-4a03-ae01-4b24b07034f7.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "8e28d9bdadf20b74e18dc96331eb6ef7b52030739e3310eb44f0124afbb91aa6"
+    },
+    "ch15_s3": {
+      "request_id": "c019a976-c27d-4afc-a0fa-bc006336c389",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/0104e63e-5dd9-400b-8ff2-b3295d43afb0.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "75cb834db05627a972a552ae504efa2001601a2818bd1d070891e8a29af68b3b"
+    },
+    "ch16_s2": {
+      "request_id": "a6edc7b0-9419-4c98-992d-8b64295f0e1f",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/7a6f85bf-bde8-41e3-8ef6-33b1ec9eed04.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "c48dfc917f66751ded1f268a512e5980f4f17eab0d9bce0991d1b4e20b0e1553"
+    },
+    "ch16_s3": {
+      "request_id": "664ca904-8285-4606-87ef-f0db21bd0a2a",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/d86d3d0e-0aa4-40f1-99e7-9803c7796e87.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "e10f993cd951e2f91abf4c04ea3d55912eaf9f4c66d5b1caeeff218831fe3b8b"
+    },
+    "ch17_s1": {
+      "request_id": "26d0cff5-f403-424f-a602-a335ba21b302",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/7ea8fadc-3708-4a68-b89a-debe3d54a640.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "0c647fb2e82d74674d689878d26da4a5cb0887eed7b5e71f3ad545f1b487412b"
+    },
+    "ch17_s3": {
+      "request_id": "e249b7d1-daad-4ca0-943c-d51105620540",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/815dac3e-699d-4682-8069-57de5c76ec5d.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "a21dba36c3748ee97bb80cf7a821d2df68a66f4565743652d1e738bb95b3c311"
+    },
+    "ch18_s2": {
+      "request_id": "7e377652-ebba-4b2d-a9f7-71ebc5dae315",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/c0d0dfe8-8170-4c70-8709-1bd85cc818d4.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "81d6868b977524b4af2361ef3362b40900da448ff8d58e9d9eed74e5f5f6403e"
+    },
+    "ch18_s3": {
+      "request_id": "de08c7c1-39b5-416c-8a8f-567707e8f5c9",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/429d6e2d-a2d1-4c35-9b03-f8899d6c4965.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "1285d5851754cf6fbc0920f1655df7490a8dc8bf32607ec20d7af0e578e15472"
+    },
+    "ch19_s2": {
+      "request_id": "042b6b2b-3365-4680-b1b8-a6af31f82199",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/0ec361f9-62a7-4fe7-94eb-3e0339195731.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "6d3dd8a1c4f0e31b01beb75894365615ab5abf3a17f11212528023af3f08a3b1"
+    },
+    "ch19_s4": {
+      "request_id": "ff236d87-4630-47e7-8441-56cf327b0346",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/97de6401-cf0c-4086-b08e-d24d42d594a1.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "e85893d416b7e6be9ab357150e93e292383215667cdd1e587abe916813a64092"
+    },
+    "ch20_s1": {
+      "request_id": "fbf4d2ba-e334-479d-9cbc-702056d08d1f",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/8f57d075-c307-40c9-aae0-a44541e82fef.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "70ff6d3c21481a779756ef4d4d5a4deb23766f79b5cdae47ce481a00552c1266"
+    },
+    "ch20_s4": {
+      "request_id": "5dca27b4-62f8-4d02-b3ee-2807e98f659e",
+      "video_url": "https://d3u0tzju9qaucj.cloudfront.net/34814384-49e2-4e49-b1a0-cf4fae3886b4/b57492b8-dc44-475d-b4ff-298b4b4ee1a6.mp4",
+      "resolution": "720p",
+      "inputs_sha256": "614681f5cbd4e294b359868980bd623fc91d3f2e09fee3f0114556989f6fd935"
+    }
+  },
+  "pending": {}
+}
